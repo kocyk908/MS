@@ -1,5 +1,36 @@
 #include "minishell.h"
 
+// Nasza implementacja strtok_r
+char *ft_strtok_r(char *str, const char *delim, char **saveptr) {
+    char *end;
+
+    if (str == NULL)
+        str = *saveptr;
+
+    if (*str == '\0') {
+        *saveptr = str;
+        return NULL;
+    }
+
+    // Przesuwanie wskaźnika str do pierwszego znaku niebędącego delimitorem
+    str += strspn(str, delim);
+    if (*str == '\0') {
+        *saveptr = str;
+        return NULL;
+    }
+
+    // Znajdowanie końca tokenu
+    end = str + strcspn(str, delim);
+    if (*end == '\0') {
+        *saveptr = end;
+        return str;
+    }
+
+    *end = '\0';
+    *saveptr = end + 1;
+    return str;
+}
+
 t_command *parse_command(char *input) {
     t_command *head = NULL;
     t_command *current = NULL;
@@ -9,7 +40,7 @@ t_command *parse_command(char *input) {
     int i;
 
     // Tokenizacja komendy po znakach pipe'ów
-    token = strtok_r(input, "|", &saveptr);
+    token = ft_strtok_r(input, "|", &saveptr);
     while (token != NULL) {
         t_command *new_cmd = malloc(sizeof(t_command));
         if (!new_cmd) {
@@ -29,26 +60,38 @@ t_command *parse_command(char *input) {
 
         // Tokenizacja argumentów
         i = 0;
-        arg = strtok(token, " ");
+        arg = ft_strtok_r(token, " ", &saveptr);
         while (arg != NULL) {
             if (strcmp(arg, "<") == 0) {
-                arg = strtok(NULL, " ");
+                arg = ft_strtok_r(NULL, " ", &saveptr);
                 new_cmd->redirs.input_redir = open(arg, O_RDONLY);
+                if (new_cmd->redirs.input_redir == -1) {
+                    perror("open failed");
+                    exit(EXIT_FAILURE);
+                }
             } else if (strcmp(arg, "<<") == 0) {
-                arg = strtok(NULL, " ");
+                arg = ft_strtok_r(NULL, " ", &saveptr);
                 new_cmd->redirs.is_heredoc = 1;
                 // Tu należy obsłużyć heredoc
             } else if (strcmp(arg, ">") == 0) {
-                arg = strtok(NULL, " ");
+                arg = ft_strtok_r(NULL, " ", &saveptr);
                 new_cmd->redirs.output_redir = open(arg, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+                if (new_cmd->redirs.output_redir == -1) {
+                    perror("open failed");
+                    exit(EXIT_FAILURE);
+                }
             } else if (strcmp(arg, ">>") == 0) {
-                arg = strtok(NULL, " ");
+                arg = ft_strtok_r(NULL, " ", &saveptr);
                 new_cmd->redirs.output_redir = open(arg, O_WRONLY | O_CREAT | O_APPEND, 0644);
+                if (new_cmd->redirs.output_redir == -1) {
+                    perror("open failed");
+                    exit(EXIT_FAILURE);
+                }
                 new_cmd->redirs.is_append = 1;
             } else {
                 new_cmd->args[i++] = arg;
             }
-            arg = strtok(NULL, " ");
+            arg = ft_strtok_r(NULL, " ", &saveptr);
         }
         new_cmd->args[i] = NULL;
 
@@ -59,7 +102,7 @@ t_command *parse_command(char *input) {
             current->next = new_cmd;
             current = new_cmd;
         }
-        token = strtok_r(NULL, "|", &saveptr);
+        token = ft_strtok_r(NULL, "|", &saveptr);
     }
 
     return head;
