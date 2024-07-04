@@ -32,7 +32,7 @@ typedef struct s_gen
 {
     int num_of_cmds;
     int **pipes;
-    int **pids;
+    int *pids;
 
 } t_gen;
 

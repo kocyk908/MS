@@ -2,17 +2,48 @@
 
 void execute_pipeline(t_command *command, t_gen *gen) {
 
-    int num_of_cmd;
+    gen->num_of_cmds = 2;
     int i;
+    int id;
 
-    num_of_cmd = 3; // is nessesary?
     i = 0;
 
-    while(command)
+    gen->pipes = malloc(gen->num_of_cmds * sizeof(int *)); // to free
+    while(i < gen->num_of_cmds)
     {
-        printf("actual command: %s\n", command->args[0]);
-        command = command->next;
-    } 
+        gen->pipes[i] = malloc(2 * sizeof(int)); // to free
+        if(pipe(gen->pipes[i]) < 0)
+            // ft_error("Unable to create pipe"); // function to create
+        i++;
+    }
+    i = 0;
+    gen->pids = malloc(gen->num_of_cmds * sizeof(int)); // to free
+    while(i < gen->num_of_cmds)
+    {
+         gen->pids[i] = fork();
+         if(gen->pids[i] == 0)
+         {
+            ft_child_process(...); //finished here
+         }
+         i++;
+    }
+    i = 0;
+
+
+    // id = fork();
+    // if(id == 0)
+    // {
+    //     ft_child_process();
+    // } 
+
+
+    // while(command)
+    // {
+    //     i++;
+
+    //     printf("actual command: %s\n", command->args[0]);
+    //     command = command->next;
+    // } 
 }
 /*
 void execute_pipeline(t_command *command, t_gen *gen) {
