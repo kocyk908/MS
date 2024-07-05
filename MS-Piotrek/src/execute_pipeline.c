@@ -1,49 +1,73 @@
 #include "minishell.h"
 
-void execute_pipeline(t_command *command, t_gen *gen) {
+void ft_error(char *str)
+{
+    printf("%s\n", str); // place perror
+}
 
-    gen->num_of_cmds = 2;
+void ft_child_process(t_command *command, t_gen *gen, t_redirs *redirs, int i)
+{
+    int input;
+
+    input = 0;
+    if(i == 0)
+    {
+        
+        if(redirs->input_redir)
+        {
+            input = open(redirs->input_redir, O_RDONLY);
+            if(input == -1)
+                ft_error("Unable to open a file");
+        } 
+        if(dup2(input, 0))
+            ft_error("Unable to change fd");
+        if(dup2(gen->pipes[i][1], 1));
+            ft_error("Unable to change fd");
+        // execve(command->args[0], ) // need path
+
+    }
+
+
+}
+
+int execute_pipeline(t_command *command, t_gen *gen, t_redirs *redirs) {
+
+    gen->num_of_cmds = 3;
     int i;
     int id;
 
     i = 0;
-
-    gen->pipes = malloc(gen->num_of_cmds * sizeof(int *)); // to free
-    while(i < gen->num_of_cmds)
+    gen->pipes = malloc((gen->num_of_cmds - 1) * sizeof(int *)); // to free
+    while(i < gen->num_of_cmds - 1)
     {
         gen->pipes[i] = malloc(2 * sizeof(int)); // to free
-        if(pipe(gen->pipes[i]) < 0)
-            // ft_error("Unable to create pipe"); // function to create
+        if(pipe(gen->pipes[i]) == -1)
+            ft_error("Unable to create pipe"); 
         i++;
     }
     i = 0;
-    gen->pids = malloc(gen->num_of_cmds * sizeof(int)); // to free
-    while(i < gen->num_of_cmds)
+    gen->pids = malloc((gen->num_of_cmds + 1) * sizeof(int)); // to free
+
+    i = 0;
+    while(command)
     {
+        printf("path to cmd: %s\n", command->path);
          gen->pids[i] = fork();
          if(gen->pids[i] == 0)
          {
-            ft_child_process(...); //finished here
+            // ft_child_process(command, gen, redirs, i); //finished here
+            return 0;
          }
+         command = command->next;
          i++;
     }
     i = 0;
-
-
-    // id = fork();
-    // if(id == 0)
-    // {
-    //     ft_child_process();
-    // } 
-
-
-    // while(command)
-    // {
-    //     i++;
-
-    //     printf("actual command: %s\n", command->args[0]);
-    //     command = command->next;
-    // } 
+    while(i < gen->num_of_cmds)
+    {
+        wait(NULL); 
+        i++;
+    }
+    return 0;
 }
 /*
 void execute_pipeline(t_command *command, t_gen *gen) {

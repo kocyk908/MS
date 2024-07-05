@@ -15,7 +15,7 @@
 
 typedef struct s_redirs
 {
-    int input_redir;     // <  Plik wejściowy
+    char *input_redir;     // <  Plik wejściowy
     int is_heredoc;      // << Heredoc flag
     int output_redir;    // >  Plik wyjściowy
     int is_append;       // >>  Append flag
@@ -23,6 +23,7 @@ typedef struct s_redirs
 
 typedef struct s_command
 {
+    char *path;
     char **args;
     t_redirs redirs;
     struct s_command *next;
@@ -38,7 +39,7 @@ typedef struct s_gen
 
 int is_builtin(char *cmd);
 void execute_builtin(t_command *command);
-void execute_pipeline(t_command *command, t_gen *gen);
+int execute_pipeline(t_command *command, t_gen *gen, t_redirs *redirs);
 void execute_command(char *command);
 void free_command(t_command *command);
 t_command *parse_command(char *input);

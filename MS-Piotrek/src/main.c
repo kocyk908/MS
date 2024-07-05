@@ -23,7 +23,9 @@ int main(int ac, char **av)
     (void)av;
     char *input;
     t_gen *gen;
+    t_redirs *redirs;
 
+    redirs->input_redir = NULL;
     gen = malloc(sizeof(t_gen));
     while (1)
     {
@@ -32,7 +34,7 @@ int main(int ac, char **av)
         {
             add_history(input);
             t_command *cmd_list = parse_command(input);
-            execute_pipeline(cmd_list, gen); //updated
+            execute_pipeline(cmd_list, gen, redirs); //updated
             free_command(cmd_list);
         }
         free(input);
