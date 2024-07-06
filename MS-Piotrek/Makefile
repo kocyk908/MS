@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -I include
+CFLAGS = -g -I include
 
 SRCS = src/main.c src/display.c src/execute_pipeline.c src/parsing.c src/execute_builtin.c
 OBJS = $(SRCS:.c=.o)

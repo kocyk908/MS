@@ -25,8 +25,10 @@ int main(int ac, char **av)
     t_gen *gen;
     t_redirs *redirs;
 
-    redirs->input_redir = NULL;
+
     gen = malloc(sizeof(t_gen));
+    redirs = malloc(sizeof(t_redirs));
+    redirs->input_redir1 = NULL;
     while (1)
     {
         input = readline("msh> ");

@@ -13,9 +13,9 @@ void ft_child_process(t_command *command, t_gen *gen, t_redirs *redirs, int i)
     if(i == 0)
     {
         
-        if(redirs->input_redir)
+        if(redirs->input_redir1)
         {
-            input = open(redirs->input_redir, O_RDONLY);
+            input = open(redirs->input_redir1, O_RDONLY);
             if(input == -1)
                 ft_error("Unable to open a file");
         } 
@@ -32,9 +32,16 @@ void ft_child_process(t_command *command, t_gen *gen, t_redirs *redirs, int i)
 
 int execute_pipeline(t_command *command, t_gen *gen, t_redirs *redirs) {
 
-    gen->num_of_cmds = 3;
     int i;
     int id;
+
+    gen->num_of_cmds = 3;
+
+    char *lst_path[] = {
+        "/usr/bin/ls",
+        "/usr/bin/grep",
+        "/usr/bin/wc"
+    };
 
     i = 0;
     gen->pipes = malloc((gen->num_of_cmds - 1) * sizeof(int *)); // to free
@@ -51,7 +58,7 @@ int execute_pipeline(t_command *command, t_gen *gen, t_redirs *redirs) {
     i = 0;
     while(command)
     {
-        printf("path to cmd: %s\n", command->path);
+        printf("path to cmd: %s\n", lst_path[i]);
          gen->pids[i] = fork();
          if(gen->pids[i] == 0)
          {
