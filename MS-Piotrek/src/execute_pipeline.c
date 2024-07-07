@@ -1,128 +1,129 @@
 #include "minishell.h"
 
-void ft_error(char *str)
+void	ft_error(char *str)
 {
-    printf("%s\n", str); // place perror
+	printf("%s\n", str); // place perror
 }
 
-void ft_child_process(t_command *command, t_gen *gen, t_redirs *redirs, int i)
+void	ft_child_process(t_command *command, t_gen *gen, t_redirs *redirs,
+		int i, char **envp)
 {
-    int input;
+	int	input;
+	int	ouput;
+	int	j;
 
-    input = 0;
-    if(i == 0)
-    {
-        
-        if(redirs->input_redir1)
-        {
-            input = open(redirs->input_redir1, O_RDONLY);
-            if(input == -1)
-                ft_error("Unable to open a file");
-        } 
-        if(dup2(input, 0))
-            ft_error("Unable to change fd");
-        if(dup2(gen->pipes[i][1], 1));
-            ft_error("Unable to change fd");
-        // execve(command->args[0], ) // need path
-
-    }
-
-
+	input = 0;
+	ouput = 1;
+	// if(redirs->input_redir1)
+	// {
+	//     input = open(redirs->input_redir1, O_WRONLY);
+	//     if(input == -1)
+	//         ft_error("Unable to open a file");
+	// }
+	if (i == 0)
+	{
+		printf("%d process, read from fd %d\n", i, redirs->input_redir);
+		if (dup2(redirs->input_redir, 0) == -1)
+			ft_error("Unable to change fd");
+	}
+	if (i > 0)
+	{
+		printf("%d process, read from fd %d\n", i, gen->pipes[i - 1][0]);
+		if (dup2(gen->pipes[i - 1][0], 0) == -1)
+			ft_error("Unable to change fd");
+	}
+	j = 0;
+	while (j < gen->num_of_cmds - 1)
+	{
+		if (j != (i - 1))
+		{
+			printf("%d process, closing read end %d\n", i, gen->pipes[j][0]);
+			close(gen->pipes[j][0]);
+		}
+		j++;
+	}
+	if (i < gen->num_of_cmds - 1)
+	{
+		printf("%d process, write to fd %d\n", i, gen->pipes[i][1]);
+		if (dup2(gen->pipes[i][1], 1) == -1)
+			ft_error("Unable to change fd");
+	}
+	if (i == gen->num_of_cmds - 1)
+	{
+		printf("%d process, write to fd %d\n", i, ouput);
+		if (dup2(ouput, 1) == -1)
+			ft_error("Unable to change fd");
+	}
+	j = 0;
+	while (j < gen->num_of_cmds - 1)
+	{
+		if (j != i)
+		{
+			printf("%d process, closing write end %d\n", i, gen->pipes[j][1]);
+			close(gen->pipes[j][1]);
+		}
+		j++;
+	}
+	printf("--ok\n");
+	execve(command->path, command->args, envp); // need path
 }
 
-int execute_pipeline(t_command *command, t_gen *gen, t_redirs *redirs) {
+int	execute_pipeline(t_command *command, t_gen *gen, t_redirs *redirs,
+		char **envp)
+{
+	int		i;
+	int		id;
+	char	*lst_path[] = {"/usr/bin/cat", "/usr/bin/grep", "/usr/bin/grep"};
 
-    int i;
-    int id;
-
-    gen->num_of_cmds = 3;
-
-    char *lst_path[] = {
-        "/usr/bin/ls",
-        "/usr/bin/grep",
-        "/usr/bin/wc"
-    };
-
-    i = 0;
-    gen->pipes = malloc((gen->num_of_cmds - 1) * sizeof(int *)); // to free
-    while(i < gen->num_of_cmds - 1)
-    {
-        gen->pipes[i] = malloc(2 * sizeof(int)); // to free
-        if(pipe(gen->pipes[i]) == -1)
-            ft_error("Unable to create pipe"); 
-        i++;
-    }
-    i = 0;
-    gen->pids = malloc((gen->num_of_cmds + 1) * sizeof(int)); // to free
-
-    i = 0;
-    while(command)
-    {
-        printf("path to cmd: %s\n", lst_path[i]);
-         gen->pids[i] = fork();
-         if(gen->pids[i] == 0)
-         {
-            // ft_child_process(command, gen, redirs, i); //finished here
-            return 0;
-         }
-         command = command->next;
-         i++;
-    }
-    i = 0;
-    while(i < gen->num_of_cmds)
-    {
-        wait(NULL); 
-        i++;
-    }
-    return 0;
+	gen->num_of_cmds = 3;
+	// to remove
+	redirs->input_redir1 = "infile.txt"; // to remove
+											// redirs->output_redir1 = "outfile.txt";
+											// to remove
+	if (redirs->input_redir1)
+	{
+		redirs->input_redir = open(redirs->input_redir1, O_RDONLY);
+		if (redirs->input_redir == -1)
+			ft_error("Unable to open a file");
+	}
+	i = 0;
+	gen->pipes = malloc((gen->num_of_cmds - 1) * sizeof(int *)); // to free
+	while (i < gen->num_of_cmds - 1)
+	{
+		gen->pipes[i] = malloc(2 * sizeof(int)); // to free
+		if (pipe(gen->pipes[i]) == -1)
+			ft_error("Unable to create pipe");
+		printf("pipe created, read %d, write %d\n", gen->pipes[i][0],
+			gen->pipes[i][1]);
+		i++;
+	}
+	i = 0;
+	gen->pids = malloc((gen->num_of_cmds + 1) * sizeof(int)); // to free
+	i = 0;
+	while (command)
+	{
+		command->path = lst_path[i]; // to remove
+		printf("path to cmd1: %s\n", command->args[0]);
+		gen->pids[i] = fork();
+		if (gen->pids[i] == 0)
+		{
+			ft_child_process(command, gen, redirs, i, envp); // finished here
+			return (0);
+		}
+		command = command->next;
+		i++;
+	}
+	for (i = 0; i < gen->num_of_cmds - 1; i++)
+	{
+		close(gen->pipes[i][0]);
+		close(gen->pipes[i][1]);
+        // close redirs
+	}
+	i = 0;
+	while (i < gen->num_of_cmds)
+	{
+		wait(NULL);
+		i++;
+	}
+	return (0);
 }
-/*
-void execute_pipeline(t_command *command, t_gen *gen) {
-    int pipefd[2];
-    int fd_in = 0; // Plik deskryptor dla wejścia (stdin)
-    pid_t pid;
-
-    while (command) {
-        if (command->next && pipe(pipefd) == -1) {
-            perror("pipe failed");
-            exit(EXIT_FAILURE);
-        }
-
-        if (!is_builtin(command->args[0])) {
-            pid = fork();
-
-            if (pid < 0) {
-                perror("fork failed");
-                exit(EXIT_FAILURE);
-            } else if (pid == 0) {
-                if (command->redirs.input_redir != -1) {
-                    dup2(command->redirs.input_redir, 0);
-                    close(command->redirs.input_redir);
-                } else {
-                    dup2(fd_in, 0);
-                }
-                if (command->redirs.output_redir != -1) {
-                    dup2(command->redirs.output_redir, 1);
-                    close(command->redirs.output_redir);
-                } else if (command->next) {
-                    dup2(pipefd[1], 1);
-                    close(pipefd[0]);
-                }
-                execvp(command->args[0], command->args);
-                perror("execvp failed");
-                exit(EXIT_FAILURE);
-            } else {
-                wait(NULL);
-                close(pipefd[1]);
-                fd_in = pipefd[0]; // Przekierowanie dla następnego polecenia
-            }
-        } else {
-            execute_builtin(command);
-            if (strcmp(command->args[0], "exit") == 0) {
-                free_command(command);
-                exit(0);
-            }
-        }
-        command = command->next;
-    }
-}*/

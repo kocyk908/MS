@@ -1,0 +1,77 @@
+void ft_child_process(t_command *command, t_gen *gen, t_redirs *redirs, int i, char **envp)
+{
+
+    int input;
+
+    input = 0;
+    if(i == 0)
+    {
+        
+        if(redirs->input_redir1)
+        {
+            input = open(redirs->input_redir1, O_RDONLY);
+            if(input == -1)
+                ft_error("Unable to open a file");
+        } 
+        // if(dup2(input, 0) == -1)
+        //     ft_error("Unable to change fd");
+        // if(dup2(gen->pipes[i][1], 1) == -1);
+        //     ft_error("Unable to change fd");
+        // execve(command->path, command->args, envp); // need path
+
+    }
+
+
+}
+
+int execute_pipeline(t_command *command, t_gen *gen, t_redirs *redirs, char **envp) {
+
+    int i;
+    int id;
+
+    gen->num_of_cmds = 3;
+
+    char *lst_path[] = {
+        "/usr/bin/ls",
+        "/usr/bin/grep",
+        "/usr/bin/wc"
+    };  // to remove
+
+    redirs->input_redir1 = "infile.txt"; // to remove
+    
+
+    i = 0;
+    gen->pipes = malloc((gen->num_of_cmds - 1) * sizeof(int *)); // to free
+    while(i < gen->num_of_cmds - 1)
+    {
+        gen->pipes[i] = malloc(2 * sizeof(int)); // to free
+        if(pipe(gen->pipes[i]) == -1)
+            ft_error("Unable to create pipe"); 
+        i++;
+    }
+    i = 0;
+    gen->pids = malloc((gen->num_of_cmds + 1) * sizeof(int)); // to free
+
+    i = 0;
+    while(command)
+    {
+        command->path = lst_path[i]; // to remove
+        printf("path to cmd1: %s\n", command->path);
+         gen->pids[i] = fork();
+         if(gen->pids[i] == 0)
+         {
+            // ft_child_process(command, gen, redirs, i, envp); //finished here
+            return 0;
+         }
+         command = command->next;
+         i++;
+    }
+        printf("ok\n");
+    i = 0;
+    while(i < gen->num_of_cmds)
+    {
+        wait(NULL); 
+        i++;
+    }
+    return 0;
+}
