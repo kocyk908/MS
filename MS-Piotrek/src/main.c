@@ -45,6 +45,23 @@ int main(int ac, char **av, char **envp)
 }
 
 /*
+Update 07.07.24
+
+Udało mi sie już jakoś połączyć procesy w pętlach. 
+Póki co to działałem na harkodowanych zmiennych jak path, ilość komend itp
+Na tą chwilę potrzeba:
+
+1. Uzupełnić int num_of_cmds w s_gen - długość listy komend. Ja to mogę zrobić.
+2. Uzupełnić char *path w s_command - ścieżka do programu np: "/usr/bin/cat"
+3. Uzupełnić redirsy:
+    a) int input_redir - będzie zawirać file descriptor będący wynikiem funckji open
+    b) analogicznie output_redir;
+
+Uzupełnienie tego powinno już pozwolić połączyć to wszystko.
+Potem zajmiemy sie heredoc i append.
+
+--------------------------------------------------------------------------
+
 Robię tak że execute_pipeline przyjmie następujące informacje
 1. input redirection w formie ścieżki pliku w postaci 
     stringa np: "infile.txt"
