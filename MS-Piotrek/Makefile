@@ -1,9 +1,11 @@
-CC = gcc
-CFLAGS = -g -I include
+NAME	= minishell
+CC	= gcc
+CFLAGS	= -g -I include
 
-SRCS = src/main.c src/display.c src/execute_pipeline.c src/parsing.c src/execute_builtin.c
-OBJS = $(SRCS:.c=.o)
-NAME = minishell
+SRCS	= src/*.c
+OBJS	= $(SRCS:.c=.o)
+
+LIBFT	= libft/*.c
 
 all: $(NAME)
 

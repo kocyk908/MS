@@ -1,34 +1,75 @@
 #include "minishell.h"
 
-// Nasza implementacja strtok_r
-char *ft_strtok_r(char *str, const char *delim, char **saveptr) {
+size_t	ft_strcspn(const char *str, const char *delim) //znajduje pierwsze wystąpienie znaku z delim w str
+{
+	const char *s;
+	const char *d;
+
+	s = str;
+	while (*s)
+	{
+        	d = delim;
+        	while (*d)
+		{
+			if (*s == *d)
+				return (s - str);
+			d++;
+		}
+		s++;
+	}
+	return (s - str);
+}
+
+size_t	ft_strspn(const char *str, const char *delim) //oblicza dlugosc str skladajaca sie tylko z delim
+{
+	const char *s;
+	const char *d;
+
+	s = str;
+	while (*s)
+	{
+		d = delim;
+		while (*d)
+		{
+			if (*s == *d)
+				break;
+			d++;
+		}
+		if (*d == '\0')
+			break;
+		s++;
+	}
+	return (s - str);
+}
+
+char *ft_strtok_r(char *str, const char *delim, char **saveptr)		// Dzieli delimiterem zdanie 
+{
     char *end;
 
-    if (str == NULL)
-        str = *saveptr;
-
-    if (*str == '\0') {
-        *saveptr = str;
-        return NULL;
-    }
-
-    // Przesuwanie wskaźnika str do pierwszego znaku niebędącego delimitorem
-    str += strspn(str, delim);
-    if (*str == '\0') {
-        *saveptr = str;
-        return NULL;
-    }
-
-    // Znajdowanie końca tokenu
-    end = str + strcspn(str, delim);
-    if (*end == '\0') {
-        *saveptr = end;
-        return str;
-    }
-
-    *end = '\0';
-    *saveptr = end + 1;
-    return str;
+	if (!str)
+		str = *saveptr;
+	if (*str == '\0')
+	{
+		*saveptr = str;
+		return (NULL);
+	}
+	// Przesuwanie wskaźnika str do pierwszego znaku niebędącego delimitorem
+	str += ft_strspn(str, delim);
+	if (*str == '\0')
+	{
+		*saveptr = str;
+		return (NULL);
+	}
+	// Znajdowanie końca tokenu
+	end = str + ft_strcspn(str, delim);
+	if (*end == '\0')
+	{
+		*saveptr = end;
+		return (str);
+	}
+	*end = '\0';
+	*saveptr = end + 1;
+	return (str);
 }
 
 t_command *parse_command(char *input) {

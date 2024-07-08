@@ -10,6 +10,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+# include "../libft/libft.h"
+
 typedef struct s_redirs
 {
     int input_redir;     // <  Plik wejściowy
@@ -43,6 +45,9 @@ void execute_command(char *command);
 void free_command(t_command *command);
 t_command *parse_command(char *input);
 char *find_path(char *cmd, char **envp);
+size_t	ft_strcspn(const char *str, const char *delim);
+char	*concat_path(const char *dir, const char *cmd);
+size_t ft_strspn(const char *str, const char *delim);
 
 
 #endif
