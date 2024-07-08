@@ -43,16 +43,17 @@ int	main(int ac, char **av, char **envp)
 			cmd_count = 0;
 			while (temp)
 			{
+				printf("Command %d: %s\n", cmd_count + 1, temp->args[0]);
 				cmd_count++;
 				temp = temp->next;
 			}
+			printf("Total number of commands: %d\n", cmd_count);
 			gen->num_of_cmds = cmd_count;
 			execute_pipeline(cmd_list, gen, redirs, envp);
 			free_command(cmd_list);
 		}
 		free(input);
 	}
-	printf("%d", cmd_count);
 	return (0);
 }
 
