@@ -11,7 +11,7 @@ char	*concat_path(const char *dir, const char *cmd)
 	full_path = malloc(dir_len + cmd_len + 2);	// 1 na '/' i 1 na '\0'
 	if (!full_path)
         	return (NULL);
-	ft_strcpy(full_path, dir);
+	ft_strlcpy(full_path, dir, dir_len + 1);
 	ft_strcat(full_path, "/");				// dodaje "/" na końcu full_path
 	ft_strcat(full_path, cmd);				// dodaje cmd na końcu full_path
 	return (full_path);
@@ -23,12 +23,13 @@ char	*find_path(char *cmd, char **envp)
 	char	*paths;
 	char	*token;
 	char	*full_path;
+	char	*saveptr;
 
 	path = getenv("PATH");
 	if (!path)
 		return (NULL);
 	paths = ft_strdup(path);
-	token = ft_strtok_r(paths, ":",);
+	token = ft_strtok_r(paths, ":", &saveptr);
 	while (token)
 	{
 		full_path = concat_path(token, cmd);
@@ -38,7 +39,7 @@ char	*find_path(char *cmd, char **envp)
 			return (full_path);
 		}
 		free(full_path);
-		token = ft_strtok_r(NULL, ":");
+		token = ft_strtok_r(NULL, ":", &saveptr);
 	}
 	free(paths);
 	return (NULL);

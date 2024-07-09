@@ -36,6 +36,8 @@ int					ft_isprint(int c);
 
 // string operations
 
+char				*ft_strcat(char *dest, const char *src);
+char				*fr_strcpy(char *dest, const char *src);
 size_t				ft_strlcpy(char *dst, const char *src, size_t size);
 size_t				ft_strlcat(char *dst, const char *src, size_t size);
 size_t				ft_strlen(const char *str);

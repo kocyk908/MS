@@ -2,21 +2,29 @@ NAME	= minishell
 CC	= gcc
 CFLAGS	= -g -I include
 
-SRCS	= src/*.c
-OBJS	= $(SRCS:.c=.o)
+SRCS	= $(wildcard src/*.c)
+LIBFT	= $(wildcard libft/*.c)
 
-LIBFT	= libft/*.c
+OBJS	= $(SRCS:.c=.o) $(LIBFT:.c=.o)
 
-all: $(NAME)
+all: $(LIBFT) $(NAME)
 
-$(NAME): $(OBJS)
+$(LIBFT):
+	$(MAKE) -C libft
+
+$(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -lreadline
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
 	rm -f $(OBJS)
+	$(MAKE) -C libft clean
 
 fclean: clean
 	rm -f $(NAME)
+	$(MAKE) -C libft fclean
 
 re: fclean all
 
