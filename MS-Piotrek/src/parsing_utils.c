@@ -22,33 +22,19 @@ void	handle_redirections(t_command *new_cmd, char *arg, char **saveptr2)
 {
 	if (ft_strncmp(arg, "<", ft_strlen(arg)) == 0)
 	{
-		arg = ft_strtok_r(NULL, " ", saveptr2);
-		new_cmd->redirs.input_redir = open(arg, O_RDONLY);
-		if (new_cmd->redirs.input_redir == -1)
-			return ;
+		handle_input_redir(&new_cmd->redirs, saveptr2);
 	}
 	else if (ft_strncmp(arg, "<<", ft_strlen(arg)) == 0)
 	{
-		arg = ft_strtok_r(NULL, " ", saveptr2);
-		new_cmd->redirs.is_heredoc = 1;
-					// Handle heredoc here
+		handle_heredoc(&new_cmd->redirs, saveptr2);
 	}
 	else if (ft_strncmp(arg, ">", ft_strlen(arg)) == 0)
 	{
-		arg = ft_strtok_r(NULL, " ", saveptr2);
-		new_cmd->redirs.output_redir = open(arg, O_WRONLY | O_CREAT
-				| O_TRUNC, 0644);
-		if (new_cmd->redirs.output_redir == -1)
-			return ;
+		handle_output_redir(&new_cmd->redirs, saveptr2);
 	}
 	else if (ft_strncmp(arg, ">>", ft_strlen(arg)) == 0)
 	{
-		arg = ft_strtok_r(NULL, " ", saveptr2);
-		new_cmd->redirs.output_redir = open(arg, O_WRONLY | O_CREAT
-				| O_APPEND, 0644);
-		if (new_cmd->redirs.output_redir == -1)
-			return ;
-		new_cmd->redirs.is_append = 1;
+		handle_append_redir(&new_cmd->redirs, saveptr2);
 	}
 }
 
@@ -87,5 +73,3 @@ void	parse_arguments(t_command *new_cmd, char *token)
 	}
 	new_cmd->args[i] = NULL;
 }
-
-

@@ -5,16 +5,6 @@ void	ft_error(char *str)
 	printf("%s\n", str); // place perror
 }
 
-void	handle_input_redir(t_redirs *redirs)
-{
-	if (redirs->input_redir1)
-	{
-		redirs->input_redir = open(redirs->input_redir1, O_RDONLY);
-		if (redirs->input_redir == -1)
-			ft_error("Unable to open a file");
-	}
-}
-
 void	init_pipes(t_gen *gen)
 {
 	int	i;

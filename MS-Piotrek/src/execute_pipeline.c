@@ -79,7 +79,8 @@ int	execute_pipeline(t_command *command, t_gen *gen,
 
 	gen->num_of_cmds = ft_count_cmds(command);
 	printf("num of commands: %d\n", gen->num_of_cmds);
-	handle_input_redir(redirs);
+	if (redirs->input_redir1)
+		handle_input_redir(redirs, NULL);
 	gen->pipes = malloc((gen->num_of_cmds - 1) * sizeof(int *));
 	init_pipes(gen);
 	gen->pids = malloc((gen->num_of_cmds + 1) * sizeof(int));
