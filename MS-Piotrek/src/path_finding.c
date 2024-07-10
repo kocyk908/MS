@@ -1,5 +1,11 @@
 #include "minishell.h"
 
+void    print_error(char *cmd)
+{
+	printf("Command '%s' not found\n", cmd);
+	return ;
+}
+
 void	ft_freemem(char **arr)
 {
 	int	j;
@@ -55,9 +61,13 @@ char	*find_path(char *cmd1, char **envp)
 			arr = ft_split(var_path, ':');
 			valid_path = ft_path_cmp(arr, cmd_mod);
 			ft_freemem(arr);
+			if (!valid_path)
+				break;
 		}
 		envp++;
 	}
 	free(cmd_mod);
+	if (!valid_path)
+		print_error(cmd1);
 	return (valid_path);
 }
