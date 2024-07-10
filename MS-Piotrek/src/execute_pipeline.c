@@ -83,15 +83,10 @@ int	execute_pipeline(t_command *command, t_gen *gen, t_redirs *redirs,
 {
 	int		i;
 	int		id;
-	char	*lst_path[] = {"/usr/bin/cat", "/usr/bin/grep", "/usr/bin/grep"};
-
 
 	gen->num_of_cmds = ft_count_cmds(command);
 	printf("num of commands%d\n", gen->num_of_cmds);
 	// to remove
-	redirs->input_redir1 = "infile.txt"; // to remove
-											// redirs->output_redir1 = "outfile.txt";
-											// to remove
 	if (redirs->input_redir1)
 	{
 		redirs->input_redir = open(redirs->input_redir1, O_RDONLY);

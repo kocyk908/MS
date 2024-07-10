@@ -49,6 +49,6 @@ char	*find_path(char *cmd1, char **envp);
 size_t	ft_strcspn(const char *str, const char *delim);
 char	*concat_path(const char *dir, const char *cmd);
 size_t ft_strspn(const char *str, const char *delim);
-
+void    print_error(char *cmd);
 
 #endif
