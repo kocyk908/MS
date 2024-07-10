@@ -1,61 +1,123 @@
 #include "minishell.h"
 
-void free_command(t_command *command) {
-    t_command *temp;
-    while (command) {
-        temp = command;
-        command = command->next;
-        free(temp->args);
-        free(temp);
-    }
+void	free_command(t_command *command)
+{
+	t_command	*temp;
+
+	while (command)
+	{
+		temp = command;
+		command = command->next;
+		free(temp->args);
+		free(temp);
+	}
 }
 
-int is_builtin(char *cmd) {
-    return (strcmp(cmd, "echo") == 0 || strcmp(cmd, "cd") == 0 ||
-            strcmp(cmd, "pwd") == 0 || strcmp(cmd, "exit") == 0);
+int	is_builtin(char *cmd)
+{
+	return (strcmp(cmd, "echo") == 0 || strcmp(cmd, "cd") == 0
+		|| strcmp(cmd, "pwd") == 0 || strcmp(cmd, "exit") == 0);
+}
+
+void	init_structs(t_gen **gen, t_redirs **redirs)
+{
+	*gen = malloc(sizeof(t_gen));
+	*redirs = malloc(sizeof(t_redirs));
+	if (!(*gen) || !(*redirs))
+	{
+		if (*gen)
+			free(*gen);
+		if (*redirs)
+			free(*redirs);
+		exit(EXIT_FAILURE);
+	}
+	(*redirs)->input_redir1 = NULL;
+}
+
+void	process_input(t_gen *gen, t_redirs *redirs, char *input, char **envp)
+{
+	t_command	*cmd_list;
+	t_command	*temp;
+	int			cmd_count;
+
+	add_history(input);
+	cmd_list = parse_command(input);
+	temp = cmd_list;
+	cmd_count = 0;
+	while (temp)
+	{
+		printf("Command %d: %s\n", cmd_count + 1, temp->args[0]);
+		cmd_count++;
+		temp = temp->next;
+	}
+	printf("Total number of commands: %d\n", cmd_count);
+	gen->num_of_cmds = cmd_count;
+	execute_pipeline(cmd_list, gen, redirs, envp);
+	free_command(cmd_list);
 }
 
 int	main(int ac, char **av, char **envp)
 {
-	char	*input;
+	char		*input;
 	t_gen		*gen;
 	t_redirs	*redirs;
-	t_command	*cmd_list;
-	t_command	*temp;
-	int	cmd_count;
 
-	cmd_count = 0;
 	(void)ac;
 	(void)av;
-	gen = malloc(sizeof(t_gen));
-	redirs = malloc(sizeof(t_redirs));
-	if (!gen || !redirs)
-		return (0);
-	redirs->input_redir1 = NULL;
+	init_structs(&gen, &redirs);
 	while (1)
 	{
 		input = readline("msh> ");
 		if (input)
 		{
-			add_history(input);
-			cmd_list = parse_command(input);
-			temp = cmd_list;
-			cmd_count = 0;
-			while (temp)
-			{
-				printf("Command %d: %s\n", cmd_count + 1, temp->args[0]);
-				cmd_count++;
-				temp = temp->next;
-			}
-			printf("Total number of commands: %d\n", cmd_count);
-			gen->num_of_cmds = cmd_count;
-			execute_pipeline(cmd_list, gen, redirs, envp);
-			free_command(cmd_list);
+			process_input(gen, redirs, input, envp);
+			free(input);
 		}
-		free(input);
 	}
 	return (0);
 }
+
+// int	main(int ac, char **av, char **envp)
+// {
+// 	char		*input;
+// 	t_gen		*gen;
+// 	t_redirs	*redirs;
+// 	t_command	*cmd_list;
+// 	t_command	*temp;
+// 	int			cmd_count;
+
+// 	cmd_count = 0;
+// 	(void)ac;
+// 	(void)av;
+// 	gen = malloc(sizeof(t_gen));
+// 	redirs = malloc(sizeof(t_redirs));
+// 	if (!gen || !redirs)
+// 		return (0);
+// 	redirs->input_redir1 = NULL;
+// 	while (1)
+// 	{
+// 		input = readline("msh> ");
+// 		if (input)
+// 		{
+// 			add_history(input);
+// 			cmd_list = parse_command(input);
+// 			temp = cmd_list;
+// 			cmd_count = 0;
+// 			while (temp)
+// 			{
+// 				printf("Command %d: %s\n", cmd_count + 1, temp->args[0]);
+// 				cmd_count++;
+// 				temp = temp->next;
+// 			}
+// 			printf("Total number of commands: %d\n", cmd_count);
+// 			gen->num_of_cmds = cmd_count;
+// 			execute_pipeline(cmd_list, gen, redirs, envp);
+// 			free_command(cmd_list);
+// 		}
+// 		free(input);
+// 	}
+// 	return (0);
+// }
 
 /*
 Update 07.07.24

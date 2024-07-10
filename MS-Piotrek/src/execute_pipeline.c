@@ -1,23 +1,18 @@
 #include "minishell.h"
 
-void	ft_error(char *str)
-{
-	printf("%s\n", str); // place perror
-}
-
-int ft_count_cmds(t_command *command)
+int	ft_count_cmds(t_command *command)
 {
 	t_command	*temp;
-	int i;
+	int			i;
 
 	temp = command;
 	i = 0;
-	while(temp)
+	while (temp)
 	{
 		temp = temp->next;
 		i++;
 	}
-	return i;
+	return (i);
 }
 
 void	ft_child_process(t_command *command, t_gen *gen, t_redirs *redirs,
@@ -29,7 +24,6 @@ void	ft_child_process(t_command *command, t_gen *gen, t_redirs *redirs,
 
 	input = 0;
 	ouput = 1;
-
 	if (i == 0)
 	{
 		printf("%d process, read from fd %d\n", i, redirs->input_redir);
@@ -78,57 +72,19 @@ void	ft_child_process(t_command *command, t_gen *gen, t_redirs *redirs,
 	execve(command->path, command->args, envp); // need path
 }
 
-int	execute_pipeline(t_command *command, t_gen *gen, t_redirs *redirs,
-		char **envp)
+int	execute_pipeline(t_command *command, t_gen *gen,
+			t_redirs *redirs, char **envp)
 {
-	int		i;
-	int		id;
+	int	i;
 
 	gen->num_of_cmds = ft_count_cmds(command);
-	printf("num of commands%d\n", gen->num_of_cmds);
-	// to remove
-	if (redirs->input_redir1)
-	{
-		redirs->input_redir = open(redirs->input_redir1, O_RDONLY);
-		if (redirs->input_redir == -1)
-			ft_error("Unable to open a file");
-	}
-	i = 0;
-	gen->pipes = malloc((gen->num_of_cmds - 1) * sizeof(int *)); // to free
-	while (i < gen->num_of_cmds - 1)
-	{
-		gen->pipes[i] = malloc(2 * sizeof(int)); // to free
-		if (pipe(gen->pipes[i]) == -1)
-			ft_error("Unable to create pipe");
-		printf("pipe created, read %d, write %d\n", gen->pipes[i][0],
-			gen->pipes[i][1]);
-		i++;
-	}
-	i = 0;
-	gen->pids = malloc((gen->num_of_cmds + 1) * sizeof(int)); // to free
-	i = 0;
-	while (command)
-	{
-		command->path = find_path(command->args[0], envp);
-		printf("path to cmd1: %s\n", command->args[0]);
-		printf("path to cmd1: %s\n", command->path);
-
-		gen->pids[i] = fork();
-		if (gen->pids[i] == 0)
-		{
-			ft_child_process(command, gen, redirs, i, envp); // finished here
-			return (0);
-		}
-		command = command->next;
-		i++;
-
-	}
-	for (i = 0; i < gen->num_of_cmds - 1; i++)
-	{
-		close(gen->pipes[i][0]);
-		close(gen->pipes[i][1]);
-        // close redirs
-	}
+	printf("num of commands: %d\n", gen->num_of_cmds);
+	handle_input_redir(redirs);
+	gen->pipes = malloc((gen->num_of_cmds - 1) * sizeof(int *));
+	init_pipes(gen);
+	gen->pids = malloc((gen->num_of_cmds + 1) * sizeof(int));
+	create_child_processes(command, gen, redirs, envp);
+	close_pipes(gen);
 	i = 0;
 	while (i < gen->num_of_cmds)
 	{

@@ -1,11 +1,12 @@
-NAME	= minishell
-CC	= gcc
-CFLAGS	= -g -I include
+NAME	=	minishell
+CC		=	gcc
+CFLAGS	=	-g -I include
 
-SRCS	= $(wildcard src/*.c)
-LIBFT	= $(wildcard libft/*.c)
+SRCS	=	src/main.c src/display.c src/exe_pipeline_utils.c src/execute_pipeline.c src/parsing.c src/execute_builtin.c src/path_finding.c src/parsing_utils.c
 
-OBJS	= $(SRCS:.c=.o) $(LIBFT:.c=.o)
+LIBFT	=	$(wildcard libft/*.c)
+
+OBJS	=	$(SRCS:.c=.o) $(LIBFT:.c=.o)
 
 all: $(LIBFT) $(NAME)
 

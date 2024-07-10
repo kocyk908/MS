@@ -50,5 +50,18 @@ size_t	ft_strcspn(const char *str, const char *delim);
 char	*concat_path(const char *dir, const char *cmd);
 size_t ft_strspn(const char *str, const char *delim);
 void    print_error(char *cmd);
+void	create_child_processes(t_command *command, t_gen *gen, t_redirs *redirs, char **envp);
+void	close_pipes(t_gen *gen);
+void	init_pipes(t_gen *gen);
+void	handle_input_redir(t_redirs *redirs);
+void	ft_error(char *str);
+void	ft_child_process(t_command *command, t_gen *gen, t_redirs *redirs, int i, char **envp);
+void	process_input(t_gen *gen, t_redirs *redirs, char *input, char **envp);
+void	init_structs(t_gen **gen, t_redirs **redirs);
+t_command	*create_new_command(char *token);
+void	handle_redirections(t_command *new_cmd, char *arg, char **saveptr2);
+void	add_command_to_list(t_command **head, t_command **current, t_command *new_cmd);
+void	parse_arguments(t_command *new_cmd, char *token);
+char	*ft_strtok_r(char *str, const char *delim, char **saveptr);	// Dzieli delimiterem zdanie 
 
 #endif
