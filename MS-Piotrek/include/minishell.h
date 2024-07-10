@@ -44,7 +44,8 @@ int execute_pipeline(t_command *command, t_gen *gen, t_redirs *redirs, char **en
 void execute_command(char *command);
 void free_command(t_command *command);
 t_command *parse_command(char *input);
-char *find_path(char *cmd, char **envp);
+char	*find_path(char *cmd1, char **envp);
+// char *find_path(char *cmd, char **envp);
 size_t	ft_strcspn(const char *str, const char *delim);
 char	*concat_path(const char *dir, const char *cmd);
 size_t ft_strspn(const char *str, const char *delim);

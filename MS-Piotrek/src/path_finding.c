@@ -1,46 +1,63 @@
 #include "minishell.h"
 
-char	*concat_path(const char *dir, const char *cmd)
+void	ft_freemem(char **arr)
 {
-	size_t	dir_len;
-	size_t	cmd_len;
-	char	*full_path;
+	int	j;
 
-	dir_len = ft_strlen(dir);
-	cmd_len = ft_strlen(cmd);
-	full_path = malloc(dir_len + cmd_len + 2);	// 1 na '/' i 1 na '\0'
-	if (!full_path)
-        	return (NULL);
-	ft_strlcpy(full_path, dir, dir_len + 1);
-	ft_strcat(full_path, "/");				// dodaje "/" na końcu full_path
-	ft_strcat(full_path, cmd);				// dodaje cmd na końcu full_path
-	return (full_path);
+	j = 0;
+	while (arr[j])
+	{
+		free(arr[j]);
+		j++;
+	}
+	free(arr);
 }
 
-char	*find_path(char *cmd, char **envp)
+char	*ft_path_cmp(char **arr, char *cmd_mod)
 {
-	char	*path;
-	char	*paths;
-	char	*token;
-	char	*full_path;
-	char	*saveptr;
+	char	*valid_path;
+	char	*temp;
+	int		counter;
 
-	path = getenv("PATH");
-	if (!path)
-		return (NULL);
-	paths = ft_strdup(path);
-	token = ft_strtok_r(paths, ":", &saveptr);
-	while (token)
+	counter = 0;
+	valid_path = NULL;
+	while (arr[counter])
 	{
-		full_path = concat_path(token, cmd);
-		if (access(full_path, X_OK) == 0)		// sprawdza dostęp do pliku
+		temp = ft_strjoin(arr[counter], cmd_mod);
+		if (access(temp, X_OK) == 0)
 		{
-			free(paths);
-			return (full_path);
+			valid_path = temp;
+			break ;
 		}
-		free(full_path);
-		token = ft_strtok_r(NULL, ":", &saveptr);
+		free(temp);
+		counter++;
 	}
-	free(paths);
-	return (NULL);
+	return (valid_path);
+}
+
+char	*find_path(char *cmd1, char **envp)
+{
+	char	*valid_path;
+	char	*var_path;
+	char	**arr;
+	char	*temp;
+	char	*cmd_mod;
+
+	valid_path = NULL;
+	temp = ft_strdup("/");
+	cmd_mod = ft_strjoin(temp, cmd1);
+	free(temp);
+	while (*envp)
+	{
+		var_path = ft_strnstr(*envp, "PATH", 4);
+		if (var_path)
+		{
+			arr = ft_split(var_path, ':');
+			valid_path = ft_path_cmp(arr, cmd_mod);
+			ft_freemem(arr);
+		}
+		envp++;
+	}
+	free(cmd_mod);
+	return (valid_path);
 }
