@@ -5,6 +5,21 @@ void	ft_error(char *str)
 	printf("%s\n", str); // place perror
 }
 
+int ft_count_cmds(t_command *command)
+{
+	t_command	*temp;
+	int i;
+
+	temp = command;
+	i = 0;
+	while(temp)
+	{
+		temp = temp->next;
+		i++;
+	}
+	return i;
+}
+
 void	ft_child_process(t_command *command, t_gen *gen, t_redirs *redirs,
 		int i, char **envp)
 {
@@ -14,12 +29,7 @@ void	ft_child_process(t_command *command, t_gen *gen, t_redirs *redirs,
 
 	input = 0;
 	ouput = 1;
-	// if(redirs->input_redir1)
-	// {
-	//     input = open(redirs->input_redir1, O_WRONLY);
-	//     if(input == -1)
-	//         ft_error("Unable to open a file");
-	// }
+
 	if (i == 0)
 	{
 		printf("%d process, read from fd %d\n", i, redirs->input_redir);
@@ -75,7 +85,9 @@ int	execute_pipeline(t_command *command, t_gen *gen, t_redirs *redirs,
 	int		id;
 	char	*lst_path[] = {"/usr/bin/cat", "/usr/bin/grep", "/usr/bin/grep"};
 
-	gen->num_of_cmds = 3;
+
+	gen->num_of_cmds = ft_count_cmds(command);
+	printf("num of commands%d\n", gen->num_of_cmds);
 	// to remove
 	redirs->input_redir1 = "infile.txt"; // to remove
 											// redirs->output_redir1 = "outfile.txt";
@@ -102,8 +114,10 @@ int	execute_pipeline(t_command *command, t_gen *gen, t_redirs *redirs,
 	i = 0;
 	while (command)
 	{
-		command->path = lst_path[i]; // to remove
+		command->path = find_path(command->args[0], envp);
 		printf("path to cmd1: %s\n", command->args[0]);
+		printf("path to cmd1: %s\n", command->path);
+
 		gen->pids[i] = fork();
 		if (gen->pids[i] == 0)
 		{
@@ -112,6 +126,7 @@ int	execute_pipeline(t_command *command, t_gen *gen, t_redirs *redirs,
 		}
 		command = command->next;
 		i++;
+
 	}
 	for (i = 0; i < gen->num_of_cmds - 1; i++)
 	{
