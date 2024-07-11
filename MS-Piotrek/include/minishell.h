@@ -40,7 +40,7 @@ typedef struct s_gen
 } t_gen;
 
 int is_builtin(char *cmd);
-void execute_builtin(t_command *command);
+void	execute_builtin(t_command *command, char **envp);
 int execute_pipeline(t_command *command, t_gen *gen, t_redirs *redirs, char **envp);
 void execute_command(char *command);
 void free_command(t_command *command);

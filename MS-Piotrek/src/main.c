@@ -52,7 +52,10 @@ void	process_input(t_gen *gen, t_redirs *redirs, char *input, char **envp)
 	}
 	printf("Total number of commands: %d\n", cmd_count);
 	gen->num_of_cmds = cmd_count;
-	execute_pipeline(cmd_list, gen, redirs, envp);
+	if (cmd_list && is_builtin(cmd_list->args[0]))
+		execute_builtin(cmd_list, envp);
+	else
+		execute_pipeline(cmd_list, gen, redirs, envp);
 	free_command(cmd_list);
 }
 
@@ -120,6 +123,11 @@ int	main(int ac, char **av, char **envp)
 // }
 
 /*
+
+Update 11.07.24
+
+Echo problematyczne gdy argument podany jest w "", jeszcze nie ogarnąłem tego
+
 Update 07.07.24
 
 Udało mi sie już jakoś połączyć procesy w pętlach. 

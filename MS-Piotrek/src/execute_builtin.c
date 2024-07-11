@@ -21,20 +21,25 @@ void	builtin_echo(char **args)
 		else
 			break ;
 	}
-	while (i >= 1)
-		printf("%s", args[i]);
+	while (args[i])
+    {
+        printf("%s", args[i]);
+        if (args[i + 1])
+            printf(" ");
+        i++;
+    }
 	if (n == false)
 		printf("\n");
 }
 
 void	builtin_cd(char **args)
 {
-	if (args[1])
+	char s[100];
+	if (args[1]) // pierwszy arg = cd
 	{
-		if (chdir(args[1]) != 0)
-		{
-			perror("cd failed");
-		}
+		printf("%s\n", getcwd(s, 100));
+		chdir(args[1]);
+		printf("%s\n", getcwd(s, 100));
 	}
 }
 
@@ -57,7 +62,7 @@ void	builtin_exit(void)
 	exit(0);
 }
 
-void	execute_builtin(t_command *command)
+void	execute_builtin(t_command *command, char **envp)
 {
 	if (strcmp(command->args[0], "echo") == 0)
 	{
