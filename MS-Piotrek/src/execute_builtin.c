@@ -2,17 +2,29 @@
 
 void	builtin_echo(char **args)
 {
-	int	i;
+	int		i;
+	int		j;
+	bool	n;
 
-	i = 1;
-	while (args[i])
+	i = 1; // bo 0 to echo
+	n = false;
+	while (args[i] && args[i][0] == '-')
 	{
-		if (i > 1)
-			printf(" ");
-		printf("%s", args[i]);
-		i++;
+		j = 1;
+		while (args[i][j] == 'n') // -n -nn -nnnnn może być więcej
+			j++;
+		if (args[i][j] == '\0') // nie może być -nnnk
+		{
+			n = true;
+			i++;
+		}
+		else
+			break ;
 	}
-	printf("\n");
+	while (i >= 1)
+		printf("%s", args[i]);
+	if (n == false)
+		printf("\n");
 }
 
 void	builtin_cd(char **args)
