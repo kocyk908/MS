@@ -26,8 +26,8 @@ void	ft_child_process(t_command *command, t_gen *gen, t_redirs *redirs,
 	ouput = 1;
 	if (i == 0)
 	{
-		printf("%d process, read from fd %d\n", i, redirs->input_redir);
-		if (dup2(redirs->input_redir, 0) == -1)
+		printf("%d process, read from fd %d\n", i, command->redirs.input_redir);
+		if (dup2(command->redirs.input_redir, 0) == -1)
 			ft_error("Unable to change fd");
 	}
 	if (i > 0)
