@@ -76,6 +76,9 @@ void	builtin_pwd(void)
 void	builtin_exit(void)
 {
 	exit(0);
+	// można podać exit sam -> robi exit i pisze exit
+	// można podać exit i numer -> robi exit i pisze exit
+	// mozna podać exit i coś innego niż numer -> robi exit i pisze bash: exit: {to co sie napisało}: numeric argument required
 }
 
 void	execute_builtin(t_command *command, char **envp)
