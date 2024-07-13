@@ -15,8 +15,8 @@ void	init_pipes(t_gen *gen)
 		gen->pipes[i] = malloc(2 * sizeof(int));
 		if (pipe(gen->pipes[i]) == -1)
 			ft_error("Unable to create pipe");
-		printf("pipe created, read %d, write %d\n",
-			gen->pipes[i][0], gen->pipes[i][1]);
+		// printf("pipe created, read %d, write %d\n",
+		// 	gen->pipes[i][0], gen->pipes[i][1]);
 		i++;
 	}
 }
@@ -34,8 +34,7 @@ void	close_pipes(t_gen *gen)
 	}
 }
 
-void	create_child_processes(t_command *command, t_gen *gen,
-			t_redirs *redirs, char **envp)
+void	create_child_processes(t_command *command, t_gen *gen, char **envp)
 {
 	int	i;
 
@@ -43,11 +42,11 @@ void	create_child_processes(t_command *command, t_gen *gen,
 	while (command)
 	{
 		command->path = find_path(command->args[0], envp);
-		printf("path to cmd%d: %s\n", i + 1, command->path);
+		// printf("path to cmd%d: %s\n", i + 1, command->path);
 		gen->pids[i] = fork();
 		if (gen->pids[i] == 0)
 		{
-			ft_child_process(command, gen, redirs, i, envp);
+			ft_child_process(command, gen, i, envp);
 			exit(0);
 		}
 		command = command->next;

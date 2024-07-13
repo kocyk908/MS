@@ -46,11 +46,11 @@ void	process_input(t_gen *gen, t_redirs *redirs, char *input, char **envp)
 	cmd_count = 0;
 	while (temp)
 	{
-		printf("Command %d: %s\n", cmd_count + 1, temp->args[0]);
+		// printf("Command %d: %s\n", cmd_count + 1, temp->args[0]);
 		cmd_count++;
 		temp = temp->next;
 	}
-	printf("Total number of commands: %d\n", cmd_count);
+	// printf("Total number of commands: %d\n", cmd_count);
 	gen->num_of_cmds = cmd_count;
 	if (cmd_list && is_builtin(cmd_list->args[0]))
 		execute_builtin(cmd_list, envp);
