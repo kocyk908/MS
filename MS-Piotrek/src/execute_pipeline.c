@@ -41,7 +41,7 @@ void ft_write_fd(t_command *command, t_gen *gen, int i)
 	if (i < gen->num_of_cmds - 1)
 		if (dup2(gen->pipes[i][1], 1) == -1)
 			ft_error("Unable to change fd-3");
-	if ((i == gen->num_of_cmds - 1) && (command->redirs.input_redir > 0))
+	if ((i == gen->num_of_cmds - 1) && (command->redirs.output_redir > 0))
 		if (dup2(command->redirs.output_redir, 1) == -1)
 			ft_error("Unable to change fd-4");
 	j = 0;
@@ -59,7 +59,7 @@ void	ft_child_process(t_command *command, t_gen *gen,
 	ft_read_fd(command, gen, i);
 	ft_write_fd(command, gen, i);
 	if(execve(command->path, command->args, envp) == -1); 
-			ft_error("Unable to execute program");
+			perror("Error!");
 }
 
 int	execute_pipeline(t_command *command, t_gen *gen,
