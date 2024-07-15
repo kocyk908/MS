@@ -1,3 +1,15 @@
+1. git clone
+2. git branch <nowy_branch>
+3. git checkout <nowy_branch>
+4. robota 
+5. git add
+6. git commit
+7. git checkou <main/master>
+8. git pull origin main/master
+9. git merge <new_branch>
+10. git push origin main/master 
+
+
 Update 11.07.24
 
 Echo problematyczne gdy argument podany jest w "", jeszcze nie ogarnąłem tego

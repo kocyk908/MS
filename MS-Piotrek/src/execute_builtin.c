@@ -34,13 +34,29 @@ void	builtin_echo(char **args)
 
 void	builtin_cd(char **args)
 {
-	char s[100];
-	if (args[1]) // pierwszy arg = cd
+	char	*home_dir;
+	char	cwd[1024]; //max długość ścieżki, wystrczający dla getcwd
+
+	if (!args[1])
 	{
-		printf("%s\n", getcwd(s, 100));
-		chdir(args[1]);
-		printf("%s\n", getcwd(s, 100));
+		home_dir = getenv("HOME");
+		if (home_dir)
+		{
+			if (chdir(home_dir) != 0)
+				perror("cd failed");
+		}
+		else
+			printf("cd: HOME not set\n");
 	}
+	else
+	{
+		if (chdir(args[1]) != 0)
+			perror("cd failed");
+	}
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
+		printf("%s\n", cwd);
+	else
+		perror("getcwd failed");
 }
 
 void	builtin_pwd(void)
@@ -60,6 +76,9 @@ void	builtin_pwd(void)
 void	builtin_exit(void)
 {
 	exit(0);
+	// można podać exit sam -> robi exit i pisze exit
+	// można podać exit i numer -> robi exit i pisze exit
+	// mozna podać exit i coś innego niż numer -> robi exit i pisze bash: exit: {to co sie napisało}: numeric argument required
 }
 
 void	execute_builtin(t_command *command, char **envp)
