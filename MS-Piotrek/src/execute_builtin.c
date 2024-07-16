@@ -83,19 +83,19 @@ void	builtin_exit(void)
 
 void	execute_builtin(t_command *command, char **envp)
 {
-	if (strcmp(command->args[0], "echo") == 0)
+	if (ft_strcmp(command->args[0], "echo") == 0)
 	{
 		builtin_echo(command->args);
 	}
-	else if (strcmp(command->args[0], "cd") == 0)
+	else if (ft_strcmp(command->args[0], "cd") == 0)
 	{
 		builtin_cd(command->args);
 	}
-	else if (strcmp(command->args[0], "pwd") == 0)
+	else if (ft_strcmp(command->args[0], "pwd") == 0)
 	{
 		builtin_pwd();
 	}
-	else if (strcmp(command->args[0], "exit") == 0)
+	else if (ft_strcmp(command->args[0], "exit") == 0)
 	{
 		builtin_exit();
 	}

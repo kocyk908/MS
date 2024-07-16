@@ -66,8 +66,8 @@ void	parse_arguments(t_command *new_cmd, char *token)
 		handle_redirections(new_cmd, arg, &saveptr2);
 		// printf("current input fd: %d\n", new_cmd->redirs.input_redir);
 		
-		if (strcmp(arg, "<") != 0 && strcmp(arg, "<<") != 0
-			&& strcmp(arg, ">") != 0 && strcmp(arg, ">>") != 0)
+		if (ft_strcmp(arg, "<") != 0 && ft_strcmp(arg, "<<") != 0
+			&& ft_strcmp(arg, ">") != 0 && ft_strcmp(arg, ">>") != 0)
 		{
 			new_cmd->args[i++] = arg;
 		}

@@ -46,6 +46,7 @@ char				*ft_strchr(const char *str, int z);
 char				*ft_strrchr(const char *str, int ch);
 char				*ft_strnstr(const char *big, const char *little,
 						size_t len);
+int					ft_strcmp(const char *s1, const char *s2);
 
 // memory manipulation
 

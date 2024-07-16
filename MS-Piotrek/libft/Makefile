@@ -45,6 +45,7 @@ FILES = ft_isalnum.c \
         ft_putnbr_fd.c \
 	ft_strcpy.c \
 	ft_strcat.c \
+	ft_strcmp.c \
         **ft_split.c
 OBJ = $(FILES:.c=.o)
 
