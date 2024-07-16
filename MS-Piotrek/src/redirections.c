@@ -21,27 +21,31 @@ void	handle_heredoc(t_redirs *redirs, char **saveptr2)
 	char	*str;
 	char 	*temp;
 
+	temp = NULL;
 	arg = ft_strtok_r(NULL, " ", saveptr2);
 	redirs->is_heredoc = 1;
-	redirs->input_redir = open("heredoc.txt", O_RDWR | O_CREAT, 0644);
+	redirs->input_redir = open("heredoc.txt", O_WRONLY | O_CREAT, 0644);
 	while(1)
 	{
 		str = readline(">");
 		if(ft_strncmp(str, arg, ft_strlen(arg)) == 0)
 		{
-			ft_putstr_fd(str, redirs->input_redir);
+			if(temp)
+				ft_putstr_fd(temp, redirs->input_redir);
 			break;
 		}
 		else
 		{
-			ft_putstr_fd(str, redirs->input_redir);
-			ft_putchar_fd('\n', redirs->input_redir);
+			if(temp)
+			{
+				ft_putstr_fd(temp, redirs->input_redir);
+				ft_putchar_fd('\n', redirs->input_redir);
+			}
+			temp = str;
 		}
-		// printf("to file: %s\n", str);
 	}
-	// printf("args: %s\n", arg);
-
-	// Handle heredoc here
+	close(redirs->input_redir);
+	redirs->input_redir = open("heredoc.txt", O_RDONLY);
 }
 
 void	handle_output_redir(t_redirs *redirs, char **saveptr2)

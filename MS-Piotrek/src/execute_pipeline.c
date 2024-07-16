@@ -76,6 +76,8 @@ int	execute_pipeline(t_command *command, t_gen *gen,
 	gen->pids = malloc((gen->num_of_cmds + 1) * sizeof(int));
 	create_child_processes(command, gen, envp);
 	close_pipes(gen);
+	if(command->redirs.is_heredoc)
+		unlink("heredoc.txt");
 	i = 0;
 	while (i < gen->num_of_cmds)
 	{
