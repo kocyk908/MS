@@ -31,7 +31,6 @@ void	init_structs(t_gen **gen, t_redirs **redirs)
 			free(*redirs);
 		exit(EXIT_FAILURE);
 	}
-	(*redirs)->input_redir1 = NULL;
 }
 
 void	process_input(t_gen *gen, t_redirs *redirs, char *input, char **envp)

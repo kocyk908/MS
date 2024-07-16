@@ -35,7 +35,6 @@ void	builtin_echo(char **args)
 void	builtin_cd(char **args)
 {
 	char	*home_dir;
-	char	cwd[1024]; //max długość ścieżki, wystrczający dla getcwd
 
 	if (!args[1])
 	{
@@ -53,10 +52,6 @@ void	builtin_cd(char **args)
 		if (chdir(args[1]) != 0)
 			perror("cd failed");
 	}
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-		printf("%s\n", cwd);
-	else
-		perror("getcwd failed");
 }
 
 void	builtin_pwd(void)

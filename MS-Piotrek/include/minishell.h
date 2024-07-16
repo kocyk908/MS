@@ -16,10 +16,8 @@
 typedef struct s_redirs
 {
     int input_redir;     // <  Plik wejściowy
-    char *input_redir1;   // <  ścieżka pliku wejściowego
     int is_heredoc;      // << Heredoc flag
     int output_redir;    // >  Plik wyjściowy
-    char *output_redir1;    // >  ścieżka pliku wejściowego
     int is_append;       // >>  Append flag
 } t_redirs;
 
