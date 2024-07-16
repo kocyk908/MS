@@ -70,11 +70,13 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		input = readline("msh> ");
-		if (input)
+		if (input && *input != '\0')
 		{
 			process_input(gen, redirs, input, envp);
 			free(input);
 		}
+		else
+			free(input);
 	}
 	return (0);
 }

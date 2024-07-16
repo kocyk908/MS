@@ -2,7 +2,7 @@
 
 void	print_error(char *cmd)
 {
-	printf("Command '%s' not found\n", cmd);
+	printf("bash: '%s' not found\n", cmd);
 	return ;
 }
 
