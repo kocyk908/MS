@@ -67,13 +67,50 @@ void	builtin_pwd(void)
 		perror("getcwd failed");
 	}
 }
-
-void	builtin_exit(void)
+/////////// do exit
+int	digits_only(char *str)
 {
-	exit(0);
-	// można podać exit sam -> robi exit i pisze exit
-	// można podać exit i numer -> robi exit i pisze exit
-	// mozna podać exit i coś innego niż numer -> robi exit i pisze bash: exit: {to co sie napisało}: numeric argument required
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+	{
+		if (i != 0 && str[i] == '-')
+			return (0); 
+		if (ft_isdigit(str[i]) == 0)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+void	builtin_exit(char **args)
+{
+	int	i;
+
+	printf("exit\n");
+	i = 0;
+	while (args[i])
+		i++;
+	if (i == 2)
+	{
+		if (digits_only(args[1]))
+			exit(ft_atoi(args[1]));
+		else
+		{
+			printf("bash: exit: %s: numeric argument required\n", args[1]);
+			return ;
+		}
+	}
+	else if (i > 2)
+	{
+		printf("bash: exit: too many arguments\n");
+		return ;
+	}
+	else
+		exit(0);
 }
 
 void	execute_builtin(t_command *command, char **envp)
@@ -92,6 +129,6 @@ void	execute_builtin(t_command *command, char **envp)
 	}
 	else if (ft_strcmp(command->args[0], "exit") == 0)
 	{
-		builtin_exit();
+		builtin_exit(command->args);
 	}
 }
