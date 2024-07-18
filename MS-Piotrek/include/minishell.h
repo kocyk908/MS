@@ -29,6 +29,13 @@ typedef struct s_command
     struct s_command *next;
 } t_command;
 
+typedef struct s_history
+{
+    int num;
+    char *input;
+    struct s_history
+}   t_history;
+
 typedef struct s_gen
 {
     int num_of_cmds;
