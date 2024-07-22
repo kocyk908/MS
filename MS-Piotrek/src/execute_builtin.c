@@ -22,12 +22,12 @@ void	builtin_echo(char **args)
 			break ;
 	}
 	while (args[i])
-    {
-        printf("%s", args[i]);
-        if (args[i + 1])
-            printf(" ");
-        i++;
-    }
+	{
+		printf("%s", args[i]);
+		if (args[i + 1])
+			printf(" ");
+		i++;
+	}
 	if (n == false)
 		printf("\n");
 }
@@ -56,7 +56,7 @@ void	builtin_cd(char **args)
 
 void	builtin_pwd(void)
 {
-	char	cwd[1024];
+	char	cwd[4096]; //max path sprawdzone _PC_PATH_MAX - przynajmniej na kompie w 42
 
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
@@ -68,6 +68,7 @@ void	builtin_pwd(void)
 	}
 }
 /////////// do exit
+
 int	digits_only(char *str)
 {
 	int	i;
@@ -78,7 +79,7 @@ int	digits_only(char *str)
 	while (str[i])
 	{
 		if (i != 0 && str[i] == '-')
-			return (0); 
+			return (0);
 		if (ft_isdigit(str[i]) == 0)
 			return (0);
 		i++;
@@ -101,7 +102,7 @@ void	builtin_exit(char **args)
 		else
 		{
 			printf("bash: exit: %s: numeric argument required\n", args[1]);
-			return ;
+			exit (255);
 		}
 	}
 	else if (i > 2)
@@ -116,19 +117,17 @@ void	builtin_exit(char **args)
 void	execute_builtin(t_command *command, char **envp)
 {
 	if (ft_strcmp(command->args[0], "echo") == 0)
-	{
 		builtin_echo(command->args);
-	}
 	else if (ft_strcmp(command->args[0], "cd") == 0)
-	{
 		builtin_cd(command->args);
-	}
 	else if (ft_strcmp(command->args[0], "pwd") == 0)
-	{
 		builtin_pwd();
-	}
 	else if (ft_strcmp(command->args[0], "exit") == 0)
-	{
 		builtin_exit(command->args);
-	}
+	//else if (ft_strcmp(command->args[0], "export") == 0)
+	//	builtin_export(command->args);
+	//else if (ft_strcmp(command->args[0], "unset") == 0)
+	//	builtin_unset(command->args);
+	//else if (ft_strcmp(command->args[0], "env") == 0)
+	//	builtin_env(command->args);
 }

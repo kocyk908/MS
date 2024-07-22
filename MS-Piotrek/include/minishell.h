@@ -34,7 +34,6 @@ typedef struct s_gen
     int num_of_cmds;
     int **pipes;
     int *pids;
-
 } t_gen;
 
 int is_builtin(char *cmd);

@@ -16,7 +16,9 @@ void	free_command(t_command *command)
 int	is_builtin(char *cmd)
 {
 	return (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "cd") == 0
-		|| ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "exit") == 0);
+		|| ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "exit") == 0
+		|| ft_strcmp(cmd, "env") == 0 || ft_strcmp(cmd, "export") == 0
+		|| ft_strcmp(cmd, "unset") == 0);
 }
 
 void	init_structs(t_gen **gen, t_redirs **redirs)
