@@ -35,29 +35,27 @@ void	init_structs(t_gen **gen, t_redirs **redirs)
 	}
 }
 
-void	process_input(t_gen *gen, t_redirs *redirs, char *input, char **envp)
+void process_input(t_gen *gen, t_redirs *redirs, char *input, char **envp)
 {
-	t_command	*cmd_list;
-	t_command	*temp;
-	int			cmd_count;
+    t_command *cmd_list;
+    t_command *temp;
+    int cmd_count;
 
-	add_history(input);
-	cmd_list = parse_command(input);
-	temp = cmd_list;
-	cmd_count = 0;
-	while (temp)
-	{
-		// printf("Command %d: %s\n", cmd_count + 1, temp->args[0]);
-		cmd_count++;
-		temp = temp->next;
-	}
-	// printf("Total number of commands: %d\n", cmd_count);
-	gen->num_of_cmds = cmd_count;
-	if (cmd_list && is_builtin(cmd_list->args[0]))
-		execute_builtin(cmd_list, envp);
-	else
-		execute_pipeline(cmd_list, gen, redirs, envp);
-	free_command(cmd_list);
+    add_history(input);
+    cmd_list = parse_command(input);
+    temp = cmd_list;
+    cmd_count = 0;
+    while (temp)
+    {
+        cmd_count++;
+        temp = temp->next;
+    }
+    gen->num_of_cmds = cmd_count;
+    if (cmd_list && is_builtin(cmd_list->args[0]))
+        execute_builtin(cmd_list, envp);
+    else
+        execute_pipeline(cmd_list, gen, redirs, envp);
+    free_command(cmd_list);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -69,6 +67,7 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	init_structs(&gen, &redirs);
+	init_global_envp(envp);
 	while (1)
 	{
 		input = readline("msh> ");

@@ -68,5 +68,8 @@ void	handle_input_redir(t_redirs *redirs, char **saveptr2);
 void	handle_heredoc(t_redirs *redirs, char **saveptr2);
 void	handle_output_redir(t_redirs *redirs, char **saveptr2);
 void	handle_append_redir(t_redirs *redirs, char **saveptr2);
+void    builtin_env(void);
+void    init_global_envp(char **envp);
+void    ft_env(char **envp);
 
 #endif

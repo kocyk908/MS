@@ -1,25 +1,51 @@
-// #include "minishell.h"
+#include "minishell.h"
 
-// void init_env_vars(t_gen *gen) {
-//     gen->env_vars = NULL;
-// }
+char **global_envp;
 
-// void add_env_var(t_gen *gen, const char *name, const char *value) {
-//     t_env *new_var = malloc(sizeof(t_env));
-//     if (!new_var) {
-//         perror("malloc");
-//         exit(EXIT_FAILURE);
-//     }
-//     new_var->name = strdup(name);
-//     new_var->value = strdup(value);
-//     new_var->next = gen->env_vars;
-//     gen->env_vars = new_var;
-// }
+void init_global_envp(char **envp)
+{
+    int i;
+    for (i = 0; envp[i] != NULL; i++);
+    global_envp = malloc((i + 1) * sizeof(char *));
+    for (int j = 0; j < i; j++)
+    {
+        global_envp[j] = strdup(envp[j]);
+    }
+    global_envp[i] = NULL;
+}
 
-// void builtin_env(t_gen *gen) {
-//     t_env *current = gen->env_vars;
-//     while (current != NULL) {
-//         printf("%s=%s\n", current->name, current->value);
-//         current = current->next;
-//     }
-// }
+void ft_env(char **envp)
+{
+    pid_t pid;
+    char *args[2];
+    int status;
+
+    args[0] = "env";
+    args[1] = NULL;
+    pid = fork();
+    if (pid == -1)
+    {
+        perror("fork");
+        return;
+    }
+    if (pid == 0)
+    {
+        if (execve("/usr/bin/env", args, envp) == -1)
+        {
+            perror("execve");
+            exit(1);
+        }
+    }
+    else
+    {
+        waitpid(pid, &status, 0);
+    }
+}
+
+void builtin_env(void)
+{
+    for (int i = 0; global_envp[i] != NULL; i++)
+    {
+        printf("%s\n", global_envp[i]);
+    }
+}
