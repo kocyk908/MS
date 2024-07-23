@@ -1,3 +1,8 @@
+
+Update 23.07
+
+do komendy env użyłem zmiennej globalnej, żeby pobierać zawartość env z kompa i tam poprostu trzymać, w sumie chyba można to zrobić podobnie jak w heredoc z zapisem do pliku to mogę to zmienić
+
 1. git clone
 2. git branch <nowy_branch>
 3. git checkout <nowy_branch>
