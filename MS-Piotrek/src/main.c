@@ -47,7 +47,6 @@ void ft_history_list(t_gen *gen, char *input)
             current = current->next;
 		if(!ft_strcmp(current->input, input))  // why ft_strcmp is working upside down?
 		{
-			printf("--same input\n");
 			free(new_node->input);
 			free(new_node);
 			return;
