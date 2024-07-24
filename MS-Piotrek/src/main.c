@@ -43,11 +43,8 @@ void ft_history_list(t_gen *gen, char *input)
     else
     {
         current = gen->history;
-
         while(current->next != NULL)
             current = current->next;
-		printf("prev input: %s\n", current->input);
-		printf("curr input: %s\n", input);
 		if(!ft_strcmp(current->input, input))  // why ft_strcmp is working upside down?
 		{
 			printf("--same input\n");
@@ -77,7 +74,8 @@ void ft_display_history_list(t_gen *gen)
 int	is_builtin(char *cmd)
 {
 	return (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "cd") == 0
-		|| ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "exit") == 0);
+		|| ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "exit") == 0)
+		|| (ft_strcmp(cmd, "history") == 0);
 }
 
 void	init_structs(t_gen **gen, t_redirs **redirs)
@@ -100,14 +98,13 @@ void	process_input(t_gen *gen, t_redirs *redirs, char *input, char **envp)
 
 	add_history(input);
 	ft_history_list(gen, input);
-	ft_display_history_list(gen);
 
 	cmd_list = parse_command(input);
 
 	gen->num_of_cmds = ft_count_cmds(cmd_list);
 
 	if (cmd_list && is_builtin(cmd_list->args[0]))
-		execute_builtin(cmd_list, envp);
+		execute_builtin(cmd_list, gen, envp);
 	else
 		execute_pipeline(cmd_list, gen, redirs, envp);
 	free_command(cmd_list);

@@ -114,7 +114,7 @@ void	builtin_exit(char **args)
 		exit(0);
 }
 
-void	execute_builtin(t_command *command, char **envp)
+void	execute_builtin(t_command *command, t_gen *gen, char **envp)
 {
 	if (ft_strcmp(command->args[0], "echo") == 0)
 		builtin_echo(command->args);
@@ -130,4 +130,6 @@ void	execute_builtin(t_command *command, char **envp)
 	//	builtin_unset(command->args);
 	// else if (ft_strcmp(command->args[0], "env") == 0)
 	// 	builtin_env();
+		else if (ft_strcmp(command->args[0], "history") == 0)
+		ft_display_history_list(gen);
 }

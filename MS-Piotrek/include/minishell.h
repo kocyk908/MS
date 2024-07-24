@@ -45,7 +45,7 @@ typedef struct s_gen
 } t_gen;
 
 int is_builtin(char *cmd);
-void	execute_builtin(t_command *command, char **envp);
+void	execute_builtin(t_command *command, t_gen *gen, char **envp);
 int execute_pipeline(t_command *command, t_gen *gen, t_redirs *redirs, char **envp);
 void execute_command(char *command);
 void free_command(t_command *command);
@@ -76,8 +76,13 @@ void	handle_input_redir(t_redirs *redirs, char **saveptr2);
 void	handle_heredoc(t_redirs *redirs, char **saveptr2);
 void	handle_output_redir(t_redirs *redirs, char **saveptr2);
 void	handle_append_redir(t_redirs *redirs, char **saveptr2);
-void    builtin_env(void);
-void    init_global_envp(char **envp);
-void    ft_env(char **envp);
+
+// history
+
+void ft_display_history_list(t_gen *gen);
+
+// void    builtin_env(void);
+// void    init_global_envp(char **envp);
+// void    ft_env(char **envp);
 
 #endif
