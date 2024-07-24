@@ -1,20 +1,5 @@
 #include "minishell.h"
 
-int	ft_count_cmds(t_command *command)
-{
-	t_command	*temp;
-	int			i;
-
-	temp = command;
-	i = 0;
-	while (temp)
-	{
-		temp = temp->next;
-		i++;
-	}
-	return (i);
-}
-
 void ft_read_fd(t_command *command, t_gen *gen, int i)
 {
 	int	j;
@@ -67,7 +52,7 @@ int	execute_pipeline(t_command *command, t_gen *gen,
 {
 	int	i;
 
-	gen->num_of_cmds = ft_count_cmds(command);
+	// gen->num_of_cmds = ft_count_cmds(command);
 	// printf("num of commands: %d\n", gen->num_of_cmds);
 	gen->pipes = malloc((gen->num_of_cmds - 1) * sizeof(int *));
 	init_pipes(gen);
