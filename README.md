@@ -1,7 +1,17 @@
 
+Update 24.07
+
+- ft_strcmp albo ja czegoś nie kumam albo ta funkcja działą na odwrót. 
+    Myślałem że zwróci true (1) jeżeli stringi będą takie same :)
+    Anyway zrobiłem !ft_strcmp i mam pożądany efekt
+- wrzucam listę na dole tego readme do malloców których nie zwolniłem.
+
+
 Update 23.07
 
 do komendy env użyłem zmiennej globalnej, żeby pobierać zawartość env z kompa i tam poprostu trzymać, w sumie chyba można to zrobić podobnie jak w heredoc z zapisem do pliku to mogę to zmienić
+
+------------------
 
 1. git clone
 2. git branch <nowy_branch>
@@ -14,6 +24,10 @@ do komendy env użyłem zmiennej globalnej, żeby pobierać zawartość env z ko
 9. git merge <new_branch>
 10. git push origin main/master 
 
+------------------
+
+https://CVb3d202342evals.com
+CVb3d2023
 
 Update 11.07.24
 
@@ -42,3 +56,9 @@ Robię tak że execute_pipeline przyjmie następujące informacje
 2. porzebuję ścieżki do każdej komendy znajdującej się command.
     Utworzyłem membere commant->path. Scieżka powinna wyglądać np:
     "/usr/bin/ls" dla programu ls 
+
+
+
+To free
+1. input będącym member t_history
+2. Każdy node t_history

@@ -30,31 +30,46 @@ int	ft_count_cmds(t_command *command)
 
 void ft_history_list(t_gen *gen, char *input)
 {
-	t_history *new_node;
-	t_history	*current;
-	new_node = gen->history;
-	
-	new_node->num = gen->history->num + 1;
-	new_node->next = NULL;
+    t_history *new_node;
+    t_history *current;
+    new_node = malloc(sizeof(t_history)); // free every t_history
+    new_node->input = ft_strdup(input); // free every input
+    new_node->next = NULL;
+    if (gen->history == NULL)
+    {
+        new_node->num = 1;
+        gen->history = new_node;
+    }
+    else
+    {
+        current = gen->history;
 
-	while(new_node != NULL)
-	{
-		new_node = new
-	}
-
-	// gen->history->num++;
-	// gen->history->input = input;
-	// gen->history = gen->history->next;
+        while(current->next != NULL)
+            current = current->next;
+		printf("prev input: %s\n", current->input);
+		printf("curr input: %s\n", input);
+		if(!ft_strcmp(current->input, input))  // why ft_strcmp is working upside down?
+		{
+			printf("--same input\n");
+			free(new_node->input);
+			free(new_node);
+			return;
+		}
+        new_node->num = current->num + 1;
+        current->next = new_node;
+    }
 }
 
 void ft_display_history_list(t_gen *gen)
 {
 	t_history *temp;
 	temp = gen->history;
+	int i;
 
-	while(temp)
+	i = 0;
+	while(temp != NULL)
 	{
-		printf("intpur: %s\n", temp->input);
+		printf("%d  %s\n",temp->num, temp->input);
 		temp = temp->next;
 	}
 }

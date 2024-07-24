@@ -128,6 +128,6 @@ void	execute_builtin(t_command *command, char **envp)
 	//	builtin_export(command->args);
 	//else if (ft_strcmp(command->args[0], "unset") == 0)
 	//	builtin_unset(command->args);
-	else if (ft_strcmp(command->args[0], "env") == 0)
-		builtin_env();
+	// else if (ft_strcmp(command->args[0], "env") == 0)
+	// 	builtin_env();
 }
