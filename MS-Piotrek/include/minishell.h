@@ -33,7 +33,7 @@ typedef struct s_history
 {
     int num;
     char *input;
-    struct s_history
+    struct s_history *next;
 }   t_history;
 
 typedef struct s_gen
@@ -41,7 +41,7 @@ typedef struct s_gen
     int num_of_cmds;
     int **pipes;
     int *pids;
-
+    t_history *history;
 } t_gen;
 
 int is_builtin(char *cmd);
