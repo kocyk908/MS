@@ -1,77 +1,8 @@
 #include "minishell.h"
 
-void	free_command(t_command *command)
-{
-	t_command	*temp;
-
-	while (command)
-	{
-		temp = command;
-		command = command->next;
-		free(temp->args);
-		free(temp);
-	}
-}
-
-int	ft_count_cmds(t_command *command)
-{
-	t_command	*temp;
-	int			i;
-
-	temp = command;
-	i = 0;
-	while (temp)
-	{
-		temp = temp->next;
-		i++;
-	}
-	return (i);
-}
-
-void ft_history_list(t_gen *gen, char *input)
-{
-    t_history *new_node;
-    t_history *current;
-    new_node = malloc(sizeof(t_history)); // free every t_history
-    new_node->input = ft_strdup(input); // free every input
-    new_node->next = NULL;
-    if (gen->history == NULL)
-    {
-        new_node->num = 1;
-        gen->history = new_node;
-    }
-    else
-    {
-        current = gen->history;
-        while(current->next != NULL)
-            current = current->next;
-		if(!ft_strcmp(current->input, input))  // why ft_strcmp is working upside down?
-		{
-			free(new_node->input);
-			free(new_node);
-			return;
-		}
-        new_node->num = current->num + 1;
-        current->next = new_node;
-    }
-}
-
-void ft_display_history_list(t_gen *gen)
-{
-	t_history *temp;
-	temp = gen->history;
-	int i;
-
-	i = 0;
-	while(temp != NULL)
-	{
-		printf("%d  %s\n",temp->num, temp->input);
-		temp = temp->next;
-	}
-}
-
 // void ft_export_env(t_gen *gen)
 // {
+// 	char **temp;
 
 // }
 
@@ -108,9 +39,9 @@ void	process_input(t_gen *gen, t_redirs *redirs, char *input)
 	gen->num_of_cmds = ft_count_cmds(cmd_list);
 
 	if (cmd_list && is_builtin(cmd_list->args[0]))
-		execute_builtin(cmd_list, gen, gen->envs);
+		execute_builtin(cmd_list, gen);
 	else
-		execute_pipeline(cmd_list, gen, redirs, gen->envs);
+		execute_pipeline(cmd_list, gen, redirs);
 	free_command(cmd_list);
 }
 

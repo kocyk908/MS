@@ -114,7 +114,7 @@ void	builtin_exit(char **args)
 		exit(0);
 }
 
-void	execute_builtin(t_command *command, t_gen *gen, char **envp)
+void	execute_builtin(t_command *command, t_gen *gen)
 {
 	if (ft_strcmp(command->args[0], "echo") == 0)
 		builtin_echo(command->args);

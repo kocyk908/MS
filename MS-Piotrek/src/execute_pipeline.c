@@ -39,25 +39,23 @@ void ft_write_fd(t_command *command, t_gen *gen, int i)
 }
 
 void	ft_child_process(t_command *command, t_gen *gen,
-		int i, char **envp)
+		int i)
 {
 	ft_read_fd(command, gen, i);
 	ft_write_fd(command, gen, i);
-	if(execve(command->path, command->args, envp) == -1); 
+	if(execve(command->path, command->args, gen->envs) == -1); 
 			perror("Error!");
 }
 
 int	execute_pipeline(t_command *command, t_gen *gen,
-			t_redirs *redirs, char **envp)
+			t_redirs *redirs)
 {
 	int	i;
 
-	// gen->num_of_cmds = ft_count_cmds(command);
-	// printf("num of commands: %d\n", gen->num_of_cmds);
 	gen->pipes = malloc((gen->num_of_cmds - 1) * sizeof(int *));
 	init_pipes(gen);
 	gen->pids = malloc((gen->num_of_cmds + 1) * sizeof(int));
-	create_child_processes(command, gen, envp);
+	create_child_processes(command, gen);
 	close_pipes(gen);
 	if(command->redirs.is_heredoc)
 		unlink("heredoc.txt");

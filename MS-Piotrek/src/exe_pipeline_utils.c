@@ -34,19 +34,19 @@ void	close_pipes(t_gen *gen)
 	}
 }
 
-void	create_child_processes(t_command *command, t_gen *gen, char **envp)
+void	create_child_processes(t_command *command, t_gen *gen)
 {
 	int	i;
 
 	i = 0;
 	while (command)
 	{
-		command->path = find_path(command->args[0], envp);
+		command->path = find_path(command->args[0], gen->envs);
 		// printf("path to cmd%d: %s\n", i + 1, command->path);
 		gen->pids[i] = fork();
 		if (gen->pids[i] == 0)
 		{
-			ft_child_process(command, gen, i, envp);
+			ft_child_process(command, gen, i);
 			exit(0);
 		}
 		command = command->next;
