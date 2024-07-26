@@ -41,6 +41,7 @@ typedef struct s_gen
     int num_of_cmds;
     int **pipes;
     int *pids;
+    char **envs;
     t_history *history;
 } t_gen;
 
@@ -62,7 +63,7 @@ void	init_pipes(t_gen *gen);
 //void	handle_input_redir(t_redirs *redirs);
 void	ft_error(char *str);
 void	ft_child_process(t_command *command, t_gen *gen, int i, char **envp);
-void	process_input(t_gen *gen, t_redirs *redirs, char *input, char **envp);
+void	process_input(t_gen *gen, t_redirs *redirs, char *input);
 void	init_structs(t_gen **gen, t_redirs **redirs);
 t_command	*create_new_command(char *token);
 void	handle_redirections(t_command *new_cmd, char *arg, char **saveptr2);

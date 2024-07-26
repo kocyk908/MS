@@ -70,6 +70,11 @@ void ft_display_history_list(t_gen *gen)
 	}
 }
 
+// void ft_export_env(t_gen *gen)
+// {
+
+// }
+
 int	is_builtin(char *cmd)
 {
 	return (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "cd") == 0
@@ -91,7 +96,7 @@ void	init_structs(t_gen **gen, t_redirs **redirs)
 	}
 }
 
-void	process_input(t_gen *gen, t_redirs *redirs, char *input, char **envp)
+void	process_input(t_gen *gen, t_redirs *redirs, char *input)
 {
 	t_command	*cmd_list;
 
@@ -103,9 +108,9 @@ void	process_input(t_gen *gen, t_redirs *redirs, char *input, char **envp)
 	gen->num_of_cmds = ft_count_cmds(cmd_list);
 
 	if (cmd_list && is_builtin(cmd_list->args[0]))
-		execute_builtin(cmd_list, gen, envp);
+		execute_builtin(cmd_list, gen, gen->envs);
 	else
-		execute_pipeline(cmd_list, gen, redirs, envp);
+		execute_pipeline(cmd_list, gen, redirs, gen->envs);
 	free_command(cmd_list);
 }
 
@@ -118,12 +123,13 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	init_structs(&gen, &redirs);
+	gen->envs = envp;
 	while (1)
 	{
 		input = readline("msh> ");
 		if (input && *input != '\0')
 		{
-			process_input(gen, redirs, input, envp);
+			process_input(gen, redirs, input);
 			free(input);
 		}
 		else
