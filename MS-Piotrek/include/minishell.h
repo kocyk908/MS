@@ -94,7 +94,7 @@ void free_command(t_command *command);
 int	ft_count_cmds(t_command *command);
 void    print_error(char *cmd);
 void	ft_error(char *str);
-
+int	if_whitespace(char *str);
 
 
 

@@ -58,7 +58,7 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		input = readline("msh> ");
-		if (input && *input != '\0')
+		if (input && *input != '\0' && !if_whitespace(input))
 		{
 			process_input(gen, redirs, input);
 			free(input);
