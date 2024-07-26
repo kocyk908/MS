@@ -1,16 +1,24 @@
 #include "minishell.h"
 
-// void ft_export_env(t_gen *gen)
-// {
-// 	char **temp;
+void ft_export_env(t_gen *gen, char *env)
+{
+	char **temp;
+	int i;
 
-// }
+	temp = gen->envs;
+	i = 0;
+	while(temp[i] != NULL)
+	{
+		i++;
+		printf("- %s\n", temp[i]);
+	}
+}
 
 int	is_builtin(char *cmd)
 {
 	return (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "cd") == 0
 		|| ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "exit") == 0)
-		|| (ft_strcmp(cmd, "history") == 0);
+		|| (ft_strcmp(cmd, "history") == 0) || (ft_strcmp(cmd, "export") == 0);
 }
 
 void	init_structs(t_gen **gen, t_redirs **redirs)

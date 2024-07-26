@@ -45,8 +45,6 @@ typedef struct s_gen
     t_history *history;
 } t_gen;
 
-int is_builtin(char *cmd);
-void	execute_builtin(t_command *command, t_gen *gen);
 void execute_command(char *command);
 // char *find_path(char *cmd, char **envp);
 char	*concat_path(const char *dir, const char *cmd);
@@ -95,7 +93,11 @@ int	ft_count_cmds(t_command *command);
 void    print_error(char *cmd);
 void	ft_error(char *str);
 
+// build-ins
 
+int     is_builtin(char *cmd);
+void	execute_builtin(t_command *command, t_gen *gen);
+void    ft_export_env(t_gen *gen, char *env);
 
 
 // void    builtin_env(void);
