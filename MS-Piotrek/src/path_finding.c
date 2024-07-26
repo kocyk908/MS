@@ -49,6 +49,8 @@ char	*find_path(char *cmd1, char **envp)
 	char	*temp;
 	char	*cmd_mod;
 
+	if (access(cmd1, X_OK) == 0)
+		return (cmd1);
 	valid_path = NULL;
 	temp = ft_strdup("/");
 	cmd_mod = ft_strjoin(temp, cmd1);
