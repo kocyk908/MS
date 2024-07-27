@@ -2,10 +2,8 @@ Update 27.07
 
 - sygnały ctrl+D i ctrl+\ działa, chyba że jest jakiś case o którym nie pomyślałem
 - przy ctrl+C jest problem jak sie zrobi przykładowo:
-  
-msh cat
-ctrl+c
-msh msh 
+![image](https://github.com/user-attachments/assets/c920aa93-7c40-419e-b32e-21dfa41bb3da)
+
 
 Update 24.07
 
