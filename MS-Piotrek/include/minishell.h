@@ -2,6 +2,7 @@
 # define MINISHELL_H
 
 # include <stdlib.h>
+# include <signal.h>
 # include <stdio.h>
 # include <string.h>
 # include <unistd.h>
@@ -96,7 +97,11 @@ void    print_error(char *cmd);
 void	ft_error(char *str);
 int	if_whitespace(char *str);
 
+// signals
 
+void	signal_d(void);
+void	signal_c(int sig);
+void	init_signals(void);
 
 // void    builtin_env(void);
 // void    init_global_envp(char **envp);

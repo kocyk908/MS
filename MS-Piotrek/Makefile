@@ -4,7 +4,7 @@ CFLAGS	=	-g -I include
 
 SRCS = $(wildcard src/*.c)
 
-# SRCS	=	src/main.c src/exe_pipeline_utils.c src/execute_pipeline.c src/parsing.c src/execute_builtin.c src/path_finding.c src/parsing_utils.c src/redirections.c src/env.c
+# SRCS	=	src/main.c src/exe_pipeline_utils.c src/execute_pipeline.c src/parsing.c src/execute_builtin.c src/path_finding.c src/parsing_utils.c src/redirections.c src/env.c src/signals.c
 
 LIBFT	=	$(wildcard libft/*.c)
 

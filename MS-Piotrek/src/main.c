@@ -53,6 +53,7 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
+	init_signals();
 	init_structs(&gen, &redirs);
 	gen->envs = envp;
 	while (1)
@@ -63,6 +64,8 @@ int	main(int ac, char **av, char **envp)
 			process_input(gen, redirs, input);
 			free(input);
 		}
+		else if (!input)  // Obsługa CTRL+D
+			signal_d();
 		else
 			free(input);
 	}
