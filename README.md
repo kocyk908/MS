@@ -1,3 +1,10 @@
+Update 27.07
+
+- sygnały ctrl+D i ctrl+\ działa, chyba że jest jakiś case o którym nie pomyślałem
+- przy ctrl+C jest problem jak sie zrobi przykładowo:
+>msh cat
+ctrl+c
+>msh >msh  
 
 Update 24.07
 
