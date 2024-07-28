@@ -1,3 +1,10 @@
+Update 28.07
+
+- Funkcja create_new_command nie korzysta z parametru który ma podany, na razie zrobiłem ten myk z (void)token; ale można po prostu zrobić parametr funckji jako void. 
+- zrobiony export 
+- poczyszczone trochę lekaów
+- wróciły flagi wall wxtra werror
+
 Update 27.07
 
 - sygnały ctrl+D i ctrl+\ działa, chyba że jest jakiś case o którym nie pomyślałem
@@ -5,9 +12,6 @@ Update 27.07
 ![image](https://github.com/user-attachments/assets/c920aa93-7c40-419e-b32e-21dfa41bb3da)
 
 
-Update 28.07
-
-- Funkcja create_new_command nie kożysta z parametru który ma podany, na razie zrobiłem ten myk z (void)token; ale można po prostu zrobić parametr funckji jako void. 
 
 Update 24.07
 
