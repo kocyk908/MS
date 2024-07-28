@@ -32,9 +32,7 @@ void ft_display_history_list(t_gen *gen)
 {
 	t_history *temp;
 	temp = gen->history;
-	int i;
 
-	i = 0;
 	while(temp != NULL)
 	{
 		printf("%d  %s\n",temp->num, temp->input);

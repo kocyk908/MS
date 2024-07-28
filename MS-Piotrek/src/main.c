@@ -1,22 +1,18 @@
 #include "minishell.h"
 
-// void ft_export_env(t_gen *gen)
-// {
-// 	char **temp;
-
-// }
-
 int	is_builtin(char *cmd)
 {
 	return (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "cd") == 0
 		|| ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "exit") == 0)
-		|| (ft_strcmp(cmd, "history") == 0);
+		|| (ft_strcmp(cmd, "history") == 0) || (ft_strcmp(cmd, "export") == 0);
 }
 
 void	init_structs(t_gen **gen, t_redirs **redirs)
 {
 	*gen = malloc(sizeof(t_gen));
 	*redirs = malloc(sizeof(t_redirs));
+    (*gen)->history = NULL; 
+
 	if (!(*gen) || !(*redirs))
 	{
 		if (*gen)
@@ -27,7 +23,7 @@ void	init_structs(t_gen **gen, t_redirs **redirs)
 	}
 }
 
-void	process_input(t_gen *gen, t_redirs *redirs, char *input)
+void	process_input(t_gen *gen, char *input)
 {
 	t_command	*cmd_list;
 
@@ -41,7 +37,12 @@ void	process_input(t_gen *gen, t_redirs *redirs, char *input)
 	if (cmd_list && is_builtin(cmd_list->args[0]))
 		execute_builtin(cmd_list, gen);
 	else
-		execute_pipeline(cmd_list, gen, redirs);
+	{
+		execute_pipeline(cmd_list, gen);
+		ft_free_path(cmd_list);
+		free(gen->pipes);
+		free(gen->pids);
+	}
 	free_command(cmd_list);
 }
 
@@ -55,13 +56,13 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	init_signals();
 	init_structs(&gen, &redirs);
-	gen->envs = envp;
+	ft_copy_envp(gen, envp);
 	while (1)
 	{
 		input = readline("msh> ");
 		if (input && *input != '\0' && !if_whitespace(input))
 		{
-			process_input(gen, redirs, input);
+			process_input(gen, input);
 			free(input);
 		}
 		else if (!input)  // Obsługa CTRL+D
@@ -69,6 +70,8 @@ int	main(int ac, char **av, char **envp)
 		else
 			free(input);
 	}
+	ft_free_arr(gen->envs);
+	// ft_free_history(gen->history);
 	return (0);
 }
 

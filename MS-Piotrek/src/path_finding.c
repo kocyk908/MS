@@ -21,24 +21,26 @@ void	ft_freemem(char **arr)
 
 char	*ft_path_cmp(char **arr, char *cmd_mod)
 {
-	char	*valid_path;
+	// char	*valid_path;
 	char	*temp;
 	int		counter;
 
 	counter = 0;
-	valid_path = NULL;
+	// valid_path = NULL;
 	while (arr[counter])
 	{
 		temp = ft_strjoin(arr[counter], cmd_mod);
 		if (access(temp, X_OK) == 0)
 		{
-			valid_path = temp;
+			// valid_path = temp;
+			// free(temp);
+			// printf("found valid path: %s\n", valid_path);
 			break ;
 		}
 		free(temp);
 		counter++;
 	}
-	return (valid_path);
+	return (temp);
 }
 
 char	*find_path(char *cmd1, char **envp)

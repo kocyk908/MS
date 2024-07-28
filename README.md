@@ -5,12 +5,19 @@ Update 27.07
 ![image](https://github.com/user-attachments/assets/c920aa93-7c40-419e-b32e-21dfa41bb3da)
 
 
+Update 28.07
+
+- Funkcja create_new_command nie kożysta z parametru który ma podany, na razie zrobiłem ten myk z (void)token; ale można po prostu zrobić parametr funckji jako void. 
+
 Update 24.07
 
 - ft_strcmp albo ja czegoś nie kumam albo ta funkcja działą na odwrót. 
-    Myślałem że zwróci true (1) jeżeli stringi będą takie same :)
+    Myślałem że zwróci true (1) jeżeli stringi będą takie same
     Anyway zrobiłem !ft_strcmp i mam pożądany efekt
 - wrzucam listę na dole tego readme do malloców których nie zwolniłem.
+    Będę uzupełniał na bieżąco. Jak się zrobi to się oznaczy o tak (done)
+- nie zgadzają nam się czasmi komunikaty błędów. W bashu co innego u nas co innego.
+    Nie wiem czy tak może być.
 
 
 Update 23.07
@@ -32,8 +39,10 @@ do komendy env użyłem zmiennej globalnej, żeby pobierać zawartość env z ko
 
 ------------------
 
-https://CVb3d202342evals.com
+https://42evals.com/
 CVb3d2023
+
+------------------
 
 Update 11.07.24
 

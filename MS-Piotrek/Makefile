@@ -1,6 +1,6 @@
 NAME	=	minishell
 CC		=	gcc
-CFLAGS	=	-g -I include
+CFLAGS	=	-g -I include -Wall -Wextra -Werror
 
 SRCS = $(wildcard src/*.c)
 
