@@ -11,6 +11,8 @@ Update 27.07
 - przy ctrl+C jest problem jak sie zrobi przykładowo:
 ![image](https://github.com/user-attachments/assets/c920aa93-7c40-419e-b32e-21dfa41bb3da)
 
+No ale to tka ma działać :) (image.png)
+
 
 
 Update 24.07
