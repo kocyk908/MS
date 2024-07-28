@@ -1,11 +1,13 @@
 #include "minishell.h"
 
-void	builtin_echo(char **args)
+void	builtin_echo(char **args, t_redirs *redirs)
 {
 	int		i;
 	int		j;
+	int		fd;
 	bool	n;
 
+	fd = 1;
 	i = 1; // bo 0 to echo
 	n = false;
 	while (args[i] && args[i][0] == '-')
@@ -21,15 +23,19 @@ void	builtin_echo(char **args)
 		else
 			break ;
 	}
+	if (redirs->is_append)
+		fd = redirs->output_redir;
+	else
+		fd = STDOUT_FILENO;
 	while (args[i])
 	{
-		printf("%s", args[i]);
+		ft_putstr_fd(args[i], fd);
 		if (args[i + 1])
-			printf(" ");
+			ft_putstr_fd(" ", fd);
 		i++;
 	}
-	if (n == false)
-		printf("\n");
+	if (!n || redirs->is_append)
+		ft_putstr_fd("\n", fd);
 }
 
 void	builtin_cd(char **args)
@@ -117,7 +123,7 @@ void	builtin_exit(char **args)
 void	execute_builtin(t_command *command, t_gen *gen)
 {
 	if (ft_strcmp(command->args[0], "echo") == 0)
-		builtin_echo(command->args);
+		builtin_echo(command->args, &command->redirs);
 	else if (ft_strcmp(command->args[0], "cd") == 0)
 		builtin_cd(command->args);
 	else if (ft_strcmp(command->args[0], "pwd") == 0)

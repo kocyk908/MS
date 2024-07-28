@@ -11,7 +11,7 @@ void	init_structs(t_gen **gen, t_redirs **redirs)
 {
 	*gen = malloc(sizeof(t_gen));
 	*redirs = malloc(sizeof(t_redirs));
-    (*gen)->history = NULL; 
+	(*gen)->history = NULL; 
 
 	if (!(*gen) || !(*redirs))
 	{

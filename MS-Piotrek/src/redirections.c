@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include <errno.h>
 
 void	handle_input_redir(t_redirs *redirs, char **saveptr2)
 {
@@ -56,10 +57,19 @@ void	handle_output_redir(t_redirs *redirs, char **saveptr2)
 void	handle_append_redir(t_redirs *redirs, char **saveptr2)
 {
 	char	*arg;
+	int	fd;
 
 	arg = ft_strtok_r(NULL, " ", saveptr2);
-	redirs->output_redir = open(arg, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (redirs->output_redir == -1)
-		perror("open append redir");
+	fd = open(arg, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (fd == -1)
+	{
+		fd = open(arg, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd == -1)
+		{
+			perror("open append redir");
+			return ;
+		}
+	}
+	redirs->output_redir = fd;
 	redirs->is_append = 1;
 }
