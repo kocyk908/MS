@@ -29,7 +29,12 @@ void	builtin_echo(char **args, t_redirs *redirs)
 		fd = STDOUT_FILENO;
 	while (args[i])
 	{
-		ft_putstr_fd(args[i], fd);
+		//if (args[i][0] == '$')
+		//{
+		//	ft_env_val() //not sure jak chcesz do tego podejść to zostawie tak narazie
+		//}
+		//else
+			ft_putstr_fd(args[i], fd);
 		if (args[i + 1])
 			ft_putstr_fd(" ", fd);
 		i++;
