@@ -3,6 +3,7 @@
 t_command	*create_new_command(char *token)
 {
 	t_command	*new_cmd;
+	(void)token; // function should take void paramater
 
 	new_cmd = malloc(sizeof(t_command));
 	if (!new_cmd)

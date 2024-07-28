@@ -16,6 +16,7 @@ char	*fr_strcpy(char *dest, const char *src)
 {
 	char	*original_dest;
 
+	original_dest = dest;
 	while (*src)
 	{
 		*dest++ = *src++;

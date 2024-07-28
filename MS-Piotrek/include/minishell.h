@@ -49,7 +49,7 @@ void execute_command(char *command);
 // char *find_path(char *cmd, char **envp);
 char	*concat_path(const char *dir, const char *cmd);
 //void	handle_input_redir(t_redirs *redirs);
-void	process_input(t_gen *gen, t_redirs *redirs, char *input);
+void	process_input(t_gen *gen, char *input);
 void	init_structs(t_gen **gen, t_redirs **redirs);
 t_command	*create_new_command(char *token);
 void	handle_redirections(t_command *new_cmd, char *arg, char **saveptr2);
@@ -67,7 +67,7 @@ t_command *parse_command(char *input);
 
 void	init_pipes(t_gen *gen);
 char	*find_path(char *cmd1, char **envp);
-int     execute_pipeline(t_command *command, t_gen *gen, t_redirs *redirs);
+int     execute_pipeline(t_command *command, t_gen *gen);
 void	create_child_processes(t_command *command, t_gen *gen);
 void	ft_child_process(t_command *command, t_gen *gen, int i);
 void    ft_read_fd(t_command *command, t_gen *gen, int i);
@@ -88,16 +88,28 @@ void ft_display_history_list(t_gen *gen);
 
 // utils
 
-void free_command(t_command *command);
 int	ft_count_cmds(t_command *command);
 void    print_error(char *cmd);
 void	ft_error(char *str);
+
+// free 
+
+void free_command(t_command *command);
+void ft_free_arr(char **arr);
+void ft_free_path(t_command *command);
+
 
 // build-ins
 
 int     is_builtin(char *cmd);
 void	execute_builtin(t_command *command, t_gen *gen);
 void    ft_export_env(t_gen *gen, char *env);
+
+// envp
+
+void ft_export_env(t_gen *gen, char *env);
+void ft_copy_envp(t_gen *gen, char **envp);
+
 
 
 // void    builtin_env(void);

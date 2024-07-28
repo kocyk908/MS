@@ -43,12 +43,11 @@ void	ft_child_process(t_command *command, t_gen *gen,
 {
 	ft_read_fd(command, gen, i);
 	ft_write_fd(command, gen, i);
-	if(execve(command->path, command->args, gen->envs) == -1); 
+	if(execve(command->path, command->args, gen->envs) == -1) 
 			perror("Error!");
 }
 
-int	execute_pipeline(t_command *command, t_gen *gen,
-			t_redirs *redirs)
+int	execute_pipeline(t_command *command, t_gen *gen)
 {
 	int	i;
 
