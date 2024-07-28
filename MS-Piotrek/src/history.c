@@ -4,6 +4,7 @@ void ft_history_list(t_gen *gen, char *input)
 {
     t_history *new_node;
     t_history *current;
+    // gen->history = NULL; // if norm gonna cry move this line
     new_node = malloc(sizeof(t_history)); // free every t_history
     new_node->input = ft_strdup(input); // free every input
     new_node->next = NULL;

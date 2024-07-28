@@ -132,6 +132,6 @@ void	execute_builtin(t_command *command, t_gen *gen)
 	// 	builtin_env();
 	else if (ft_strcmp(command->args[0], "history") == 0)
 		ft_display_history_list(gen);
-	else if (ft_strcmp(command->args[0], "history") == 0)
-		ft_display_history_list(gen);
+	else if (ft_strcmp(command->args[0], "export") == 0)
+		ft_export_env(gen, command->args[1]);
 }

@@ -1,17 +1,55 @@
 #include "minishell.h"
 
+// void ft_free_arr(t_gen *gen)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	while(gen->envs[i] != NULL)
+// 	{
+// 		free(gen->envs[i]);
+// 		i++;
+// 	}
+// 	free(gen->envs);
+// 	gen->envs = NULL;
+// }
+
+void ft_free_arr(char **arr)
+{
+	int i;
+
+	i = 0;
+	while(arr[i] != NULL)
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+	arr = NULL;
+}
+
 void ft_export_env(t_gen *gen, char *env)
 {
 	char **temp;
+	int env_len;
 	int i;
 
-	temp = gen->envs;
+	env_len = 0;
+	while(gen->envs[env_len] != NULL)
+		env_len++;
+	temp = malloc(sizeof(char *) * (env_len + 2));
 	i = 0;
-	while(temp[i] != NULL)
-	{
-		i++;
-		printf("- %s\n", temp[i]);
-	}
+	while(i < env_len)
+		temp[i++] = ft_strdup(gen->envs[i]);
+	temp[i] = ft_strdup(env);
+	temp[i + 1] = NULL;
+	ft_free_arr(gen->envs);
+	gen->envs = malloc(sizeof(char *) * (env_len + 2));
+	i = 0;
+	while(temp[i])
+		gen->envs[i++] = ft_strdup(temp[i]);
+	gen->envs[i] = NULL;
+	ft_free_arr(temp);
 }
 
 int	is_builtin(char *cmd)
@@ -25,6 +63,8 @@ void	init_structs(t_gen **gen, t_redirs **redirs)
 {
 	*gen = malloc(sizeof(t_gen));
 	*redirs = malloc(sizeof(t_redirs));
+    (*gen)->history = NULL; // if norm gonna cry move this line
+
 	if (!(*gen) || !(*redirs))
 	{
 		if (*gen)
@@ -32,6 +72,16 @@ void	init_structs(t_gen **gen, t_redirs **redirs)
 		if (*redirs)
 			free(*redirs);
 		exit(EXIT_FAILURE);
+	}
+}
+
+void ft_free_path(t_command *command)
+{
+	while(command != NULL)
+	{
+		free(command->path);
+		command->path = NULL;
+		command = command->next;
 	}
 }
 
@@ -49,8 +99,30 @@ void	process_input(t_gen *gen, t_redirs *redirs, char *input)
 	if (cmd_list && is_builtin(cmd_list->args[0]))
 		execute_builtin(cmd_list, gen);
 	else
+	{
 		execute_pipeline(cmd_list, gen, redirs);
+		ft_free_path(cmd_list);
+		free(gen->pipes);
+		free(gen->pids);
+	}
 	free_command(cmd_list);
+}
+
+void ft_copy_envp(t_gen *gen, char **envp)
+{
+	int env_len;
+
+	env_len = 0;
+	while(envp[env_len])
+		env_len++;
+	gen->envs = malloc(sizeof(char *) * (env_len + 1));
+	env_len = 0;
+	while(envp[env_len])
+	{
+		gen->envs[env_len] = ft_strdup(envp[env_len]);
+		env_len++;
+	}
+	gen->envs[env_len] = NULL;
 }
 
 int	main(int ac, char **av, char **envp)
@@ -62,7 +134,7 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	init_structs(&gen, &redirs);
-	gen->envs = envp;
+	ft_copy_envp(gen, envp);
 	while (1)
 	{
 		input = readline("msh> ");
@@ -74,6 +146,8 @@ int	main(int ac, char **av, char **envp)
 		else
 			free(input);
 	}
+	ft_free_arr(gen->envs);
+	// ft_free_history(gen->history);
 	return (0);
 }
 
