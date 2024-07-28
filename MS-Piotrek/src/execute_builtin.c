@@ -23,7 +23,7 @@ void	builtin_echo(char **args, t_redirs *redirs)
 		else
 			break ;
 	}
-	if (redirs->is_append)
+	if (redirs->is_append || redirs->output_redir != -1)
 		fd = redirs->output_redir;
 	else
 		fd = STDOUT_FILENO;
