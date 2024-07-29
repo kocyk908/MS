@@ -47,15 +47,12 @@ typedef struct s_gen
 } t_gen;
 
 void execute_command(char *command);
-// char *find_path(char *cmd, char **envp);
 char	*concat_path(const char *dir, const char *cmd);
 //void	handle_input_redir(t_redirs *redirs);
 void	process_input(t_gen *gen, char *input);
 void	init_structs(t_gen **gen, t_redirs **redirs);
 t_command	*create_new_command(char *token);
-void	handle_redirections(t_command *new_cmd, char *arg, char **saveptr2);
 void	add_command_to_list(t_command **head, t_command **current, t_command *new_cmd);
-void	parse_arguments(t_command *new_cmd, char *token);
 
 // parsing 
 
@@ -63,6 +60,7 @@ char	*ft_strtok_r(char *str, const char *delim, char **saveptr);	// Dzieli delim
 size_t	ft_strcspn(const char *str, const char *delim);
 size_t ft_strspn(const char *str, const char *delim);
 t_command *parse_command(char *input);
+void	parse_arguments(t_command *new_cmd, char *token);
 
 // pipex
 
@@ -81,6 +79,7 @@ void	handle_input_redir(t_redirs *redirs, char **saveptr2);
 void	handle_heredoc(t_redirs *redirs, char **saveptr2);
 void	handle_output_redir(t_redirs *redirs, char **saveptr2);
 void	handle_append_redir(t_redirs *redirs, char **saveptr2);
+void	handle_redirections(t_command *new_cmd, char *arg, char **saveptr2);
 
 // history
 
@@ -93,6 +92,8 @@ int	ft_count_cmds(t_command *command);
 void    print_error(char *cmd);
 void	ft_error(char *str);
 int	if_whitespace(char *str);
+void ft_copy_arr(char **dest, char **src, int arr_len);
+
 
 // free 
 
@@ -111,6 +112,8 @@ void    ft_export_env(t_gen *gen, char *env);
 
 void ft_export_env(t_gen *gen, char *env);
 void ft_copy_envp(t_gen *gen, char **envp);
+void ft_unset_env(t_gen *gen, char *env);
+
 
 // signal
 

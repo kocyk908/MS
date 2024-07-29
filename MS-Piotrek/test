@@ -75,3 +75,16 @@ int execute_pipeline(t_command *command, t_gen *gen, t_redirs *redirs, char **en
     }
     return 0;
 }
+
+
+void ft_copy_arr(char ***dest, char **src, int arr_len)
+{
+	int i;
+
+	i = 0;
+	while(i < arr_len)
+    {
+		(*dest)[i] = ft_strdup(src[i]);
+        i++;
+    }
+}

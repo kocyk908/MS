@@ -11,6 +11,7 @@ void	handle_input_redir(t_redirs *redirs, char **saveptr2)
 		perror("open input redir");
 }
 
+
 void	handle_heredoc(t_redirs *redirs, char **saveptr2)
 {
 	char	*arg;
@@ -27,7 +28,10 @@ void	handle_heredoc(t_redirs *redirs, char **saveptr2)
 		if(ft_strncmp(str, arg, ft_strlen(arg)) == 0)
 		{
 			if(temp)
+			{
 				ft_putstr_fd(temp, redirs->input_redir);
+				ft_putchar_fd('\n', redirs->input_redir);
+			}
 			break;
 		}
 		else
@@ -40,6 +44,7 @@ void	handle_heredoc(t_redirs *redirs, char **saveptr2)
 			temp = str;
 		}
 	}
+	// ft_putchar_fd('\n', redirs->input_redir);
 	close(redirs->input_redir);
 	redirs->input_redir = open("heredoc.txt", O_RDONLY);
 }

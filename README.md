@@ -1,3 +1,10 @@
+Update 29.07
+
+- Zrobiłem prowizorkę w proces_input:
+    	if(!cmd_list->args[0])
+		return;
+    Zabezpiecza przed brakiem parametru przed < i <<
+
 Update 28.07
 
 - Funkcja create_new_command nie korzysta z parametru który ma podany, na razie zrobiłem ten myk z (void)token; ale można po prostu zrobić parametr funckji jako void. 

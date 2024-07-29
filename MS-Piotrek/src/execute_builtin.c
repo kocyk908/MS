@@ -135,12 +135,8 @@ void	execute_builtin(t_command *command, t_gen *gen)
 		builtin_pwd();
 	else if (ft_strcmp(command->args[0], "exit") == 0)
 		builtin_exit(command->args);
-	//else if (ft_strcmp(command->args[0], "export") == 0)
-	//	builtin_export(command->args);
-	//else if (ft_strcmp(command->args[0], "unset") == 0)
-	//	builtin_unset(command->args);
-	// else if (ft_strcmp(command->args[0], "env") == 0)
-	// 	builtin_env();
+	else if (ft_strcmp(command->args[0], "unset") == 0)
+		ft_unset_env(gen, command->args[1]);
 	else if (ft_strcmp(command->args[0], "history") == 0)
 		ft_display_history_list(gen);
 	else if (ft_strcmp(command->args[0], "export") == 0)

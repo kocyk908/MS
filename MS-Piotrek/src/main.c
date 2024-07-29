@@ -4,7 +4,8 @@ int	is_builtin(char *cmd)
 {
 	return (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "cd") == 0
 		|| ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "exit") == 0)
-		|| (ft_strcmp(cmd, "history") == 0) || (ft_strcmp(cmd, "export") == 0);
+		|| (ft_strcmp(cmd, "history") == 0) || (ft_strcmp(cmd, "export") == 0) 
+		|| (ft_strcmp(cmd, "unset") == 0);
 }
 
 void	init_structs(t_gen **gen, t_redirs **redirs)
@@ -32,6 +33,8 @@ void	process_input(t_gen *gen, char *input)
 
 	cmd_list = parse_command(input);
 
+	if(!cmd_list->args[0]) // case for missing arg before < or <<
+		return;
 	gen->num_of_cmds = ft_count_cmds(cmd_list);
 
 	if (cmd_list && is_builtin(cmd_list->args[0]))
