@@ -19,22 +19,20 @@ void	ft_freemem(char **arr)
 	free(arr);
 }
 
-char	*ft_path_cmp(char **arr, char *cmd_mod)
+char	*ft_path_cmp(t_gen *gen, char **arr, char *cmd_mod)
 {
-	// char	*valid_path;
 	char	*temp;
 	int		counter;
 
 	counter = 0;
-	// valid_path = NULL;
+	gen->isPath = 0;
+	temp = NULL;
 	while (arr[counter])
 	{
 		temp = ft_strjoin(arr[counter], cmd_mod);
 		if (access(temp, X_OK) == 0)
 		{
-			// valid_path = temp;
-			// free(temp);
-			// printf("found valid path: %s\n", valid_path);
+			gen->isPath = 1;
 			break ;
 		}
 		free(temp);
@@ -43,13 +41,14 @@ char	*ft_path_cmp(char **arr, char *cmd_mod)
 	return (temp);
 }
 
-char	*find_path(char *cmd1, char **envp)
+char	*find_path(char *cmd1, t_gen *gen)
 {
 	char	*valid_path;
 	char	*var_path;
 	char	**arr;
 	char	*temp;
 	char	*cmd_mod;
+	int 	i;
 
 	if (access(cmd1, X_OK) == 0)
 		return (cmd1);
@@ -57,16 +56,17 @@ char	*find_path(char *cmd1, char **envp)
 	temp = ft_strdup("/");
 	cmd_mod = ft_strjoin(temp, cmd1);
 	free(temp);
-	while (*envp)
+	i = 0;
+	while (gen->envs[i])
 	{
-		var_path = ft_strnstr(*envp, "PATH", 4);
+		var_path = ft_strnstr(gen->envs[i], "PATH", 4);
 		if (var_path)
 		{
 			arr = ft_split(var_path, ':');
-			valid_path = ft_path_cmp(arr, cmd_mod);
+			valid_path = ft_path_cmp(gen, arr, cmd_mod);
 			ft_freemem(arr);
 		}
-		envp++;
+		i++;
 	}
 	free(cmd_mod);
 	if (!valid_path)

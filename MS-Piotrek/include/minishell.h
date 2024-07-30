@@ -42,6 +42,7 @@ typedef struct s_gen
     int num_of_cmds;
     int **pipes;
     int *pids;
+    int isPath;
     char **envs;
     t_history *history;
 } t_gen;
@@ -65,7 +66,7 @@ void	parse_arguments(t_command *new_cmd, char *token);
 // pipex
 
 void	init_pipes(t_gen *gen);
-char	*find_path(char *cmd1, char **envp);
+char	*find_path(char *cmd1, t_gen * gen);
 int     execute_pipeline(t_command *command, t_gen *gen);
 void	create_child_processes(t_command *command, t_gen *gen);
 void	ft_child_process(t_command *command, t_gen *gen, int i);

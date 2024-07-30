@@ -43,6 +43,7 @@ void	ft_child_process(t_command *command, t_gen *gen,
 {
 	ft_read_fd(command, gen, i);
 	ft_write_fd(command, gen, i);
+	printf("CURRENT PATH: %s\n", command->path);
 	if(execve(command->path, command->args, gen->envs) == -1) 
 			perror("Error!");
 }

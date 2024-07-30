@@ -42,7 +42,8 @@ void	process_input(t_gen *gen, char *input)
 	else
 	{
 		execute_pipeline(cmd_list, gen);
-		ft_free_path(cmd_list);
+		if(gen->isPath == 1)
+			ft_free_path(cmd_list);
 		free(gen->pipes);
 		free(gen->pids);
 	}
