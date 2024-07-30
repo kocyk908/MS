@@ -14,7 +14,7 @@
 - **Spaces or Tabs Only**: Handle lines with only spaces or tabs ✔✔
 
 ## Arguments
-- **Execute `/bin/ls` with Arguments**: (Clarification needed) ?
+- **Execute `/bin/ls` with Arguments**: (nie jestem pewny czy rozumiem) ?
 
 ## Echo
 - **Echo with and without Arguments**: ✔
@@ -34,14 +34,14 @@
 - **Ctrl-C in Non-Empty Prompt**: Display a new line with a new prompt, buffer should be clean ✔
 - **Ctrl-D in Non-Empty Prompt**: No action ✔
 - **Ctrl-\ in Non-Empty Prompt**: No action ✔
-- **Ctrl-C after Blocking Command**: Proper handling with a new prompt ✔❌ Double prompt issue
+- **Ctrl-C after Blocking Command**: Proper handling with a new prompt ✔❌ Double prompt sie robi
 - **Ctrl-\ after Blocking Command**: ❌
 - **Ctrl-D after Blocking Command**: Properly exits ✔
 
 ## Double Quotes
 - **Simple Command with Arguments and Double Quotes**: ✔
 - **Command like `echo "cat lol.c | cat > lol.c"`**: ❌
-- **Anything except `$`**: (Clarification needed) ?
+- **Anything except `$`**: nie działa jeszce $
 
 ## Single Quotes
 - **Commands with Single Quotes as Arguments**: ✔
@@ -56,7 +56,7 @@
 
 ## Export
 - **Export Environment Variables, Create New Ones, Replace Old Ones**: ✔❌
-  - Issues with creating new variables without replacing old ones
+  nadpisanie nie działa, robią się nowe env o tej samej nazwie
 ![image](https://github.com/user-attachments/assets/ddf8b45f-bae4-46b8-93de-1fb53bf269be)
 - **Check Result with `env`**: ✔
 
