@@ -42,32 +42,51 @@ size_t	ft_strspn(const char *str, const char *delim) //oblicza dlugosc str sklad
 	return (s - str);
 }
 
-char	*ft_strtok_r(char *str, const char *delim, char **saveptr)	// Dzieli delimiterem zdanie 
+char	*handle_quotes(char *str, char **saveptr)
 {
+	char	quote;
+	char	*start;
 	char	*end;
+
+	quote = str[0];
+	start = str + 1;
+	end = ft_strchr(start, quote);
+	if (end)
+	{
+		*end = '\0';
+		*saveptr = end + 1;
+	}
+	else
+		*saveptr = str + ft_strlen(str);
+	return (start);
+}
+
+char	*ft_strtok_r(char *str, const char *delim, char **saveptr)
+{
+	char	*start;
 
 	if (!str)
 		str = *saveptr;
+	while (*str && ft_strchr(delim, *str))
+		str++;
 	if (*str == '\0')
 	{
 		*saveptr = str;
 		return (NULL);
 	}
-	str += ft_strspn(str, delim);
-	if (*str == '\0')
+	if (*str == '"' || *str == '\'')
+		return (handle_quotes(str, saveptr));
+	start = str;
+	while (*str && !ft_strchr(delim, *str))
+		str++;
+	if (*str)
 	{
+		*str = '\0';
+		*saveptr = str + 1;
+	}
+	else
 		*saveptr = str;
-		return (NULL);
-	}
-	end = str + ft_strcspn(str, delim);
-	if (*end == '\0')
-	{
-		*saveptr = end;
-		return (str);
-	}
-	*end = '\0';
-	*saveptr = end + 1;
-	return (str);
+	return (start);
 }
 
 t_command	*parse_command(char *input)

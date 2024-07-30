@@ -11,32 +11,31 @@ void	handle_input_redir(t_redirs *redirs, char **saveptr2)
 		perror("open input redir");
 }
 
-
 void	handle_heredoc(t_redirs *redirs, char **saveptr2)
 {
 	char	*arg;
 	char	*str;
-	char 	*temp;
+	char	*temp;
 
 	temp = NULL;
 	arg = ft_strtok_r(NULL, " ", saveptr2);
 	redirs->is_heredoc = 1;
 	redirs->input_redir = open("heredoc.txt", O_WRONLY | O_CREAT, 0644);
-	while(1)
+	while (1)
 	{
 		str = readline(">");
-		if(ft_strncmp(str, arg, ft_strlen(arg)) == 0)
+		if (ft_strncmp(str, arg, ft_strlen(arg)) == 0)
 		{
-			if(temp)
+			if (temp)
 			{
 				ft_putstr_fd(temp, redirs->input_redir);
 				ft_putchar_fd('\n', redirs->input_redir);
 			}
-			break;
+			break ;
 		}
 		else
 		{
-			if(temp)
+			if (temp)
 			{
 				ft_putstr_fd(temp, redirs->input_redir);
 				ft_putchar_fd('\n', redirs->input_redir);
@@ -52,7 +51,7 @@ void	handle_heredoc(t_redirs *redirs, char **saveptr2)
 void	handle_output_redir(t_redirs *redirs, char **saveptr2)
 {
 	char	*arg;
-	int	fd;
+	int		fd;
 
 	arg = ft_strtok_r(NULL, " ", saveptr2);
 	fd = open(arg, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -67,7 +66,7 @@ void	handle_output_redir(t_redirs *redirs, char **saveptr2)
 void	handle_append_redir(t_redirs *redirs, char **saveptr2)
 {
 	char	*arg;
-	int	fd;
+	int		fd;
 
 	arg = ft_strtok_r(NULL, " ", saveptr2);
 	fd = open(arg, O_WRONLY | O_CREAT | O_APPEND, 0644);
