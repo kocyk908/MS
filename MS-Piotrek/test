@@ -24,67 +24,92 @@ void ft_child_process(t_command *command, t_gen *gen, t_redirs *redirs, int i, c
 
 }
 
-int execute_pipeline(t_command *command, t_gen *gen, t_redirs *redirs, char **envp) {
+#include "minishell.h"
 
-    int i;
-    int id;
-
-    gen->num_of_cmds = 3;
-
-    char *lst_path[] = {
-        "/usr/bin/ls",
-        "/usr/bin/grep",
-        "/usr/bin/wc"
-    };  // to remove
-
-    redirs->input_redir1 = "infile.txt"; // to remove
-    
-
-    i = 0;
-    gen->pipes = malloc((gen->num_of_cmds - 1) * sizeof(int *)); // to free
-    while(i < gen->num_of_cmds - 1)
-    {
-        gen->pipes[i] = malloc(2 * sizeof(int)); // to free
-        if(pipe(gen->pipes[i]) == -1)
-            ft_error("Unable to create pipe"); 
-        i++;
-    }
-    i = 0;
-    gen->pids = malloc((gen->num_of_cmds + 1) * sizeof(int)); // to free
-
-    i = 0;
-    while(command)
-    {
-        command->path = lst_path[i]; // to remove
-        printf("path to cmd1: %s\n", command->path);
-         gen->pids[i] = fork();
-         if(gen->pids[i] == 0)
-         {
-            // ft_child_process(command, gen, redirs, i, envp); //finished here
-            return 0;
-         }
-         command = command->next;
-         i++;
-    }
-        printf("ok\n");
-    i = 0;
-    while(i < gen->num_of_cmds)
-    {
-        wait(NULL); 
-        i++;
-    }
-    return 0;
+void	print_error(char *cmd)
+{
+	printf("bash: '%s' not found\n", cmd);
+	return ;
 }
 
-
-void ft_copy_arr(char ***dest, char **src, int arr_len)
+void	ft_freemem(char **arr)
 {
+	int	j;
+
+	j = 0;
+	while (arr[j])
+	{
+		free(arr[j]);
+		j++;
+	}
+	free(arr);
+}
+
+char	*ft_path_cmp(t_gen *gen, char **arr, char *cmd_mod)
+{
+	char	*temp;
+	int		counter;
+
+	counter = 0;
+	gen->isPath = 0;
+	temp = NULL;
+	while (arr[counter])
+	{
+		temp = ft_strjoin(arr[counter], cmd_mod);
+		if (access(temp, X_OK) == 0)
+		{
+			gen->isPath = 1;
+			break ;
+		}
+		free(temp);
+		counter++;
+	}
+	return (temp);
+}
+
+char *find_path_vol2(t_gen *gen, char *cmd_mod)
+{
+	char	*valid_path;
+	char	*var_path;
+	char	**arr;
+
 	int i;
 
+	valid_path = NULL;
 	i = 0;
-	while(i < arr_len)
-    {
-		(*dest)[i] = ft_strdup(src[i]);
-        i++;
-    }
+	while (gen->envs[i])
+	{
+		var_path = ft_strnstr(gen->envs[i], "PATH", 4);
+		if (var_path)
+		{
+			arr = ft_split(var_path, ':');
+			valid_path = ft_path_cmp(gen, arr, cmd_mod);
+			ft_freemem(arr);
+		}
+		i++;
+	}
+	return(valid_path);
+}
+
+char	*find_path(char *cmd1, t_gen *gen)
+{
+	char	*valid_path;
+	// char	*var_path;
+	// char	**arr;
+	char	*temp;
+	char	*cmd_mod;
+	// int 	i;
+
+	if (access(cmd1, X_OK) == 0)
+		return (cmd1);
+	valid_path = NULL;
+	temp = ft_strdup("/");
+	cmd_mod = ft_strjoin(temp, cmd1);
+	free(temp);
+	
+	valid_path = find_path_vol2(gen, cmd_mod);
+	free(cmd_mod);
+	if (!valid_path)
+		print_error(cmd1);
+	return (valid_path);
 }

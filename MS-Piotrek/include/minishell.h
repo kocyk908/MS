@@ -16,10 +16,10 @@
 
 typedef struct s_redirs
 {
-    int input_redir;     // <  Plik wejściowy
-    int is_heredoc;      // << Heredoc flag
-    int output_redir;    // >  Plik wyjściowy
-    int is_append;       // >>  Append flag
+    int input_redir;     
+    int is_heredoc;      
+    int output_redir;    
+    int is_append;       // CZY TO JEST POTRZEBNE ?
 } t_redirs;
 
 typedef struct s_command
@@ -47,8 +47,8 @@ typedef struct s_gen
     t_history *history;
 } t_gen;
 
-void execute_command(char *command);
-char	*concat_path(const char *dir, const char *cmd);
+// void execute_command(char *command);
+// char	*concat_path(const char *dir, const char *cmd);
 //void	handle_input_redir(t_redirs *redirs);
 void	process_input(t_gen *gen, char *input);
 void	init_structs(t_gen **gen, t_redirs **redirs);
@@ -91,7 +91,6 @@ void ft_display_history_list(t_gen *gen);
 
 int	ft_count_cmds(t_command *command);
 void    print_error(char *cmd);
-void	ft_error(char *str);
 int	if_whitespace(char *str);
 void ft_copy_arr(char **dest, char **src, int arr_len);
 
@@ -100,6 +99,7 @@ void ft_copy_arr(char **dest, char **src, int arr_len);
 
 void free_command(t_command *command);
 void ft_free_arr(char **arr);
+void ft_free_pipes(t_gen *gen);
 void ft_free_path(t_command *command);
 
 
@@ -114,6 +114,8 @@ void    ft_export_env(t_gen *gen, char *env);
 void ft_export_env(t_gen *gen, char *env);
 void ft_copy_envp(t_gen *gen, char **envp);
 void ft_unset_env(t_gen *gen, char *env);
+char **ft_unset_env_vol2(t_gen *gen, char *env, int env_len);
+
 
 
 // signal

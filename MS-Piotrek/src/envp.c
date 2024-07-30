@@ -1,16 +1,12 @@
 #include "minishell.h"
 
-void ft_unset_env(t_gen *gen, char *env)
+char **ft_unset_env_vol2(t_gen *gen, char *env, int env_len)
 {
 	char **temp;
 	char *env_to_del;
-	int env_len;
 	int i;
 	int j;
 
-	env_len = 0;
-	while(gen->envs[env_len] != NULL)
-		env_len++;
 	temp = malloc(sizeof(char *) * env_len);
 	i = 0;
 	j = 0;
@@ -21,18 +17,25 @@ void ft_unset_env(t_gen *gen, char *env)
 		{
 			temp[j] = ft_strdup(gen->envs[i]);
 			free(gen->envs[i]);
-
 			j++;
-			// printf("KEPP THIS: %s\n", gen->envs[i]);
 		}
 		else
-		{
-			// printf("-----------DELETE THIS: %s\n", gen->envs[i]);
 			free(gen->envs[i]);
-		}
 		i++;
 	}
 	temp[j] = NULL;
+	return (temp);
+}
+
+void ft_unset_env(t_gen *gen, char *env)
+{
+	char **temp;
+	int env_len;
+
+	env_len = 0;
+	while(gen->envs[env_len] != NULL)
+		env_len++;
+	temp = ft_unset_env_vol2(gen, env, env_len);
 	free(gen->envs);
 	gen->envs = malloc(sizeof(char *) * (env_len + 1));
 	ft_copy_arr(gen->envs, temp, env_len - 1);

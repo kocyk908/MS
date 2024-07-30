@@ -24,6 +24,20 @@ void ft_free_path(t_command *command)
 	}
 }
 
+void ft_free_pipes(t_gen *gen)
+{
+		int i;
+
+		i = 0;
+		while(i < (gen->num_of_cmds - 1))
+		{
+			printf("ok\n");
+			free(gen->pipes[i]);
+			i++;
+		}
+		free(gen->pipes);
+}
+
 // void ft_free_history(t_history *node)
 // {
 // 	t_history *prev;

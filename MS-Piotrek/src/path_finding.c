@@ -6,18 +6,18 @@ void	print_error(char *cmd)
 	return ;
 }
 
-void	ft_freemem(char **arr)
-{
-	int	j;
+// void	ft_freemem(char **arr)
+// {
+// 	int	j;
 
-	j = 0;
-	while (arr[j])
-	{
-		free(arr[j]);
-		j++;
-	}
-	free(arr);
-}
+// 	j = 0;
+// 	while (arr[j])
+// 	{
+// 		free(arr[j]);
+// 		j++;
+// 	}
+// 	free(arr);
+// }
 
 char	*ft_path_cmp(t_gen *gen, char **arr, char *cmd_mod)
 {
@@ -41,21 +41,15 @@ char	*ft_path_cmp(t_gen *gen, char **arr, char *cmd_mod)
 	return (temp);
 }
 
-char	*find_path(char *cmd1, t_gen *gen)
+char *find_path_vol2(t_gen *gen, char *cmd_mod)
 {
 	char	*valid_path;
 	char	*var_path;
 	char	**arr;
-	char	*temp;
-	char	*cmd_mod;
-	int 	i;
 
-	if (access(cmd1, X_OK) == 0)
-		return (cmd1);
+	int i;
+
 	valid_path = NULL;
-	temp = ft_strdup("/");
-	cmd_mod = ft_strjoin(temp, cmd1);
-	free(temp);
 	i = 0;
 	while (gen->envs[i])
 	{
@@ -64,10 +58,27 @@ char	*find_path(char *cmd1, t_gen *gen)
 		{
 			arr = ft_split(var_path, ':');
 			valid_path = ft_path_cmp(gen, arr, cmd_mod);
-			ft_freemem(arr);
+			ft_free_arr(arr);
 		}
 		i++;
 	}
+	return(valid_path);
+}
+
+char	*find_path(char *cmd1, t_gen *gen)
+{
+	char	*valid_path;
+	char	*temp;
+	char	*cmd_mod;
+
+	if (access(cmd1, X_OK) == 0)
+		return (cmd1);
+	valid_path = NULL;
+	temp = ft_strdup("/");
+	cmd_mod = ft_strjoin(temp, cmd1);
+	free(temp);
+	
+	valid_path = find_path_vol2(gen, cmd_mod);
 	free(cmd_mod);
 	if (!valid_path)
 		print_error(cmd1);

@@ -1,9 +1,9 @@
 #include "minishell.h"
 
-void	ft_error(char *str)
-{
-	printf("%s\n", str); // place perror
-}
+// void	ft_error(char *str)
+// {
+// 	printf("%s\n", str); // place perror
+// }
 
 void	init_pipes(t_gen *gen)
 {
@@ -14,7 +14,7 @@ void	init_pipes(t_gen *gen)
 	{
 		gen->pipes[i] = malloc(2 * sizeof(int));
 		if (pipe(gen->pipes[i]) == -1)
-			ft_error("Unable to create pipe");
+			perror("Error!");
 		// printf("pipe created, read %d, write %d\n",
 		// 	gen->pipes[i][0], gen->pipes[i][1]);
 		i++;
