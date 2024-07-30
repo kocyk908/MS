@@ -1,90 +1,114 @@
-Minishell Evaluation Checklist
-Compile
-Compile with Flags: Use -Wall -Wextra -Werror ✔
-No Errors: Ensure there are no compilation errors ✔
-No Relinking: Ensure there are no unnecessary relinks ✔
-Simple Command & Global Variables
-Execute /bin/ls: ✔
-No Global Variables: Ensure no global variables are used ✔✔
-Empty Command Line: Handle empty command lines correctly ✔
-Spaces or Tabs Only: Handle lines with only spaces or tabs ✔✔
-Arguments
-Execute /bin/ls with Arguments: (Clarification needed) ?
-Echo
-Echo with and without Arguments: ✔
-Echo with -n Option: ✔
-Exit
-Exit with and without Arguments: ✔
-Exit with Various Arguments: ✔
-Return Value of a Process
-Execute /bin/ls and Check echo $?: ❌ Handling of $ not implemented yet
-Signals
-Ctrl-C in Empty Prompt: Display a new line with a new prompt ✔
-Ctrl-\ in Empty Prompt: No action ✔
-Ctrl-D in Empty Prompt: Quit minishell and relaunch ✔
-Ctrl-C in Non-Empty Prompt: Display a new line with a new prompt, buffer should be clean ✔
-Ctrl-D in Non-Empty Prompt: No action ✔
-Ctrl-\ in Non-Empty Prompt: No action ✔
-Ctrl-C after Blocking Command: Proper handling with a new prompt ✔❌ Double prompt issue
-Ctrl-\ after Blocking Command: ❌
-Ctrl-D after Blocking Command: Properly exits ✔
-Double Quotes
-Simple Command with Arguments and Double Quotes: ✔
-Command like echo "cat lol.c | cat > lol.c": ❌
-Anything except $: (Clarification needed) ?
-Single Quotes
-Commands with Single Quotes as Arguments: ✔
-Empty Arguments: ❌
-Environment Variables, Whitespaces, Pipes, Redirection in Single Quotes: ❌
-echo '$USER' should print "$USER": ❌
-Nothing Should be Interpreted: ❌
-Environment Variables
-Check env Command: ✔
-Export
-Export Environment Variables, Create New Ones, Replace Old Ones: ✔❌
-Issues with creating new variables without replacing old ones
-Check Result with env: ✔
-Unset
-Export, Create New Ones, Replace Old Ones: ✔
-Use unset to Remove Some: ✔
-Check Result with env: ✔
-CD
-Change Working Directory and Check with /bin/ls: ✔
-Repeat with Working and Non-Working Directories: ✔
-Use . and .. as Arguments: ✔
-PWD
-Use pwd Command: ✔
-Repeat in Different Directories: ✔
-Relative Path
-Execute Commands with Relative Paths: ✔
-Complex Relative Paths with ..: ✔
-Environment Path
-Execute Commands without Path (ls, wc, awk, etc.): (Not checked)
-Unset $PATH and Ensure Commands Don't Work: (Not checked)
-Set $PATH with Multiple Directories and Check Order: (Not checked)
-Redirection
-Execute Commands with < and >: ✔
-Repeat with Different Commands and Use >>: ✔
-Ensure Multiple Redirections Fail: ✔
-Test << Redirection: ✔
-Pipes
-Commands with Pipes like cat file | grep bla | more: ✔
-Repeat with Different Commands: ✔
-Wrong Commands like ls filethatdoesntexist | grep bla | more: ✔
-Mix Pipes and Redirections: (Not sure)
-Go Crazy and History
-Ctrl-C and Enter Should Clean Buffer: ✔
-Navigate Through History with Up and Down: ✔
-Retry Commands from History: ✔
-Handle Wrong Commands Gracefully: ✔
-Command cat | cat | ls Should Work Normally: ✔
-Long Commands with Many Arguments: (Not checked)
-Environment Variables Handling
-Echo with Environment Variables ($variable): ❌ $ handling not implemented
-Check $ as Environment Variable: ❌
-Double Quotes Should Interpolate $: ❌
-Check if USER Exists: (Set if not)
-echo "$USER" Should Print User Variable: ❌
+# Minishell Evaluation Checklist
+
+## Compile
+- **Compile with Flags**: Use `-Wall -Wextra -Werror` ✔
+- **No Errors**: Ensure there are no compilation errors ✔
+- **No Relinking**: Ensure there are no unnecessary relinks ✔
+
+## Simple Command & Global Variables 
+- **Execute `/bin/ls`**: ✔
+![image](https://github.com/user-attachments/assets/08e42f86-75c7-483a-82e6-90c8ec1c0257)
+- **No Global Variables**: Ensure no global variables are used ✔✔
+- **Empty Command Line**: Handle empty command lines correctly ✔
+![image](https://github.com/user-attachments/assets/e9ab146f-d62d-436d-ab44-93f56c0fbd12)
+- **Spaces or Tabs Only**: Handle lines with only spaces or tabs ✔✔
+
+## Arguments
+- **Execute `/bin/ls` with Arguments**: (Clarification needed) ?
+
+## Echo
+- **Echo with and without Arguments**: ✔
+- **Echo with `-n` Option**: ✔
+
+## Exit
+- **Exit with and without Arguments**: ✔
+- **Exit with Various Arguments**: ✔
+
+## Return Value of a Process
+- **Execute `/bin/ls` and Check `echo $?`**: ❌ Handling of `$` not implemented yet
+
+## Signals
+- **Ctrl-C in Empty Prompt**: Display a new line with a new prompt ✔
+- **Ctrl-\ in Empty Prompt**: No action ✔
+- **Ctrl-D in Empty Prompt**: Quit minishell and relaunch ✔
+- **Ctrl-C in Non-Empty Prompt**: Display a new line with a new prompt, buffer should be clean ✔
+- **Ctrl-D in Non-Empty Prompt**: No action ✔
+- **Ctrl-\ in Non-Empty Prompt**: No action ✔
+- **Ctrl-C after Blocking Command**: Proper handling with a new prompt ✔❌ Double prompt issue
+- **Ctrl-\ after Blocking Command**: ❌
+- **Ctrl-D after Blocking Command**: Properly exits ✔
+
+## Double Quotes
+- **Simple Command with Arguments and Double Quotes**: ✔
+- **Command like `echo "cat lol.c | cat > lol.c"`**: ❌
+- **Anything except `$`**: (Clarification needed) ?
+
+## Single Quotes
+- **Commands with Single Quotes as Arguments**: ✔
+- **Empty Arguments**: ❌
+![image](https://github.com/user-attachments/assets/71209fe3-2800-4820-8b81-610856c29759)
+- **Environment Variables, Whitespaces, Pipes, Redirection in Single Quotes**: ❌
+- **`echo '$USER'` must print "$USER"**: ❌
+- **Nothing Should be Interpreted**: ❌
+
+## Environment Variables
+- **Check `env` Command**: ✔
+
+## Export
+- **Export Environment Variables, Create New Ones, Replace Old Ones**: ✔❌
+  - Issues with creating new variables without replacing old ones
+![image](https://github.com/user-attachments/assets/ddf8b45f-bae4-46b8-93de-1fb53bf269be)
+- **Check Result with `env`**: ✔
+
+## Unset
+- **Export, Create New Ones, Replace Old Ones**: ✔
+- **Use `unset` to Remove Some**: ✔
+- **Check Result with `env`**: ✔
+
+## CD
+- **Change Working Directory and Check with `/bin/ls`**: ✔
+- **Repeat with Working and Non-Working Directories**: ✔
+- **Use `.` and `..` as Arguments**: ✔
+
+## PWD
+- **Use `pwd` Command**: ✔
+- **Repeat in Different Directories**: ✔
+
+## Relative Path
+- **Execute Commands with Relative Paths**: ✔
+- **Complex Relative Paths with `..`**: ✔
+
+## Environment Path
+- **Execute Commands without Path (`ls`, `wc`, `awk`, etc.)**: (Not checked)
+- **Unset `$PATH` and Ensure Commands Don't Work**: (Not checked)
+- **Set `$PATH` with Multiple Directories and Check Order**: (Not checked)
+
+## Redirection
+- **Execute Commands with `<` and `>`**: ✔
+- **Repeat with Different Commands and Use `>>`**: ✔
+- **Ensure Multiple Redirections Fail**: ✔
+- **Test `<<` Redirection**: ✔
+
+## Pipes
+- **Commands with Pipes like `cat file | grep bla | more`**: ✔
+- **Repeat with Different Commands**: ✔
+- **Wrong Commands like `ls filethatdoesntexist | grep bla | more`**: ✔
+- **Mix Pipes and Redirections**: (Not sure)
+
+## Go Crazy and History
+- **Ctrl-C and Enter Should Clean Buffer**: ✔
+- **Navigate Through History with Up and Down**: ✔
+- **Retry Commands from History**: ✔
+- **Handle Wrong Commands Gracefully**: ✔
+- **Command `cat | cat | ls` Should Work Normally**: ✔
+- **Long Commands with Many Arguments**: (Not checked)
+
+## Environment Variables Handling
+- **Echo with Environment Variables (`$variable`)**: ❌ `$` handling not implemented
+- **Check `$` as Environment Variable**: ❌
+- **Double Quotes Should Interpolate `$`**: ❌
+- **Check if `USER` Exists**: (Set if not)
+- **`echo "$USER"` Should Print User Variable**: ❌
 
 Update 29.07
 
