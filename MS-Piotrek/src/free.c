@@ -1,5 +1,18 @@
 #include "minishell.h" 
 
+void	free_command(t_command *command)
+{
+	t_command	*temp;
+
+	while (command)
+	{
+		temp = command;
+		command = command->next;
+		free(temp->args);
+		free(temp);
+	}
+}
+
 void ft_free_arr(char **arr)
 {
 	int i;

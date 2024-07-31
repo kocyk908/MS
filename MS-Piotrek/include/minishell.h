@@ -77,6 +77,7 @@ void	close_pipes(t_gen *gen);
 // redirections
 
 void	handle_input_redir(t_redirs *redirs, char **saveptr2);
+void ft_handle_heredoc_vol2(char *arg, char *temp, int fd);
 void	handle_heredoc(t_redirs *redirs, char **saveptr2);
 void	handle_output_redir(t_redirs *redirs, char **saveptr2);
 void	handle_append_redir(t_redirs *redirs, char **saveptr2);

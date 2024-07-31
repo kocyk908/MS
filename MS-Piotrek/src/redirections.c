@@ -11,26 +11,19 @@ void	handle_input_redir(t_redirs *redirs, char **saveptr2)
 		perror("open input redir");
 }
 
-
-void	handle_heredoc(t_redirs *redirs, char **saveptr2)
+void ft_handle_heredoc_vol2(char *arg, char *temp, int fd)
 {
-	char	*arg;
-	char	*str;
-	char 	*temp;
+	char *str;
 
-	temp = NULL;
-	arg = ft_strtok_r(NULL, " ", saveptr2);
-	redirs->is_heredoc = 1;
-	redirs->input_redir = open("heredoc.txt", O_WRONLY | O_CREAT, 0644);
-	while(1)
+		while(1)
 	{
 		str = readline(">");
 		if(ft_strncmp(str, arg, ft_strlen(arg)) == 0)
 		{
 			if(temp)
 			{
-				ft_putstr_fd(temp, redirs->input_redir);
-				ft_putchar_fd('\n', redirs->input_redir);
+				ft_putstr_fd(temp, fd);
+				ft_putchar_fd('\n', fd);
 			}
 			break;
 		}
@@ -38,13 +31,25 @@ void	handle_heredoc(t_redirs *redirs, char **saveptr2)
 		{
 			if(temp)
 			{
-				ft_putstr_fd(temp, redirs->input_redir);
-				ft_putchar_fd('\n', redirs->input_redir);
+				ft_putstr_fd(temp, fd);
+				ft_putchar_fd('\n', fd);
 			}
 			temp = str;
 		}
 	}
-	// ft_putchar_fd('\n', redirs->input_redir);
+}
+
+void	handle_heredoc(t_redirs *redirs, char **saveptr2)
+{
+	char	*arg;
+	// char	*str;
+	char 	*temp;
+
+	temp = NULL;
+	arg = ft_strtok_r(NULL, " ", saveptr2);
+	redirs->is_heredoc = 1;
+	redirs->input_redir = open("heredoc.txt", O_WRONLY | O_CREAT, 0644);
+	ft_handle_heredoc_vol2(arg, temp, redirs->input_redir);
 	close(redirs->input_redir);
 	redirs->input_redir = open("heredoc.txt", O_RDONLY);
 }
