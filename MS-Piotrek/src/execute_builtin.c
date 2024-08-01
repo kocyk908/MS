@@ -1,12 +1,73 @@
 #include "minishell.h"
 
-void	builtin_echo(char **args, t_redirs *redirs)
+int ft_strlen_env(char *str, char c)
+{
+	int i;
+
+	i = 0;
+	while(str[i] != c)
+		i++;
+	return (i);
+}
+
+void ft_env_val_vol2(t_gen *gen, char *trimmed_env)
+{
+	int i;
+	int j;
+	int len_env;
+	char *env;
+
+	i = 0;
+	while(gen->envs[i])
+	{
+		if(ft_strchr(gen->envs[i], '='))
+		{
+			j = 0;
+			len_env = ft_strlen_env(gen->envs[i], '=');
+			env = malloc(sizeof(char) * len_env + 1);
+			while(gen->envs[i][j] != '=')
+			{
+				env[j] = gen->envs[i][j];
+				j++;
+			}
+			env[j] = '\0';
+			if(!ft_strcmp(trimmed_env, env))
+				printf("%s\n", ft_strrchr(gen->envs[i], '=') + 1);
+				free(env);
+		}
+		i++;
+	}
+}
+
+void ft_env_val(t_gen *gen, char *str)
+{
+	char *trimmed_env;
+	int len_env;
+	int i;
+
+	trimmed_env = malloc(sizeof(char) * ft_strlen(str));
+	i = 0;
+	while(str[i + 1])
+	{
+		trimmed_env[i] = str[i+1];
+		i++;
+	}
+	trimmed_env[i] = '\0';
+	if(!ft_strcmp(trimmed_env, "?"))
+	{
+		printf("%d\n", gen->exit_status);
+	}
+	ft_env_val_vol2(gen, trimmed_env);
+	free(trimmed_env);
+}
+
+void	builtin_echo(char **args, t_redirs *redirs, t_gen *gen)
 {
 	int		i;
 	int		j;
 	int		fd;
 	bool	n;
-
+	
 	fd = 1;
 	i = 1; // bo 0 to echo
 	n = false;
@@ -29,11 +90,11 @@ void	builtin_echo(char **args, t_redirs *redirs)
 		fd = STDOUT_FILENO;
 	while (args[i])
 	{
-		//if (args[i][0] == '$')
-		//{
-		//	ft_env_val() //not sure jak chcesz do tego podejść to zostawie tak narazie
-		//}
-		//else
+		if (args[i][0] == '$')
+		{
+			ft_env_val(gen, args[i]); //not sure jak chcesz do tego podejść to zostawie tak narazie
+		}
+		else
 			ft_putstr_fd(args[i], fd);
 		if (args[i + 1])
 			ft_putstr_fd(" ", fd);
@@ -78,25 +139,6 @@ void	builtin_pwd(void)
 		perror("getcwd failed");
 	}
 }
-/////////// do exit
-
-int	digits_only(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-	{
-		if (i != 0 && str[i] == '-')
-			return (0);
-		if (ft_isdigit(str[i]) == 0)
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 void	builtin_exit(char **args)
 {
@@ -128,7 +170,7 @@ void	builtin_exit(char **args)
 void	execute_builtin(t_command *command, t_gen *gen)
 {
 	if (ft_strcmp(command->args[0], "echo") == 0)
-		builtin_echo(command->args, &command->redirs);
+		builtin_echo(command->args, &command->redirs, gen);
 	else if (ft_strcmp(command->args[0], "cd") == 0)
 		builtin_cd(command->args);
 	else if (ft_strcmp(command->args[0], "pwd") == 0)

@@ -43,6 +43,7 @@ typedef struct s_gen
     int **pipes;
     int *pids;
     int isPath;
+    int exit_status;
     char **envs;
     t_history *history;
 } t_gen;
@@ -77,7 +78,8 @@ void	close_pipes(t_gen *gen);
 // redirections
 
 void	handle_input_redir(t_redirs *redirs, char **saveptr2);
-void ft_handle_heredoc_vol2(char *arg, char *temp, int fd);
+void    ft_handle_heredoc_vol2(char *arg, char *temp, int fd);
+void    ft_handle_heredoc_vol3(char *temp, int fd);
 void	handle_heredoc(t_redirs *redirs, char **saveptr2);
 void	handle_output_redir(t_redirs *redirs, char **saveptr2);
 void	handle_append_redir(t_redirs *redirs, char **saveptr2);
@@ -93,8 +95,8 @@ void ft_display_history_list(t_gen *gen);
 int	ft_count_cmds(t_command *command);
 void    print_error(char *cmd);
 int	if_whitespace(char *str);
+int	digits_only(char *str);
 void ft_copy_arr(char **dest, char **src, int arr_len);
-
 
 // free 
 
@@ -109,6 +111,10 @@ void ft_free_path(t_command *command);
 int     is_builtin(char *cmd);
 void	execute_builtin(t_command *command, t_gen *gen);
 void    ft_export_env(t_gen *gen, char *env);
+void	builtin_echo(char **args, t_redirs *redirs, t_gen *gen);
+void	builtin_cd(char **args);
+void	builtin_pwd(void);
+void	builtin_exit(char **args);
 
 // envp
 
@@ -124,9 +130,5 @@ char **ft_unset_env_vol2(t_gen *gen, char *env, int env_len);
 void	signal_d(void);
 void	signal_c(int sig);
 void	init_signals(void);
-
-// void    builtin_env(void);
-// void    init_global_envp(char **envp);
-// void    ft_env(char **envp);
 
 #endif

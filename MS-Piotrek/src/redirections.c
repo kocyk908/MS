@@ -11,6 +11,13 @@ void	handle_input_redir(t_redirs *redirs, char **saveptr2)
 		perror("open input redir");
 }
 
+void ft_handle_heredoc_vol3(char *temp, int fd)
+{
+	ft_putstr_fd(temp, fd);
+	ft_putchar_fd('\n', fd);
+	free(temp);
+}
+
 void ft_handle_heredoc_vol2(char *arg, char *temp, int fd)
 {
 	char *str;
@@ -21,19 +28,14 @@ void ft_handle_heredoc_vol2(char *arg, char *temp, int fd)
 		if (ft_strncmp(str, arg, ft_strlen(arg)) == 0)
 		{
 			if (temp)
-			{
-				ft_putstr_fd(temp, fd);
-				ft_putchar_fd('\n', fd);
-			}
+				ft_handle_heredoc_vol3(temp, fd);
+			free(str);
 			break ;
 		}
 		else
 		{
 			if (temp)
-			{
-				ft_putstr_fd(temp, fd);
-				ft_putchar_fd('\n', fd);
-			}
+				ft_handle_heredoc_vol3(temp, fd);
 			temp = str;
 		}
 	}
@@ -42,7 +44,6 @@ void ft_handle_heredoc_vol2(char *arg, char *temp, int fd)
 void	handle_heredoc(t_redirs *redirs, char **saveptr2)
 {
 	char	*arg;
-	// char	*str;
 	char 	*temp;
 
 	temp = NULL;

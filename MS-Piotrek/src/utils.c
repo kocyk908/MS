@@ -29,6 +29,24 @@ int	if_whitespace(char *str)
 	return (1);
 }
 
+int	digits_only(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+	{
+		if (i != 0 && str[i] == '-')
+			return (0);
+		if (ft_isdigit(str[i]) == 0)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 void	ft_copy_arr(char **dest, char **src, int arr_len)
 {
 	int	i;

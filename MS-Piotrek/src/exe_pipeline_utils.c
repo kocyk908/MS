@@ -1,10 +1,5 @@
 #include "minishell.h"
 
-// void	ft_error(char *str)
-// {
-// 	printf("%s\n", str); // place perror
-// }
-
 void	init_pipes(t_gen *gen)
 {
 	int	i;
@@ -15,8 +10,6 @@ void	init_pipes(t_gen *gen)
 		gen->pipes[i] = malloc(2 * sizeof(int));
 		if (pipe(gen->pipes[i]) == -1)
 			perror("Error!");
-		// printf("pipe created, read %d, write %d\n",
-		// 	gen->pipes[i][0], gen->pipes[i][1]);
 		i++;
 	}
 }
@@ -42,7 +35,6 @@ void	create_child_processes(t_command *command, t_gen *gen)
 	while (command)
 	{
 		command->path = find_path(command->args[0], gen);
-		// printf("path to cmd%d: %s\n", i + 1, command->path);
 		gen->pids[i] = fork();
 		if (gen->pids[i] == 0)
 		{
