@@ -18,18 +18,18 @@ void ft_handle_heredoc_vol2(char *arg, char *temp, int fd)
 		while(1)
 	{
 		str = readline(">");
-		if(ft_strncmp(str, arg, ft_strlen(arg)) == 0)
+		if (ft_strncmp(str, arg, ft_strlen(arg)) == 0)
 		{
-			if(temp)
+			if (temp)
 			{
 				ft_putstr_fd(temp, fd);
 				ft_putchar_fd('\n', fd);
 			}
-			break;
+			break ;
 		}
 		else
 		{
-			if(temp)
+			if (temp)
 			{
 				ft_putstr_fd(temp, fd);
 				ft_putchar_fd('\n', fd);
@@ -57,7 +57,7 @@ void	handle_heredoc(t_redirs *redirs, char **saveptr2)
 void	handle_output_redir(t_redirs *redirs, char **saveptr2)
 {
 	char	*arg;
-	int	fd;
+	int		fd;
 
 	arg = ft_strtok_r(NULL, " ", saveptr2);
 	fd = open(arg, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -72,7 +72,7 @@ void	handle_output_redir(t_redirs *redirs, char **saveptr2)
 void	handle_append_redir(t_redirs *redirs, char **saveptr2)
 {
 	char	*arg;
-	int	fd;
+	int		fd;
 
 	arg = ft_strtok_r(NULL, " ", saveptr2);
 	fd = open(arg, O_WRONLY | O_CREAT | O_APPEND, 0644);

@@ -41,13 +41,12 @@ char	*ft_path_cmp(t_gen *gen, char **arr, char *cmd_mod)
 	return (temp);
 }
 
-char *find_path_vol2(t_gen *gen, char *cmd_mod)
+char	*find_path_vol2(t_gen *gen, char *cmd_mod)
 {
 	char	*valid_path;
 	char	*var_path;
 	char	**arr;
-
-	int i;
+	int		i;
 
 	valid_path = NULL;
 	i = 0;
@@ -62,7 +61,7 @@ char *find_path_vol2(t_gen *gen, char *cmd_mod)
 		}
 		i++;
 	}
-	return(valid_path);
+	return (valid_path);
 }
 
 char	*find_path(char *cmd1, t_gen *gen)
@@ -77,7 +76,6 @@ char	*find_path(char *cmd1, t_gen *gen)
 	temp = ft_strdup("/");
 	cmd_mod = ft_strjoin(temp, cmd1);
 	free(temp);
-	
 	valid_path = find_path_vol2(gen, cmd_mod);
 	free(cmd_mod);
 	if (!valid_path)

@@ -3,8 +3,8 @@
 t_command	*create_new_command(char *token)
 {
 	t_command	*new_cmd;
-	(void)token; // function should take void paramater
 
+	(void)token; // function should take void paramater
 	new_cmd = malloc(sizeof(t_command));
 	if (!new_cmd)
 		return (NULL);
@@ -66,7 +66,6 @@ void	parse_arguments(t_command *new_cmd, char *token)
 	{
 		handle_redirections(new_cmd, arg, &saveptr2);
 		// printf("current input fd: %d\n", new_cmd->redirs.input_redir);
-		
 		if (ft_strcmp(arg, "<") != 0 && ft_strcmp(arg, "<<") != 0
 			&& ft_strcmp(arg, ">") != 0 && ft_strcmp(arg, ">>") != 0)
 		{

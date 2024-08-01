@@ -29,14 +29,14 @@ int	if_whitespace(char *str)
 	return (1);
 }
 
-void ft_copy_arr(char **dest, char **src, int arr_len)
+void	ft_copy_arr(char **dest, char **src, int arr_len)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(i < arr_len)
-    {
+	while (i < arr_len)
+	{
 		dest[i] = ft_strdup(src[i]);
-        i++;
-    }
+		i++;
+	}
 }

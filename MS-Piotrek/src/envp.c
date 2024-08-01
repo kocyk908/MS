@@ -1,11 +1,11 @@
 #include "minishell.h"
 
-char **ft_unset_env_vol2(t_gen *gen, char *env, int env_len)
+char	**ft_unset_env_vol2(t_gen *gen, char *env, int env_len)
 {
-	char **temp;
-	char *env_to_del;
-	int i;
-	int j;
+	char	**temp;
+	char	*env_to_del;
+	int	i;
+	int	j;
 
 	temp = malloc(sizeof(char *) * env_len);
 	i = 0;
