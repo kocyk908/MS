@@ -55,7 +55,7 @@ void ft_env_val(t_gen *gen, char *str)
 	trimmed_env[i] = '\0';
 	if(!ft_strcmp(trimmed_env, "?"))
 	{
-		printf("%d\n", gen->exit_status);
+		// printf("-%d-\n", gen->exit_status);
 	}
 	ft_env_val_vol2(gen, trimmed_env);
 	free(trimmed_env);
@@ -92,6 +92,7 @@ void	builtin_echo(char **args, t_redirs *redirs, t_gen *gen)
 	{
 		if (args[i][0] == '$')
 		{
+			// printf("print env var:");
 			ft_env_val(gen, args[i]); //not sure jak chcesz do tego podejść to zostawie tak narazie
 		}
 		else
