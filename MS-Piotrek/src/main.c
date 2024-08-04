@@ -87,6 +87,7 @@ void	process_input(t_gen *gen, char *input)
 	if (cmd_list && is_builtin(cmd_list->args[0]))
 		execute_builtin(cmd_list, gen);
 	else
+	{
 		if (gen->isPath == 1)
 			ft_free_path(cmd_list);
 		ft_free_pipes(gen);
