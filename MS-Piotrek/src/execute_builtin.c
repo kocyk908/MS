@@ -10,12 +10,13 @@ int ft_strlen_env(char *str, char c)
 	return (i);
 }
 
-void ft_env_val_vol2(t_gen *gen, char *trimmed_env)
+void ft_env_val_vol2(t_gen *gen, char *trimmed_env, int fd)
 {
 	int i;
 	int j;
 	int len_env;
 	char *env;
+	char *gg;
 
 	i = 0;
 	while(gen->envs[i])
@@ -24,7 +25,7 @@ void ft_env_val_vol2(t_gen *gen, char *trimmed_env)
 		{
 			j = 0;
 			len_env = ft_strlen_env(gen->envs[i], '=');
-			env = malloc(sizeof(char) * len_env + 1);
+			env = malloc(sizeof(char) * (len_env + 1));
 			while(gen->envs[i][j] != '=')
 			{
 				env[j] = gen->envs[i][j];
@@ -32,14 +33,18 @@ void ft_env_val_vol2(t_gen *gen, char *trimmed_env)
 			}
 			env[j] = '\0';
 			if(!ft_strcmp(trimmed_env, env))
-				printf("%s\n", ft_strrchr(gen->envs[i], '=') + 1);
+			{
+				ft_putstr_fd(ft_strrchr(gen->envs[i], '=') + 1, fd);
 				free(env);
+				return ;
+			}
+			free(env);
 		}
 		i++;
 	}
 }
 
-void ft_env_val(t_gen *gen, char *str)
+void ft_env_val(t_gen *gen, char *str, int fd)
 {
 	char *trimmed_env;
 	int len_env;
@@ -55,9 +60,9 @@ void ft_env_val(t_gen *gen, char *str)
 	trimmed_env[i] = '\0';
 	if(!ft_strcmp(trimmed_env, "?"))
 	{
-		printf("%d\n", gen->exit_status);
+		ft_putnbr_fd(gen->exit_status, fd);
 	}
-	ft_env_val_vol2(gen, trimmed_env);
+	ft_env_val_vol2(gen, trimmed_env, fd);
 	free(trimmed_env);
 }
 
@@ -68,7 +73,7 @@ void	builtin_echo(char **args, t_redirs *redirs, t_gen *gen)
 	int		fd;
 	bool	n;
 	
-	fd = 1;
+	fd = STDOUT_FILENO;
 	i = 1; // bo 0 to echo
 	n = false;
 	while (args[i] && args[i][0] == '-')
@@ -86,13 +91,11 @@ void	builtin_echo(char **args, t_redirs *redirs, t_gen *gen)
 	}
 	if (redirs->is_append || redirs->output_redir != -1)
 		fd = redirs->output_redir;
-	else
-		fd = STDOUT_FILENO;
 	while (args[i])
 	{
 		if (args[i][0] == '$')
 		{
-			ft_env_val(gen, args[i]); //not sure jak chcesz do tego podejść to zostawie tak narazie
+			ft_env_val(gen, args[i], fd); //not sure jak chcesz do tego podejść to zostawie tak narazie
 		}
 		else
 			ft_putstr_fd(args[i], fd);
