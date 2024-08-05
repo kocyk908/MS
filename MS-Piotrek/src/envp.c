@@ -31,16 +31,40 @@ void ft_unset_env(t_gen *gen, char *env)
 {
 	char **temp;
 	int env_len;
-
+	int temp_len;
 	env_len = 0;
+	temp_len = 0;
 	while(gen->envs[env_len] != NULL)
 		env_len++;
 	temp = ft_unset_env_vol2(gen, env, env_len);
+	while(temp[temp_len] != NULL)
+		temp_len++;
+	if(env_len == temp_len)
+		return;
 	free(gen->envs);
 	gen->envs = malloc(sizeof(char *) * (env_len + 1));
 	ft_copy_arr(gen->envs, temp, env_len - 1);
 	gen->envs[env_len - 1] = NULL;
 	ft_free_arr(temp);
+}
+
+bool ft_export_env_dup(t_gen *gen, char *env)
+{
+	int i;
+	bool match;
+	char *temp;
+
+	match = false;
+	i = 0;
+	printf("what is env: %s\n", env);
+	while(gen->envs[i])
+	{
+		temp = ft_strnstr(gen->envs[i], env, ft_strlen(env));
+		if(temp)
+			match = true;
+		i++;
+	}
+	return(match);
 }
 
 void ft_export_env(t_gen *gen, char *env)
@@ -51,6 +75,8 @@ void ft_export_env(t_gen *gen, char *env)
 	env_len = 0;
 	while(gen->envs[env_len] != NULL)
 		env_len++;
+	if(ft_export_env_dup(gen, env))
+		ft_export_env(gen, env);
 	temp = malloc(sizeof(char *) * (env_len + 2));
 	ft_copy_arr(temp, gen->envs, env_len);
 	temp[env_len] = ft_strdup(env);
@@ -58,7 +84,6 @@ void ft_export_env(t_gen *gen, char *env)
 	ft_free_arr(gen->envs);
 	gen->envs = malloc(sizeof(char *) * (env_len + 2));
 	ft_copy_arr(gen->envs, temp, env_len + 1);
-
 	gen->envs[env_len + 1] = NULL;
 	ft_free_arr(temp);
 }
