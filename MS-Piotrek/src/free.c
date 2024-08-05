@@ -44,25 +44,24 @@ void ft_free_pipes(t_gen *gen)
 		i = 0;
 		while(i < (gen->num_of_cmds - 1))
 		{
-			printf("ok\n");
 			free(gen->pipes[i]);
 			i++;
 		}
 		free(gen->pipes);
 }
 
-// void ft_free_history(t_history *node)
-// {
-// 	t_history *prev;
+void ft_free_history(t_history *node)
+{
+	t_history *prev;
 
-// 		printf("to free, %s\n", node->input);
+		printf("to free, %s\n", node->input);
 
-// 	while(node)
-// 	{
-// 		prev = node;
-// 		node = node->next;
-// 		free(prev);
-// 		free(prev->input);
-// 		prev = NULL;
-// 	}
-// }
+	while(node)
+	{
+		prev = node;
+		node = node->next;
+		free(prev);
+		free(prev->input);
+		prev = NULL;
+	}
+}

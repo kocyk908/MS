@@ -122,6 +122,6 @@ int	main(int ac, char **av, char **envp)
 			free(input);
 	}
 	ft_free_arr(gen->envs);
-	// ft_free_history(gen->history);
+	ft_free_history(gen->history);
 	return (0);
 }

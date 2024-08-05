@@ -67,10 +67,7 @@ int	execute_pipeline(t_command *command, t_gen *gen)
 	{
 		wait(&status);
 		gen->exit_status = WEXITSTATUS(status);
-		// printf("coś tam: %d\n", WEXITSTATUS(status));
 		i++;
-		// wait(NULL);
-		// i++;
 	}
 	return (0);
 }

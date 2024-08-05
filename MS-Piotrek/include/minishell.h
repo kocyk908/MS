@@ -104,7 +104,7 @@ void free_command(t_command *command);
 void ft_free_arr(char **arr);
 void ft_free_pipes(t_gen *gen);
 void ft_free_path(t_command *command);
-
+void ft_free_history(t_history *node);
 
 // build-ins
 
