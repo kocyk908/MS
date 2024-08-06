@@ -58,3 +58,13 @@ void	ft_copy_arr(char **dest, char **src, int arr_len)
 		i++;
 	}
 }
+
+int ft_strlen_env(char *str, char c)
+{
+	int i;
+
+	i = 0;
+	while(str[i] != c && str[i] != '\0')
+		i++;
+	return (i);
+}

@@ -1,5 +1,21 @@
 #include "minishell.h"
 
+bool ft_env_cmp(t_gen *gen, char *env)
+{
+	bool match;
+	int i;
+
+	match = false;
+	i = 0;
+	while(gen->envs[i])
+	{
+		if(ft_strncmp(gen->envs[i], env, ft_strlen_env(gen->envs[i], '=')) == 0)
+			match = true;
+		i++;
+	}
+	return (match);
+}
+
 char	**ft_unset_env_vol2(t_gen *gen, char *env, int env_len)
 {
 	char	**temp;
@@ -10,9 +26,10 @@ char	**ft_unset_env_vol2(t_gen *gen, char *env, int env_len)
 	temp = malloc(sizeof(char *) * env_len);
 	i = 0;
 	j = 0;
+
 	while(gen->envs[i])
 	{
-		env_to_del = ft_strnstr(gen->envs[i], env, ft_strlen(env));
+		env_to_del = ft_strnstr(gen->envs[i], env, ft_strlen_env(env, '=')); 
 		if(!env_to_del)
 		{
 			temp[j] = ft_strdup(gen->envs[i]);
@@ -27,6 +44,7 @@ char	**ft_unset_env_vol2(t_gen *gen, char *env, int env_len)
 	return (temp);
 }
 
+
 void ft_unset_env(t_gen *gen, char *env)
 {
 	char **temp;
@@ -36,35 +54,14 @@ void ft_unset_env(t_gen *gen, char *env)
 	temp_len = 0;
 	while(gen->envs[env_len] != NULL)
 		env_len++;
-	temp = ft_unset_env_vol2(gen, env, env_len);
-	while(temp[temp_len] != NULL)
-		temp_len++;
-	if(env_len == temp_len)
+	if(!ft_env_cmp(gen, env))
 		return;
+	temp = ft_unset_env_vol2(gen, env, env_len);
 	free(gen->envs);
 	gen->envs = malloc(sizeof(char *) * (env_len + 1));
 	ft_copy_arr(gen->envs, temp, env_len - 1);
 	gen->envs[env_len - 1] = NULL;
 	ft_free_arr(temp);
-}
-
-bool ft_export_env_dup(t_gen *gen, char *env)
-{
-	int i;
-	bool match;
-	char *temp;
-
-	match = false;
-	i = 0;
-	printf("what is env: %s\n", env);
-	while(gen->envs[i])
-	{
-		temp = ft_strnstr(gen->envs[i], env, ft_strlen(env));
-		if(temp)
-			match = true;
-		i++;
-	}
-	return(match);
 }
 
 void ft_export_env(t_gen *gen, char *env)
@@ -75,8 +72,13 @@ void ft_export_env(t_gen *gen, char *env)
 	env_len = 0;
 	while(gen->envs[env_len] != NULL)
 		env_len++;
-	if(ft_export_env_dup(gen, env))
-		ft_export_env(gen, env);
+	if(!ft_strchr(env, '='))
+		return;
+	if(ft_env_cmp(gen, env))
+	{
+		ft_unset_env(gen, env);
+		env_len--;
+	}
 	temp = malloc(sizeof(char *) * (env_len + 2));
 	ft_copy_arr(temp, gen->envs, env_len);
 	temp[env_len] = ft_strdup(env);

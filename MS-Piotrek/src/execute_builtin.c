@@ -1,14 +1,6 @@
 #include "minishell.h"
 
-int ft_strlen_env(char *str, char c)
-{
-	int i;
 
-	i = 0;
-	while(str[i] != c)
-		i++;
-	return (i);
-}
 
 void ft_env_val_vol2(t_gen *gen, char *trimmed_env, int fd)
 {

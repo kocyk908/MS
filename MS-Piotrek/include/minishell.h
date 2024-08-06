@@ -97,6 +97,7 @@ void    print_error(char *cmd);
 int	if_whitespace(char *str);
 int	digits_only(char *str);
 void ft_copy_arr(char **dest, char **src, int arr_len);
+int ft_strlen_env(char *str, char c);
 
 // free 
 
@@ -122,8 +123,7 @@ void ft_export_env(t_gen *gen, char *env);
 void ft_copy_envp(t_gen *gen, char **envp);
 void ft_unset_env(t_gen *gen, char *env);
 char **ft_unset_env_vol2(t_gen *gen, char *env, int env_len);
-
-
+bool ft_env_cmp(t_gen *gen, char *env);
 
 // signal
 
