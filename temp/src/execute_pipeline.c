@@ -74,7 +74,7 @@ void	ft_child_process(t_command *command, t_gen *gen,
 	ft_write_fd(command, gen, i);
 	if(execve(command->path, argv, gen->envs) == -1)
 	{
-			printf("%s: command not found\n", command->args[0]);
+			printf("%s: command not found\n", command->args[0].arg);
 			exit(127);  
 	}
 	free(argv);

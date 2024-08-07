@@ -149,7 +149,7 @@ void	builtin_exit(t_arg *args)
 			exit(ft_atoi(args[1].arg));
 		else
 		{
-			printf("bash: exit: %s: numeric argument required\n", args[1]);
+			printf("bash: exit: %s: numeric argument required\n", args[1].arg);
 			exit (255);
 		}
 	}
