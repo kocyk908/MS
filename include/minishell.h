@@ -124,7 +124,7 @@ void					builtin_exit(char **args);
 
 void					ft_env_val(t_gen *gen, char *str, int fd);
 void					ft_env_val_vol3(char *env, char *trimmed_env, int fd);
-void					ft_env_val_vol2(t_gen *gen, char *trimmed_env, int fd);
+void					ft_env_val_vol2(t_gen *gen, char *trimmed_env, int fd, int i);
 void					ft_export_env(t_gen *gen, char *env);
 void					ft_copy_envp(t_gen *gen, char **envp);
 void					ft_unset_env(t_gen *gen, char *env);
