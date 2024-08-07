@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void ft_read_fd(t_command *command, t_gen *gen, int i)
+void	ft_read_fd(t_command *command, t_gen *gen, int i)
 {
 	int	j;
 
@@ -19,7 +19,7 @@ void ft_read_fd(t_command *command, t_gen *gen, int i)
 	}
 }
 
-void ft_write_fd(t_command *command, t_gen *gen, int i)
+void	ft_write_fd(t_command *command, t_gen *gen, int i)
 {
 	int	j;
 
@@ -38,29 +38,28 @@ void ft_write_fd(t_command *command, t_gen *gen, int i)
 	}
 }
 
-void	ft_child_process(t_command *command, t_gen *gen,
-		int i)
+void	ft_child_process(t_command *command, t_gen *gen, int i)
 {
 	ft_read_fd(command, gen, i);
 	ft_write_fd(command, gen, i);
-	if(execve(command->path, command->args, gen->envs) == -1) 
+	if (execve(command->path, command->args, gen->envs) == -1)
 	{
-			printf("%s: command not found\n", command->args[0]);
-			exit(127);  
+		printf("%s: command not found\n", command->args[0]);
+		exit(127);
 	}
 }
 
 int	execute_pipeline(t_command *command, t_gen *gen)
 {
 	int	i;
-	int status;
+	int	status;
 
 	gen->pipes = malloc((gen->num_of_cmds - 1) * sizeof(int *));
 	init_pipes(gen);
 	gen->pids = malloc((gen->num_of_cmds + 1) * sizeof(int));
 	create_child_processes(command, gen);
 	close_pipes(gen);
-	if(command->redirs.is_heredoc)
+	if (command->redirs.is_heredoc)
 		unlink("heredoc.txt");
 	i = 0;
 	while (i < gen->num_of_cmds)

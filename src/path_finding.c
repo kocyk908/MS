@@ -6,33 +6,20 @@ void	print_error(char *cmd)
 	return ;
 }
 
-// void	ft_freemem(char **arr)
-// {
-// 	int	j;
-
-// 	j = 0;
-// 	while (arr[j])
-// 	{
-// 		free(arr[j]);
-// 		j++;
-// 	}
-// 	free(arr);
-// }
-
 char	*ft_path_cmp(t_gen *gen, char **arr, char *cmd_mod)
 {
 	char	*temp;
 	int		counter;
 
 	counter = 0;
-	gen->isPath = 0;
+	gen->is_path = 0;
 	temp = NULL;
 	while (arr[counter])
 	{
 		temp = ft_strjoin(arr[counter], cmd_mod);
 		if (access(temp, X_OK) == 0)
 		{
-			gen->isPath = 1;
+			gen->is_path = 1;
 			break ;
 		}
 		free(temp);

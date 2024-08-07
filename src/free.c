@@ -1,4 +1,4 @@
-#include "minishell.h" 
+#include "minishell.h"
 
 void	free_command(t_command *command)
 {
@@ -13,12 +13,12 @@ void	free_command(t_command *command)
 	}
 }
 
-void ft_free_arr(char **arr)
+void	ft_free_arr(char **arr)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(arr[i] != NULL)
+	while (arr[i] != NULL)
 	{
 		free(arr[i]);
 		i++;
@@ -27,9 +27,9 @@ void ft_free_arr(char **arr)
 	arr = NULL;
 }
 
-void ft_free_path(t_command *command)
+void	ft_free_path(t_command *command)
 {
-	while(command != NULL)
+	while (command != NULL)
 	{
 		free(command->path);
 		command->path = NULL;
@@ -37,26 +37,24 @@ void ft_free_path(t_command *command)
 	}
 }
 
-void ft_free_pipes(t_gen *gen)
+void	ft_free_pipes(t_gen *gen)
 {
-		int i;
+	int	i;
 
-		i = 0;
-		while(i < (gen->num_of_cmds - 1))
-		{
-			free(gen->pipes[i]);
-			i++;
-		}
-		free(gen->pipes);
+	i = 0;
+	while (i < (gen->num_of_cmds - 1))
+	{
+		free(gen->pipes[i]);
+		i++;
+	}
+	free(gen->pipes);
 }
 
-void ft_free_history(t_history *node)
+void	ft_free_history(t_history *node)
 {
-	t_history *prev;
+	t_history	*prev;
 
-		printf("to free, %s\n", node->input);
-
-	while(node)
+	while (node)
 	{
 		prev = node;
 		node = node->next;

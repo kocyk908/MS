@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-size_t	ft_strcspn(const char *str, const char *delim) //znajduje pierwsze wystąpienie znaku z delim w str
+size_t	ft_strcspn(const char *str, const char *delim)
 {
 	const char	*s;
 	const char	*d;
@@ -20,7 +20,7 @@ size_t	ft_strcspn(const char *str, const char *delim) //znajduje pierwsze wystą
 	return (s - str);
 }
 
-size_t	ft_strspn(const char *str, const char *delim) //oblicza dlugosc str skladajaca sie tylko z delim
+size_t	ft_strspn(const char *str, const char *delim)
 {
 	const char	*s;
 	const char	*d;

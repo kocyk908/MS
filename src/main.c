@@ -45,28 +45,6 @@ int	check_unclosed_quotes(char *input)
 	return (0);
 }
 
-// void print_parsed_arguments(t_command *cmd_list)
-// {
-// 	t_command *cmd = cmd_list;
-//     int i;
-
-//     while (cmd)
-//     {
-//         printf("Command:\n");
-//         i = 0;
-//         while (cmd->args[i])
-//         {
-//             printf("  Arg[%d]: %s\n", i, cmd->args[i]);
-//             i++;
-//         }
-//         printf("  Input redir: %d\n", cmd->redirs.input_redir);
-//         printf("  Output redir: %d\n", cmd->redirs.output_redir);
-//         printf("  Is append: %d\n", cmd->redirs.is_append);
-//         printf("  Is heredoc: %d\n", cmd->redirs.is_heredoc);
-//         cmd = cmd->next;
-//     }
-// }
-
 void	process_input(t_gen *gen, char *input)
 {
 	t_command	*cmd_list;
@@ -80,16 +58,15 @@ void	process_input(t_gen *gen, char *input)
 	}
 	ft_history_list(gen, input);
 	cmd_list = parse_command(input);
-	if (!cmd_list->args[0]) // case for missing arg before < or <<
+	if (!cmd_list->args[0])
 		return ;
-	//print_parsed_arguments(cmd_list);
 	gen->num_of_cmds = ft_count_cmds(cmd_list);
 	if (cmd_list && is_builtin(cmd_list->args[0]))
 		execute_builtin(cmd_list, gen);
 	else
 	{
 		execute_pipeline(cmd_list, gen);
-		if (gen->isPath == 1)
+		if (gen->is_path == 1)
 			ft_free_path(cmd_list);
 		ft_free_pipes(gen);
 		free(gen->pids);
@@ -116,7 +93,7 @@ int	main(int ac, char **av, char **envp)
 			process_input(gen, input);
 			free(input);
 		}
-		else if (!input) // Obsługa CTRL+D
+		else if (!input)
 			signal_d();
 		else
 			free(input);
@@ -125,3 +102,25 @@ int	main(int ac, char **av, char **envp)
 	ft_free_history(gen->history);
 	return (0);
 }
+
+// void print_parsed_arguments(t_command *cmd_list)
+// {
+// 	t_command *cmd = cmd_list;
+//     int i;
+
+//     while (cmd)
+//     {
+//         printf("Command:\n");
+//         i = 0;
+//         while (cmd->args[i])
+//         {
+//             printf("  Arg[%d]: %s\n", i, cmd->args[i]);
+//             i++;
+//         }
+//         printf("  Input redir: %d\n", cmd->redirs.input_redir);
+//         printf("  Output redir: %d\n", cmd->redirs.output_redir);
+//         printf("  Is append: %d\n", cmd->redirs.is_append);
+//         printf("  Is heredoc: %d\n", cmd->redirs.is_heredoc);
+//         cmd = cmd->next;
+//     }
+// }

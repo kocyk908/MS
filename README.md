@@ -25,7 +25,7 @@
 - **Exit with Various Arguments**: ✔
 
 ## Return Value of a Process
-- **Execute `/bin/ls` and Check `echo $?`**: ❌ Handling of `$` not implemented yet
+- **Execute `/bin/ls` and Check `echo $?`**: ✔
 
 ## Signals
 - **Ctrl-C in Empty Prompt**: Display a new line with a new prompt ✔
@@ -34,7 +34,7 @@
 - **Ctrl-C in Non-Empty Prompt**: Display a new line with a new prompt, buffer should be clean ✔
 - **Ctrl-D in Non-Empty Prompt**: No action ✔
 - **Ctrl-\ in Non-Empty Prompt**: No action ✔
-- **Ctrl-C after Blocking Command**: Proper handling with a new prompt ✔❌ Double prompt sie robi
+- **Ctrl-C after Blocking Command**: Proper handling with a new prompt ✔✔
 - **Ctrl-\ after Blocking Command**: ❌
 - **Ctrl-D after Blocking Command**: Properly exits ✔
 
@@ -45,17 +45,17 @@
 
 ## Single Quotes
 - **Commands with Single Quotes as Arguments**: ✔
-- **Empty Arguments**: ❌
+- **Empty Arguments**: ✔
 ![image](https://github.com/user-attachments/assets/71209fe3-2800-4820-8b81-610856c29759)
-- **Environment Variables, Whitespaces, Pipes, Redirection in Single Quotes**: ❌
-- **`echo '$USER'` must print "$USER"**: ❌
-- **Nothing Should be Interpreted**: ❌
+- **Environment Variables, Whitespaces, Pipes, Redirection in Single Quotes**: ❌??
+- **`echo '$USER'` must print "$USER"**: ✔
+- **Nothing Should be Interpreted**:
 
 ## Environment Variables
 - **Check `env` Command**: ✔
 
 ## Export
-- **Export Environment Variables, Create New Ones, Replace Old Ones**: ✔❌
+- **Export Environment Variables, Create New Ones, Replace Old Ones**: ✔
   nadpisanie nie działa, robią się nowe env o tej samej nazwie
 ![image](https://github.com/user-attachments/assets/ddf8b45f-bae4-46b8-93de-1fb53bf269be)
 - **Check Result with `env`**: ✔
@@ -104,11 +104,11 @@
 - **Long Commands with Many Arguments**: (Not checked)
 
 ## Environment Variables Handling
-- **Echo with Environment Variables (`$variable`)**: ❌ `$` handling not implemented
-- **Check `$` as Environment Variable**: ❌
-- **Double Quotes Should Interpolate `$`**: ❌
+- **Echo with Environment Variables (`$variable`)**: ✔ `$` handling not implemented
+- **Check `$` as Environment Variable**: ❌??
+- **Double Quotes Should Interpolate `$`**: ✔ 
 - **Check if `USER` Exists**: (Set if not)
-- **`echo "$USER"` Should Print User Variable**: ❌
+- **`echo "$USER"` Should Print User Variable**: ✔ 
 
 Update 29.07
 

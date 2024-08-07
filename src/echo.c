@@ -14,9 +14,10 @@ void	ft_buildin_echo_vol3(t_gen *gen, char **args, int fd, int i)
 	}
 }
 
-void ft_buildin_echo_vol2(char **args, int *i, bool *n)
+void	ft_buildin_echo_vol2(char **args, int *i, bool *n)
 {
-	int j;
+	int	j;
+
 	while (args[*i] && args[*i][0] == '-')
 	{
 		j = 1;
@@ -41,7 +42,6 @@ void	builtin_echo(char **args, t_redirs *redirs, t_gen *gen)
 	fd = STDOUT_FILENO;
 	i = 1;
 	n = false;
-
 	ft_buildin_echo_vol2(args, &i, &n);
 	if (redirs->is_append || redirs->output_redir != -1)
 		fd = redirs->output_redir;
