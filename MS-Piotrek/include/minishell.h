@@ -48,9 +48,7 @@ typedef struct s_gen
     t_history *history;
 } t_gen;
 
-// void execute_command(char *command);
-// char	*concat_path(const char *dir, const char *cmd);
-//void	handle_input_redir(t_redirs *redirs);
+
 void	process_input(t_gen *gen, char *input);
 void	init_structs(t_gen **gen, t_redirs **redirs);
 t_command	*create_new_command(char *token);
@@ -112,6 +110,8 @@ void ft_free_history(t_history *node);
 int     is_builtin(char *cmd);
 void	execute_builtin(t_command *command, t_gen *gen);
 void    ft_export_env(t_gen *gen, char *env);
+void	ft_buildin_echo_vol3(t_gen *gen, char **args, int fd, int i);
+void ft_buildin_echo_vol2(char **args, int *i, bool *n);
 void	builtin_echo(char **args, t_redirs *redirs, t_gen *gen);
 void	builtin_cd(char **args);
 void	builtin_pwd(void);
@@ -119,6 +119,8 @@ void	builtin_exit(char **args);
 
 // envp
 
+void	ft_env_val(t_gen *gen, char *str, int fd);
+void	ft_env_val_vol2(t_gen *gen, char *trimmed_env, int fd);
 void ft_export_env(t_gen *gen, char *env);
 void ft_copy_envp(t_gen *gen, char **envp);
 void ft_unset_env(t_gen *gen, char *env);

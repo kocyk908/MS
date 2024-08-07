@@ -1,104 +1,5 @@
 #include "minishell.h"
 
-
-
-void ft_env_val_vol2(t_gen *gen, char *trimmed_env, int fd)
-{
-	int i;
-	int j;
-	int len_env;
-	char *env;
-	char *gg;
-
-	i = 0;
-	while(gen->envs[i])
-	{
-		if(ft_strchr(gen->envs[i], '='))
-		{
-			j = 0;
-			len_env = ft_strlen_env(gen->envs[i], '=');
-			env = malloc(sizeof(char) * (len_env + 1));
-			while(gen->envs[i][j] != '=')
-			{
-				env[j] = gen->envs[i][j];
-				j++;
-			}
-			env[j] = '\0';
-			if(!ft_strcmp(trimmed_env, env))
-			{
-				ft_putstr_fd(ft_strrchr(gen->envs[i], '=') + 1, fd);
-				free(env);
-				return ;
-			}
-			free(env);
-		}
-		i++;
-	}
-}
-
-void ft_env_val(t_gen *gen, char *str, int fd)
-{
-	char *trimmed_env;
-	int len_env;
-	int i;
-
-	trimmed_env = malloc(sizeof(char) * ft_strlen(str));
-	i = 0;
-	while(str[i + 1])
-	{
-		trimmed_env[i] = str[i+1];
-		i++;
-	}
-	trimmed_env[i] = '\0';
-	if(!ft_strcmp(trimmed_env, "?"))
-	{
-		ft_putnbr_fd(gen->exit_status, fd);
-	}
-	ft_env_val_vol2(gen, trimmed_env, fd);
-	free(trimmed_env);
-}
-
-void	builtin_echo(char **args, t_redirs *redirs, t_gen *gen)
-{
-	int		i;
-	int		j;
-	int		fd;
-	bool	n;
-	
-	fd = STDOUT_FILENO;
-	i = 1; // bo 0 to echo
-	n = false;
-	while (args[i] && args[i][0] == '-')
-	{
-		j = 1;
-		while (args[i][j] == 'n') // -n -nn -nnnnn może być więcej
-			j++;
-		if (args[i][j] == '\0') // nie może być -nnnk
-		{
-			n = true;
-			i++;
-		}
-		else
-			break ;
-	}
-	if (redirs->is_append || redirs->output_redir != -1)
-		fd = redirs->output_redir;
-	while (args[i])
-	{
-		if (args[i][0] == '$')
-		{
-			ft_env_val(gen, args[i], fd); //not sure jak chcesz do tego podejść to zostawie tak narazie
-		}
-		else
-			ft_putstr_fd(args[i], fd);
-		if (args[i + 1])
-			ft_putstr_fd(" ", fd);
-		i++;
-	}
-	if (!n || redirs->is_append)
-		ft_putstr_fd("\n", fd);
-}
-
 void	builtin_cd(char **args)
 {
 	char	*home_dir;
@@ -123,7 +24,7 @@ void	builtin_cd(char **args)
 
 void	builtin_pwd(void)
 {
-	char	cwd[4096]; //max path sprawdzone _PC_PATH_MAX - przynajmniej na kompie w 42
+	char	cwd[4096];
 
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
@@ -150,7 +51,7 @@ void	builtin_exit(char **args)
 		else
 		{
 			printf("bash: exit: %s: numeric argument required\n", args[1]);
-			exit (255);
+			exit(255);
 		}
 	}
 	else if (i > 2)
