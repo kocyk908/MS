@@ -1,4 +1,6 @@
 #include "minishell.h"
+#include <sys/types.h>
+#include <sys/stat.h>
 
 void	ft_read_fd(t_command *command, t_gen *gen, int i)
 {
@@ -38,13 +40,28 @@ void	ft_write_fd(t_command *command, t_gen *gen, int i)
 	}
 }
 
+void check_stdout_pipe(void)
+{
+    struct stat st;
+    if (fstat(STDOUT_FILENO, &st) == -1) {
+        perror("fstat");
+        return;
+    }
+
+    if (S_ISFIFO(st.st_mode))
+        fprintf(stderr, "stdout is connected to a pipe or FIFO\n");
+    else
+        fprintf(stderr, "stdout is not connected to a pipe\n");
+}
+
 void	ft_child_process(t_command *command, t_gen *gen, int i)
 {
 	ft_read_fd(command, gen, i);
 	ft_write_fd(command, gen, i);
 	if (execve(command->path, command->args, gen->envs) == -1)
 	{
-		printf("%s: command not found\n", command->args[0]);
+		write(2, command->args[0], ft_strlen(command->args[0]));
+		write(2, ": command not found\n", 20);
 		exit(127);
 	}
 }
