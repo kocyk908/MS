@@ -1,11 +1,5 @@
 #include "minishell.h"
 
-void	print_error(char *cmd)
-{
-	printf("bash: '%s' not found\n", cmd);
-	return ;
-}
-
 char	*ft_path_cmp(t_gen *gen, char **arr, char *cmd_mod)
 {
 	char	*temp;
@@ -23,6 +17,7 @@ char	*ft_path_cmp(t_gen *gen, char **arr, char *cmd_mod)
 			break ;
 		}
 		free(temp);
+		temp = NULL;
 		counter++;
 	}
 	return (temp);
@@ -65,7 +60,5 @@ char	*find_path(char *cmd1, t_gen *gen)
 	free(temp);
 	valid_path = find_path_vol2(gen, cmd_mod);
 	free(cmd_mod);
-	if (!valid_path)
-		print_error(cmd1);
 	return (valid_path);
 }
