@@ -61,16 +61,11 @@ void	process_input(t_gen *gen, char *input)
 	if (!cmd_list->args[0].arg)
 		return ;
 	gen->num_of_cmds = ft_count_cmds(cmd_list);
-	if (cmd_list && is_builtin(cmd_list->args[0].arg))
-		execute_builtin(cmd_list, gen);
-	else
-	{
-		execute_pipeline(cmd_list, gen);
-		if (gen->is_path == 1)
-			ft_free_path(cmd_list);
-		ft_free_pipes(gen);
-		free(gen->pids);
-	}
+	execute_pipeline(cmd_list, gen);
+	if (gen->is_path == 1)
+		ft_free_path(cmd_list);
+	ft_free_pipes(gen);
+	free(gen->pids);
 	free_command(cmd_list);
 }
 
