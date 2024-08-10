@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-void	builtin_cd(char **args)
+void	builtin_cd(t_arg *args)
 {
 	char	*home_dir;
 
-	if (!args[1])
+	if (!args[1].arg)
 	{
 		home_dir = getenv("HOME");
 		if (home_dir)
@@ -17,7 +17,7 @@ void	builtin_cd(char **args)
 	}
 	else
 	{
-		if (chdir(args[1]) != 0)
+		if (chdir(args[1].arg) != 0)
 			perror("cd failed");
 	}
 }
@@ -36,21 +36,21 @@ void	builtin_pwd(void)
 	}
 }
 
-void	builtin_exit(char **args)
+void	builtin_exit(t_arg *args)
 {
 	int	i;
 
 	printf("exit\n");
 	i = 0;
-	while (args[i])
+	while (args[i].arg)
 		i++;
 	if (i == 2)
 	{
-		if (digits_only(args[1]))
-			exit(ft_atoi(args[1]));
+		if (digits_only(args[1].arg))
+			exit(ft_atoi(args[1].arg));
 		else
 		{
-			printf("bash: exit: %s: numeric argument required\n", args[1]);
+			printf("bash: exit: %s: numeric argument required\n", args[1].arg);
 			exit(255);
 		}
 	}
@@ -65,18 +65,18 @@ void	builtin_exit(char **args)
 
 void	execute_builtin(t_command *command, t_gen *gen)
 {
-	if (ft_strcmp(command->args[0], "echo") == 0)
+	if (ft_strcmp(command->args[0].arg, "echo") == 0)  // Używamy command->args[0].arg
 		builtin_echo(command->args, &command->redirs, gen);
-	else if (ft_strcmp(command->args[0], "cd") == 0)
+	else if (ft_strcmp(command->args[0].arg, "cd") == 0)  // Używamy command->args[0].arg
 		builtin_cd(command->args);
-	else if (ft_strcmp(command->args[0], "pwd") == 0)
+	else if (ft_strcmp(command->args[0].arg, "pwd") == 0)  // Używamy command->args[0].arg
 		builtin_pwd();
-	else if (ft_strcmp(command->args[0], "exit") == 0)
+	else if (ft_strcmp(command->args[0].arg, "exit") == 0)  // Używamy command->args[0].arg
 		builtin_exit(command->args);
-	else if (ft_strcmp(command->args[0], "unset") == 0)
-		ft_unset_env(gen, command->args[1]);
-	else if (ft_strcmp(command->args[0], "history") == 0)
+	else if (ft_strcmp(command->args[0].arg, "unset") == 0)  // Używamy command->args[0].arg
+		ft_unset_env(gen, command->args[1].arg);  // Używamy command->args[1].arg
+	else if (ft_strcmp(command->args[0].arg, "history") == 0)  // Używamy command->args[0].arg
 		ft_display_history_list(gen);
-	else if (ft_strcmp(command->args[0], "export") == 0)
-		ft_export_env(gen, command->args[1]);
+	else if (ft_strcmp(command->args[0].arg, "export") == 0)  // Używamy command->args[0].arg
+		ft_export_env(gen, command->args[1].arg);  // Używamy command->args[1].arg
 }

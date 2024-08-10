@@ -56,21 +56,22 @@ void	add_command_to_list(t_command **head, t_command **current,
 
 void	parse_arguments(t_command *new_cmd, char *token)
 {
-	char	*arg;
+	t_arg	arg_struct;
 	char	*saveptr2;
+	char	*arg;
 	int		i;
 
 	i = 0;
-	arg = ft_strtok_r(token, " ", &saveptr2);
+	arg = ft_strtok_r(token, " ", &saveptr2, &arg_struct);
 	while (arg != NULL)
 	{
 		handle_redirections(new_cmd, arg, &saveptr2);
 		if (ft_strcmp(arg, "<") != 0 && ft_strcmp(arg, "<<") != 0
 			&& ft_strcmp(arg, ">") != 0 && ft_strcmp(arg, ">>") != 0)
 		{
-			new_cmd->args[i++] = arg;
+			new_cmd->args[i++] = arg_struct;
 		}
-		arg = ft_strtok_r(NULL, " ", &saveptr2);
+		arg = ft_strtok_r(NULL, " ", &saveptr2, &arg_struct);
 	}
-	new_cmd->args[i] = NULL;
+	new_cmd->args[i].arg = NULL;
 }

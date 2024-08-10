@@ -34,7 +34,7 @@ void	create_child_processes(t_command *command, t_gen *gen)
 	i = 0;
 	while (command)
 	{
-		command->path = find_path(command->args[0], gen);
+		command->path = find_path(command->args[0].arg, gen);
 		gen->pids[i] = fork();
 		if (gen->pids[i] == 0)
 		{

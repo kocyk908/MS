@@ -58,8 +58,8 @@ void	ft_free_history(t_history *node)
 	{
 		prev = node;
 		node = node->next;
-		free(prev);
 		free(prev->input);
+		free(prev);
 		prev = NULL;
 	}
 }

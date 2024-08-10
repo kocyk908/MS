@@ -58,10 +58,10 @@ void	process_input(t_gen *gen, char *input)
 	}
 	ft_history_list(gen, input);
 	cmd_list = parse_command(input);
-	if (!cmd_list->args[0])
+	if (!cmd_list->args[0].arg)
 		return ;
 	gen->num_of_cmds = ft_count_cmds(cmd_list);
-	if (cmd_list && is_builtin(cmd_list->args[0]))
+	if (cmd_list && is_builtin(cmd_list->args[0].arg))
 		execute_builtin(cmd_list, gen);
 	else
 	{

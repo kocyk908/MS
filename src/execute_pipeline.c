@@ -54,16 +54,56 @@ void check_stdout_pipe(void)
         fprintf(stderr, "stdout is not connected to a pipe\n");
 }
 
-void	ft_child_process(t_command *command, t_gen *gen, int i)
+char **convert_args(t_arg *args) {
+    int i = 0;
+    int count = 0;
+    
+    // Policz liczbę argumentów
+    while (args[count].arg) {
+        count++;
+    }
+
+    // Alokuj miejsce na tablicę wskaźników char*
+    char **argv = malloc((count + 1) * sizeof(char *));
+    if (!argv) {
+        perror("malloc failed");
+        exit(EXIT_FAILURE);
+    }
+
+    // Skopiuj wskaźniki do argumentów
+    while (i < count) {
+        argv[i] = args[i].arg;
+        i++;
+    }
+    argv[i] = NULL; // Ustaw ostatni wskaźnik na NULL
+
+    return argv;
+}
+
+
+void ft_child_process(t_command *command, t_gen *gen, int i)
 {
-	ft_read_fd(command, gen, i);
-	ft_write_fd(command, gen, i);
-	if (execve(command->path, command->args, gen->envs) == -1)
-	{
-		write(2, command->args[0], ft_strlen(command->args[0]));
-		write(2, ": command not found\n", 20);
-		exit(127);
-	}
+    char **argv;
+
+    argv = convert_args(command->args);
+    ft_read_fd(command, gen, i);
+    ft_write_fd(command, gen, i);
+
+    if (is_builtin(command->args[0].arg))
+    {
+        execute_builtin(command, gen);
+        close_pipes(gen); // Zamknij potoki po wykonaniu wbudowanego polecenia
+        exit(gen->exit_status);
+    }
+    else
+    {
+        if (execve(command->path, argv, gen->envs) == -1)
+        {
+            printf("%s: command not found\n", command->args[0].arg);
+            exit(127);
+        }
+    }
+    free(argv);
 }
 
 int	execute_pipeline(t_command *command, t_gen *gen)

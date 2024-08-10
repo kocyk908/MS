@@ -34,9 +34,11 @@ void	handle_heredoc(t_redirs *redirs, char **saveptr2)
 {
 	char	*arg;
 	char	*temp;
+	t_arg	token;
 
 	temp = NULL;
-	arg = ft_strtok_r(NULL, " ", saveptr2);
+	token.in_quotes = false;
+	arg = ft_strtok_r(NULL, " ", saveptr2, &token);
 	redirs->is_heredoc = 1;
 	redirs->input_redir = open("heredoc.txt", O_WRONLY | O_CREAT, 0644);
 	ft_handle_heredoc_vol2(arg, temp, redirs->input_redir);

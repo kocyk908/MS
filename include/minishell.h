@@ -13,6 +13,12 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+typedef struct s_arg
+{
+    char *arg;        // Przechowuje wartość argumentu
+    bool in_quotes;   // Informuje, czy argument był w cudzysłowie
+} t_arg;
+
 typedef struct s_redirs
 {
 	int					input_redir;
@@ -24,7 +30,7 @@ typedef struct s_redirs
 typedef struct s_command
 {
 	char				*path;
-	char				**args;
+	t_arg				*args;
 	t_redirs			redirs;
 	struct s_command	*next;
 }						t_command;
@@ -56,7 +62,7 @@ void					add_command_to_list(t_command **head,
 // parsing
 
 char					*ft_strtok_r(char *str, const char *delim,
-							char **saveptr);
+							char **saveptr, t_arg *args);
 // Dzieli delimiterem zdanie
 size_t					ft_strcspn(const char *str, const char *delim);
 size_t					ft_strspn(const char *str, const char *delim);
@@ -112,13 +118,13 @@ void					ft_free_history(t_history *node);
 int						is_builtin(char *cmd);
 void					execute_builtin(t_command *command, t_gen *gen);
 void					ft_export_env(t_gen *gen, char *env);
-void					ft_buildin_echo_vol3(t_gen *gen, char **args, int fd,
+void					ft_buildin_echo_vol3(t_gen *gen, t_arg *args, int fd,
 							int i);
-void					ft_buildin_echo_vol2(char **args, int *i, bool *n);
-void					builtin_echo(char **args, t_redirs *redirs, t_gen *gen);
-void					builtin_cd(char **args);
+void					ft_buildin_echo_vol2(t_arg *args, int *i, bool *n);
+void					builtin_echo(t_arg *args, t_redirs *redirs, t_gen *gen);
+void					builtin_cd(t_arg *args);
 void					builtin_pwd(void);
-void					builtin_exit(char **args);
+void					builtin_exit(t_arg *args);
 
 // envp
 

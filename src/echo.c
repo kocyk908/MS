@@ -1,29 +1,29 @@
 #include "minishell.h"
 
-void	ft_buildin_echo_vol3(t_gen *gen, char **args, int fd, int i)
+void	ft_buildin_echo_vol3(t_gen *gen, t_arg *args, int fd, int i)
 {
-	while (args[i])
+	while (args[i].arg)
 	{
-		if (args[i][0] == '$')
-			ft_env_val(gen, args[i], fd);
+		if (args[i].arg[0] == '$' && !args[i].in_quotes)
+			ft_env_val(gen, args[i].arg, fd);
 		else
-			ft_putstr_fd(args[i], fd);
-		if (args[i + 1])
+			ft_putstr_fd(args[i].arg, fd);
+		if (args[i + 1].arg)
 			ft_putstr_fd(" ", fd);
 		i++;
 	}
 }
 
-void	ft_buildin_echo_vol2(char **args, int *i, bool *n)
+void	ft_buildin_echo_vol2(t_arg *args, int *i, bool *n)
 {
 	int	j;
 
-	while (args[*i] && args[*i][0] == '-')
+	while (args[*i].arg && args[*i].arg[0] == '-')
 	{
 		j = 1;
-		while (args[*i][j] == 'n')
+		while (args[*i].arg[j] == 'n')
 			j++;
-		if (args[*i][j] == '\0')
+		if (args[*i].arg[j] == '\0')
 		{
 			*n = true;
 			i++;
@@ -33,7 +33,7 @@ void	ft_buildin_echo_vol2(char **args, int *i, bool *n)
 	}
 }
 
-void	builtin_echo(char **args, t_redirs *redirs, t_gen *gen)
+void	builtin_echo(t_arg *args, t_redirs *redirs, t_gen *gen)
 {
 	int		i;
 	int		fd;
