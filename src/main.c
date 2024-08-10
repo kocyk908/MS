@@ -45,6 +45,24 @@ int	check_unclosed_quotes(char *input)
 	return (0);
 }
 
+void print_parsed_arguments(t_command *cmd_list)
+{
+	t_command *cmd = cmd_list;
+    int i;
+
+    while (cmd)
+    {
+        printf("Command:\n");
+        i = 0;
+        while (cmd->args[i].arg)
+        {
+            printf("  Arg[%d]: %s\n", i, cmd->args[i].arg);
+            i++;
+        }
+        cmd = cmd->next;
+    }
+}
+
 void	process_input(t_gen *gen, char *input)
 {
 	t_command	*cmd_list;
@@ -60,6 +78,7 @@ void	process_input(t_gen *gen, char *input)
 	cmd_list = parse_command(input);
 	if (!cmd_list->args[0].arg)
 		return ;
+	print_parsed_arguments(cmd_list);	
 	gen->num_of_cmds = ft_count_cmds(cmd_list);
 	execute_pipeline(cmd_list, gen);
 	if (gen->is_path == 1)
@@ -84,7 +103,7 @@ int	main(int ac, char **av, char **envp)
 	{
 		input = readline("msh> ");
 		if (input && *input != '\0' && !if_whitespace(input))
-		{
+		{}
 			process_input(gen, input);
 			free(input);
 		}
@@ -98,24 +117,3 @@ int	main(int ac, char **av, char **envp)
 	return (0);
 }
 
-// void print_parsed_arguments(t_command *cmd_list)
-// {
-// 	t_command *cmd = cmd_list;
-//     int i;
-
-//     while (cmd)
-//     {
-//         printf("Command:\n");
-//         i = 0;
-//         while (cmd->args[i])
-//         {
-//             printf("  Arg[%d]: %s\n", i, cmd->args[i]);
-//             i++;
-//         }
-//         printf("  Input redir: %d\n", cmd->redirs.input_redir);
-//         printf("  Output redir: %d\n", cmd->redirs.output_redir);
-//         printf("  Is append: %d\n", cmd->redirs.is_append);
-//         printf("  Is heredoc: %d\n", cmd->redirs.is_heredoc);
-//         cmd = cmd->next;
-//     }
-// }

@@ -48,12 +48,6 @@ char	*handle_quotes(char *str, char **saveptr, bool *in_quotes)
     char *start;
     char *end;
 
-	if ((str[0] == '"' && str[1] == '"') || (str[0] == '\'' && str[1] == '\''))
-	{
-		*in_quotes = true;
-		*saveptr = str + 2;
-		return (" ");
-	}
     quote = str[0];
     start = str + 1;
     end = ft_strchr(start, quote);
@@ -89,7 +83,7 @@ char	*ft_strtok_r(char *str, const char *delim, char **saveptr, t_arg *arg_struc
 	if (*str == '"' || *str == '\'')
 	{
 		arg_struct->arg = handle_quotes(str, saveptr, &arg_struct->in_quotes);
-		return arg_struct->arg;
+        return (arg_struct->arg);
 	}
 	start = str;
 	while (*str)

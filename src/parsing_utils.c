@@ -21,19 +21,19 @@ t_command	*create_new_command(char *token)
 
 void	handle_redirections(t_command *new_cmd, char *arg, char **saveptr2)
 {
-	if (ft_strncmp(arg, "<", ft_strlen(arg)) == 0)
+	if (ft_strcmp(arg, "<") == 0)
 	{
 		handle_input_redir(&new_cmd->redirs, saveptr2);
 	}
-	else if (ft_strncmp(arg, "<<", ft_strlen(arg)) == 0)
+	else if (ft_strcmp(arg, "<<") == 0)
 	{
 		handle_heredoc(&new_cmd->redirs, saveptr2);
 	}
-	else if (ft_strncmp(arg, ">", ft_strlen(arg)) == 0)
+	else if (ft_strcmp(arg, ">") == 0)
 	{
 		handle_output_redir(&new_cmd->redirs, saveptr2);
 	}
-	else if (ft_strncmp(arg, ">>", ft_strlen(arg)) == 0)
+	else if (ft_strcmp(arg, ">>") == 0)
 	{
 		handle_append_redir(&new_cmd->redirs, saveptr2);
 	}
@@ -69,7 +69,9 @@ void	parse_arguments(t_command *new_cmd, char *token)
 		if (ft_strcmp(arg, "<") != 0 && ft_strcmp(arg, "<<") != 0
 			&& ft_strcmp(arg, ">") != 0 && ft_strcmp(arg, ">>") != 0)
 		{
-			new_cmd->args[i++] = arg_struct;
+			new_cmd->args[i] = arg_struct;
+			new_cmd->args[i].ignore_pipe = arg_struct.in_quotes && ft_strchr(arg, '|');
+			i++;
 		}
 		arg = ft_strtok_r(NULL, " ", &saveptr2, &arg_struct);
 	}

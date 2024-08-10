@@ -16,7 +16,8 @@
 typedef struct s_arg
 {
     char *arg;        // Przechowuje wartość argumentu
-    bool in_quotes;   // Informuje, czy argument był w cudzysłowie
+    bool in_quotes;
+	bool ignore_pipe;   // Informuje, czy argument był w cudzysłowie
 } t_arg;
 
 typedef struct s_redirs
