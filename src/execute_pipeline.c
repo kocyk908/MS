@@ -54,30 +54,26 @@ void check_stdout_pipe(void)
         fprintf(stderr, "stdout is not connected to a pipe\n");
 }
 
-char **convert_args(t_arg *args) {
-    int i = 0;
-    int count = 0;
-    
-    // Policz liczbę argumentów
-    while (args[count].arg) {
+char    **convert_args(t_arg *args)
+{
+    int i;
+    int count;
+    char    **argv;
+
+    i = 0;
+    count = 0;
+    while (args[count].arg)
         count++;
-    }
-
-    // Alokuj miejsce na tablicę wskaźników char*
-    char **argv = malloc((count + 1) * sizeof(char *));
-    if (!argv) {
-        perror("malloc failed");
+    argv = malloc((count + 1) * sizeof(char *));
+    if (!argv)
         exit(EXIT_FAILURE);
-    }
-
-    // Skopiuj wskaźniki do argumentów
-    while (i < count) {
+    while (i < count)
+    {
         argv[i] = args[i].arg;
         i++;
     }
-    argv[i] = NULL; // Ustaw ostatni wskaźnik na NULL
-
-    return argv;
+    argv[i] = NULL;
+    return (argv);
 }
 
 
@@ -88,11 +84,10 @@ void ft_child_process(t_command *command, t_gen *gen, int i)
     argv = convert_args(command->args);
     ft_read_fd(command, gen, i);
     ft_write_fd(command, gen, i);
-
     if (is_builtin(command->args[0].arg))
     {
         execute_builtin(command, gen);
-        close_pipes(gen); // Zamknij potoki po wykonaniu wbudowanego polecenia
+        close_pipes(gen);
         exit(gen->exit_status);
     }
     else

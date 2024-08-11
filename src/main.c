@@ -77,7 +77,9 @@ void	process_input(t_gen *gen, char *input)
 	ft_history_list(gen, input);
 	cmd_list = parse_command(input);
 	if (!cmd_list->args[0].arg)
+	{
 		return ;
+	}
 	print_parsed_arguments(cmd_list);	
 	gen->num_of_cmds = ft_count_cmds(cmd_list);
 	execute_pipeline(cmd_list, gen);
@@ -103,7 +105,7 @@ int	main(int ac, char **av, char **envp)
 	{
 		input = readline("msh> ");
 		if (input && *input != '\0' && !if_whitespace(input))
-		{}
+		{
 			process_input(gen, input);
 			free(input);
 		}

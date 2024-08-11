@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: piotr <piotr@student.42.fr>                +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:08:06 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/05/20 14:10:27 by piotr            ###   ########.fr       */
+/*   Updated: 2024/08/11 02:37:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int					ft_isprint(int c);
 // string operations
 
 char				*ft_strcat(char *dest, const char *src);
-char				*fr_strcpy(char *dest, const char *src);
+char				*ft_strcpy(char *dest, const char *src);
 size_t				ft_strlcpy(char *dst, const char *src, size_t size);
 size_t				ft_strlcat(char *dst, const char *src, size_t size);
 size_t				ft_strlen(const char *str);

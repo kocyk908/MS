@@ -15,9 +15,10 @@
 
 typedef struct s_arg
 {
-    char *arg;        // Przechowuje wartość argumentu
+    char *arg;
     bool in_quotes;
-	bool ignore_pipe;   // Informuje, czy argument był w cudzysłowie
+	bool ignore_pipe;
+	bool is_first;
 } t_arg;
 
 typedef struct s_redirs
@@ -143,5 +144,8 @@ bool					ft_env_cmp(t_gen *gen, char *env);
 void					signal_d(void);
 void					signal_c(int sig);
 void					init_signals(void);
+
+
+void wypisanko(char *token, char *input);
 
 #endif

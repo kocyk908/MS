@@ -68,3 +68,12 @@ int	ft_strlen_env(char *str, char c)
 		i++;
 	return (i);
 }
+
+
+void	wypisanko(char *token, char *input)
+{
+	write(1, "\nszukane -> ", 12);
+	ft_putstr_fd(input, 1);
+	puts(token);
+	write(1, "\n", 1);
+}

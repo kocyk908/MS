@@ -62,7 +62,9 @@ void	parse_arguments(t_command *new_cmd, char *token)
 	int		i;
 
 	i = 0;
+	arg_struct.is_first = true;
 	arg = ft_strtok_r(token, " ", &saveptr2, &arg_struct);
+	//wypisanko(arg, "arguments: ");
 	while (arg != NULL)
 	{
 		handle_redirections(new_cmd, arg, &saveptr2);

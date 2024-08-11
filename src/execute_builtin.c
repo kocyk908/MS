@@ -65,18 +65,22 @@ void	builtin_exit(t_arg *args)
 
 void	execute_builtin(t_command *command, t_gen *gen)
 {
-	if (ft_strcmp(command->args[0].arg, "echo") == 0)  // Używamy command->args[0].arg
+	if (ft_strcmp(command->args[0].arg, "echo") == 0)
 		builtin_echo(command->args, &command->redirs, gen);
-	else if (ft_strcmp(command->args[0].arg, "cd") == 0)  // Używamy command->args[0].arg
+	else if (ft_strcmp(command->args[0].arg, "cd") == 0)
 		builtin_cd(command->args);
-	else if (ft_strcmp(command->args[0].arg, "pwd") == 0)  // Używamy command->args[0].arg
+	else if (ft_strcmp(command->args[0].arg, "pwd") == 0)
 		builtin_pwd();
-	else if (ft_strcmp(command->args[0].arg, "exit") == 0)  // Używamy command->args[0].arg
+	else if (ft_strcmp(command->args[0].arg, "exit") == 0)
 		builtin_exit(command->args);
-	else if (ft_strcmp(command->args[0].arg, "unset") == 0)  // Używamy command->args[0].arg
-		ft_unset_env(gen, command->args[1].arg);  // Używamy command->args[1].arg
-	else if (ft_strcmp(command->args[0].arg, "history") == 0)  // Używamy command->args[0].arg
+	else if (ft_strcmp(command->args[0].arg, "unset") == 0)
+		ft_unset_env(gen, command->args[1].arg);
+	else if (ft_strcmp(command->args[0].arg, "history") == 0)
 		ft_display_history_list(gen);
-	else if (ft_strcmp(command->args[0].arg, "export") == 0)  // Używamy command->args[0].arg
-		ft_export_env(gen, command->args[1].arg);  // Używamy command->args[1].arg
+	else if (ft_strcmp(command->args[0].arg, "export") == 0)
+	{
+		// if (!command->args[1].arg)
+		// 	command->args[1].arg = NULL;
+		ft_export_env(gen, command->args[1].arg);
+	}
 }
