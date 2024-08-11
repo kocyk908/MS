@@ -29,12 +29,12 @@
 
 ## Signals
 - **Ctrl-C in Empty Prompt**: Display a new line with a new prompt ✔
-- **Ctrl-\ in Empty Prompt**: No action ✔
+- **Ctrl-\ in Empty Prompt**: No action ❌
 - **Ctrl-D in Empty Prompt**: Quit minishell and relaunch ✔
 - **Ctrl-C in Non-Empty Prompt**: Display a new line with a new prompt, buffer should be clean ✔
 - **Ctrl-D in Non-Empty Prompt**: No action ✔
-- **Ctrl-\ in Non-Empty Prompt**: No action ✔
-- **Ctrl-C after Blocking Command**: Proper handling with a new prompt ✔✔
+- **Ctrl-\ in Non-Empty Prompt**: No action ❌
+- **Ctrl-C after Blocking Command**: Proper handling with a new prompt ✔❌
 - **Ctrl-\ after Blocking Command**: ❌
 - **Ctrl-D after Blocking Command**: Properly exits ✔
 
