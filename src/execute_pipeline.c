@@ -113,6 +113,10 @@ int	execute_pipeline(t_command *command, t_gen *gen)
 	close_pipes(gen);
 	if (command->redirs.is_heredoc)
 		unlink("heredoc.txt");
+
+    gen->is_blocking = 1; /////
+
+
 	i = 0;
 	while (i < gen->num_of_cmds)
 	{
@@ -120,5 +124,6 @@ int	execute_pipeline(t_command *command, t_gen *gen)
 		gen->exit_status = WEXITSTATUS(status);
 		i++;
 	}
+    gen->is_blocking = 0;
 	return (0);
 }

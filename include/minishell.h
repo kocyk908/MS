@@ -13,6 +13,11 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+// typedef struct s_input
+// {
+// 	bool	is_empty;
+// }	t_input;
+
 typedef struct s_arg
 {
     char *arg;
@@ -52,6 +57,7 @@ typedef struct s_gen
 	int					is_path;
 	int					exit_status;
 	char				**envs;
+	int					is_blocking;
 	t_history			*history;
 }						t_gen;
 
@@ -143,7 +149,8 @@ bool					ft_env_cmp(t_gen *gen, char *env);
 
 void					signal_d(void);
 void					signal_c(int sig);
-void					init_signals(void);
+void					init_signals();
+void					init_signals_duo();
 
 
 void wypisanko(char *token, char *input);
