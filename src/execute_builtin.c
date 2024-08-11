@@ -79,8 +79,8 @@ void	execute_builtin(t_command *command, t_gen *gen)
 		ft_display_history_list(gen);
 	else if (ft_strcmp(command->args[0].arg, "export") == 0)
 	{
-		// if (!command->args[1].arg)
-		// 	command->args[1].arg = NULL;
+		if (!command->args[1].arg)
+			command->args[1].arg = NULL;
 		ft_export_env(gen, command->args[1].arg);
 	}
 }
