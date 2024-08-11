@@ -80,7 +80,7 @@ void	process_input(t_gen *gen, char *input)
 	{
 		return ;
 	}
-	print_parsed_arguments(cmd_list);	
+	//print_parsed_arguments(cmd_list);	
 	gen->num_of_cmds = ft_count_cmds(cmd_list);
 	execute_pipeline(cmd_list, gen);
 	if (gen->is_path == 1)
