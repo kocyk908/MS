@@ -92,6 +92,31 @@ void ft_child_process(t_command *command, t_gen *gen, int i)
    free(argv);
 }
 
+
+// void ft_child_process(t_command *command, t_gen *gen, int i)
+// {
+//     char **argv;
+
+//     argv = convert_args(command->args);
+//     ft_read_fd(command, gen, i);
+//     ft_write_fd(command, gen, i);
+//     if (is_builtin(command->args[0].arg))
+//     {
+//         execute_builtin(command, gen);
+//         close_pipes(gen);
+//         exit(gen->exit_status);
+//     }
+//     else
+//     {
+//         if (execve(command->path, argv, gen->envs) == -1)
+//         {
+//             printf("%s: command not found\n", command->args[0].arg);
+//             exit(127);
+//         }
+//     }
+//     free(argv);
+// }
+
 int	execute_pipeline(t_command *command, t_gen *gen)
 {
 	int	i;

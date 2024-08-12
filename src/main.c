@@ -82,8 +82,10 @@ void	process_input(t_gen *gen, char *input)
 	}
 	//print_parsed_arguments(cmd_list);	
 	gen->num_of_cmds = ft_count_cmds(cmd_list);
-	if (cmd_list && is_builtin(cmd_list->args[0].arg))
+	if (gen->num_of_cmds == 1 && is_builtin(cmd_list->args[0].arg) && cmd_list)
+	{
 		execute_builtin(cmd_list, gen);
+	}
 	else
 	{
 		init_signals_duo();
