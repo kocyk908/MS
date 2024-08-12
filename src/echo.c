@@ -4,7 +4,6 @@ void	ft_buildin_echo_vol3(t_gen *gen, t_arg *args, int fd, int i)
 {
 	while (args[i].arg)
 	{
-		//printf("Arg[%d]: %s, in_quotes: %d\n", i, args[i].arg, args[i].in_quotes);
 		if (args[i].arg[0] == '$' && !(args[i].in_quotes))
 			ft_env_val(gen, args[i].arg, fd);
 		else
@@ -27,7 +26,7 @@ void	ft_buildin_echo_vol2(t_arg *args, int *i, bool *n)
 		if (args[*i].arg[j] == '\0')
 		{
 			*n = true;
-			i++;
+			(*i)++;
 		}
 		else
 			break ;
