@@ -56,11 +56,14 @@ void	builtin_exit(t_arg *args)
 	}
 	else if (i > 2)
 	{
+		ft_putstr_fd("hej ", 1);
 		printf("bash: exit: too many arguments\n");
 		return ;
 	}
 	else
+	{
 		exit(0);
+	}
 }
 
 void	execute_builtin(t_command *command, t_gen *gen)

@@ -82,13 +82,18 @@ void	process_input(t_gen *gen, char *input)
 	}
 	//print_parsed_arguments(cmd_list);	
 	gen->num_of_cmds = ft_count_cmds(cmd_list);
-	init_signals_duo();
-	execute_pipeline(cmd_list, gen);
-	init_signals();
-	if (gen->is_path == 1)
-		ft_free_path(cmd_list);
-	ft_free_pipes(gen);
-	free(gen->pids);
+	if (cmd_list && is_builtin(cmd_list->args[0].arg))
+		execute_builtin(cmd_list, gen);
+	else
+	{
+		init_signals_duo();
+		execute_pipeline(cmd_list, gen);
+		init_signals();
+		if (gen->is_path == 1)
+			ft_free_path(cmd_list);
+		ft_free_pipes(gen);
+		free(gen->pids);
+	}
 	free_command(cmd_list);
 }
 

@@ -84,21 +84,12 @@ void ft_child_process(t_command *command, t_gen *gen, int i)
     argv = convert_args(command->args);
     ft_read_fd(command, gen, i);
     ft_write_fd(command, gen, i);
-    if (is_builtin(command->args[0].arg))
+    if (execve(command->path, argv, gen->envs) == -1)
     {
-        execute_builtin(command, gen);
-        close_pipes(gen);
-        exit(gen->exit_status);
+        printf("%s: command not found\n", command->args[0].arg);
+        exit(127);
     }
-    else
-    {
-        if (execve(command->path, argv, gen->envs) == -1)
-        {
-            printf("%s: command not found\n", command->args[0].arg);
-            exit(127);
-        }
-    }
-    free(argv);
+   free(argv);
 }
 
 int	execute_pipeline(t_command *command, t_gen *gen)
@@ -113,10 +104,6 @@ int	execute_pipeline(t_command *command, t_gen *gen)
 	close_pipes(gen);
 	if (command->redirs.is_heredoc)
 		unlink("heredoc.txt");
-
-    gen->is_blocking = 1; /////
-
-
 	i = 0;
 	while (i < gen->num_of_cmds)
 	{
