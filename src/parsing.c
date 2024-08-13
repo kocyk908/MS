@@ -1,47 +1,5 @@
 #include "minishell.h"
 
-size_t	ft_strcspn(const char *str, const char *delim)
-{
-	const char	*s;
-	const char	*d;
-
-	s = str;
-	while (*s)
-	{
-		d = delim;
-		while (*d)
-		{
-			if (*s == *d)
-				return (s - str);
-			d++;
-		}
-		s++;
-	}
-	return (s - str);
-}
-
-size_t	ft_strspn(const char *str, const char *delim)
-{
-	const char	*s;
-	const char	*d;
-
-	s = str;
-	while (*s)
-	{
-		d = delim;
-		while (*d)
-		{
-			if (*s == *d)
-				break ;
-			d++;
-		}
-		if (*d == '\0')
-			break ;
-		s++;
-	}
-	return (s - str);
-}
-
 char	*handle_quotes(char *str, char **saveptr, bool *in_quotes)
 {
 	char	quote;
@@ -65,42 +23,30 @@ char	*handle_quotes(char *str, char **saveptr, bool *in_quotes)
 	return (start);
 }
 
-char	*parse_first_quoted_argument(char *str, char **saveptr,
-		t_arg *arg_struct)
-{
-	char	quote;
-	char	*start;
-	char	*end;
+// char	*parse_first_quoted_argument(char *str, char **saveptr,
+// 		t_arg *arg_struct)
+// {
+// 	char	quote;
+// 	char	*start;
+// 	char	*end;
 
-	quote = str[0];
-	start = str + 1;
-	end = ft_strchr(start, quote);
-	if (str[0] == '\'')
-		arg_struct->in_quotes = true;
-	if (end)
-	{
-		*end = '\0';
-		*saveptr = end + 1;
-	}
-	else
-	{
-		*saveptr = str + strlen(str);
-	}
-	arg_struct->arg = start;
-	return (str);
-}
-
-char	*add_space_at_start(char *input)
-{
-	char	*result;
-
-	result = malloc(ft_strlen(input) + 2);
-	if (!result)
-		return (NULL);
-	result[0] = ' ';
-	ft_strcpy(result + 1, input);
-	return (result);
-}
+// 	quote = str[0];
+// 	start = str + 1;
+// 	end = ft_strchr(start, quote);
+// 	if (str[0] == '\'')
+// 		arg_struct->in_quotes = true;
+// 	if (end)
+// 	{
+// 		*end = '\0';
+// 		*saveptr = end + 1;
+// 	}
+// 	else
+// 	{
+// 		*saveptr = str + strlen(str);
+// 	}
+// 	arg_struct->arg = start;
+// 	return (str);
+// }
 
 char	*ft_strtok_r(char *str, const char *delim, char **saveptr,
 		t_arg *arg_struct)
@@ -129,13 +75,9 @@ char	*ft_strtok_r(char *str, const char *delim, char **saveptr,
 	while (*str)
 	{
 		if ((*str == '"' || *str == '\'') && !inside_quotes)
-		{
 			inside_quotes = true;
-		}
 		else if ((*str == '"' || *str == '\'') && inside_quotes)
-		{
 			inside_quotes = false;
-		}
 		else if (ft_strchr(delim, *str) && !inside_quotes)
 			break ;
 		str++;
@@ -150,6 +92,7 @@ char	*ft_strtok_r(char *str, const char *delim, char **saveptr,
 	arg_struct->arg = start;
 	return (start);
 }
+
 
 int	process_command_token(char *token, t_command **head, t_command **current)
 {

@@ -80,6 +80,9 @@ size_t					ft_strcspn(const char *str, const char *delim);
 size_t					ft_strspn(const char *str, const char *delim);
 t_command				*parse_command(char *input);
 void					parse_arguments(t_command *new_cmd, char *token);
+char					*add_space_at_start(char *input);
+char	*parse_first_quoted_argument(char *str, char **saveptr, t_arg *arg_struct);
+
 
 // pipex
 
