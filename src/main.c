@@ -1,15 +1,9 @@
 #include "minishell.h"
 
-int	is_builtin(char *cmd)
+void	init_structs(t_gen **gen, t_redirs **redirs, char **av, int ac)
 {
-	return ((ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "cd") == 0
-			|| ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "exit") == 0)
-		|| (ft_strcmp(cmd, "history") == 0) || (ft_strcmp(cmd, "export") == 0)
-		|| (ft_strcmp(cmd, "unset") == 0));
-}
-
-void	init_structs(t_gen **gen, t_redirs **redirs)
-{
+	(void)ac;
+	(void)av;
 	*gen = malloc(sizeof(t_gen));
 	*redirs = malloc(sizeof(t_redirs));
 	(*gen)->history = NULL;
@@ -23,7 +17,7 @@ void	init_structs(t_gen **gen, t_redirs **redirs)
 	}
 }
 
-int	check_unclosed_quotes(char *input)
+int	check_unclosed_quotes(t_gen *gen, char *input)
 {
 	int	single_quote_open;
 	int	double_quote_open;
@@ -41,26 +35,31 @@ int	check_unclosed_quotes(char *input)
 		i++;
 	}
 	if (single_quote_open || double_quote_open)
+	{
+		printf("Error: unclosed quotes\n");
+		gen->exit_status = 1;
 		return (1);
+	}
 	return (0);
 }
 
-void print_parsed_arguments(t_command *cmd_list)
+void	print_parsed_arguments(t_command *cmd_list)
 {
-	t_command *cmd = cmd_list;
-    int i;
+	t_command	*cmd;
+	int			i;
 
-    while (cmd)
-    {
-        printf("Command:\n");
-        i = 0;
-        while (cmd->args[i].arg)
-        {
-            printf("  Arg[%d]: %s\n", i, cmd->args[i].arg);
-            i++;
-        }
-        cmd = cmd->next;
-    }
+	cmd = cmd_list;
+	while (cmd)
+	{
+		printf("Command:\n");
+		i = 0;
+		while (cmd->args[i].arg)
+		{
+			printf("  Arg[%d]: %s\n", i, cmd->args[i].arg);
+			i++;
+		}
+		cmd = cmd->next;
+	}
 }
 
 void	process_input(t_gen *gen, char *input)
@@ -68,24 +67,15 @@ void	process_input(t_gen *gen, char *input)
 	t_command	*cmd_list;
 
 	add_history(input);
-	if (check_unclosed_quotes(input))
-	{
-		printf("Error: unclosed quotes\n");
-		gen->exit_status = 1;
+	if (check_unclosed_quotes(gen, input))
 		return ;
-	}
 	ft_history_list(gen, input);
 	cmd_list = parse_command(input);
 	if (!cmd_list->args[0].arg)
-	{
 		return ;
-	}
-	//print_parsed_arguments(cmd_list);	
 	gen->num_of_cmds = ft_count_cmds(cmd_list);
 	if (gen->num_of_cmds == 1 && is_builtin(cmd_list->args[0].arg) && cmd_list)
-	{
 		execute_builtin(cmd_list, gen);
-	}
 	else
 	{
 		init_signals_duo();
@@ -105,9 +95,7 @@ int	main(int ac, char **av, char **envp)
 	t_gen		*gen;
 	t_redirs	*redirs;
 
-	(void)ac;
-	(void)av;
-	init_structs(&gen, &redirs);
+	init_structs(&gen, &redirs, av, ac);
 	init_signals();
 	ft_copy_envp(gen, envp);
 	while (1)
@@ -119,9 +107,7 @@ int	main(int ac, char **av, char **envp)
 			free(input);
 		}
 		else if (!input)
-		{
 			signal_d();
-		}
 		else
 			free(input);
 	}
@@ -129,4 +115,3 @@ int	main(int ac, char **av, char **envp)
 	ft_free_history(gen->history);
 	return (0);
 }
-

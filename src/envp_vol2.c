@@ -1,5 +1,22 @@
 #include "minishell.h"
 
+void	ft_copy_envp(t_gen *gen, char **envp)
+{
+	int	env_len;
+
+	env_len = 0;
+	while (envp[env_len])
+		env_len++;
+	gen->envs = malloc(sizeof(char *) * (env_len + 1));
+	env_len = 0;
+	while (envp[env_len])
+	{
+		gen->envs[env_len] = ft_strdup(envp[env_len]);
+		env_len++;
+	}
+	gen->envs[env_len] = NULL;
+}
+
 void	ft_env_val_vol3(char *env, char *trimmed_env, int fd)
 {
 	int		i;

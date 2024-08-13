@@ -61,17 +61,21 @@ typedef struct s_gen
 	t_history			*history;
 }						t_gen;
 
+// main
+
 void					process_input(t_gen *gen, char *input);
-void					init_structs(t_gen **gen, t_redirs **redirs);
+void					init_structs(t_gen **gen, t_redirs **redirs, char **av, int ac);
 t_command				*create_new_command(char *token);
-void					add_command_to_list(t_command **head,
-							t_command **current, t_command *new_cmd);
+void					print_parsed_arguments(t_command *cmd_list);
+int						check_unclosed_quotes(t_gen *gen, char *input);
 
 // parsing
 
 char					*ft_strtok_r(char *str, const char *delim,
 							char **saveptr, t_arg *args);
 // Dzieli delimiterem zdanie
+void					add_command_to_list(t_command **head,
+							t_command **current, t_command *new_cmd);
 size_t					ft_strcspn(const char *str, const char *delim);
 size_t					ft_strspn(const char *str, const char *delim);
 t_command				*parse_command(char *input);
@@ -79,6 +83,7 @@ void					parse_arguments(t_command *new_cmd, char *token);
 
 // pipex
 
+char					**convert_args(t_arg *args);
 void					init_pipes(t_gen *gen);
 char					*find_path(char *cmd1, t_gen *gen);
 int						execute_pipeline(t_command *command, t_gen *gen);
@@ -139,6 +144,7 @@ void					builtin_exit(t_arg *args);
 void					ft_env_val(t_gen *gen, char *str, int fd);
 void					ft_env_val_vol3(char *env, char *trimmed_env, int fd);
 void					ft_env_val_vol2(t_gen *gen, char *trimmed_env, int fd, int i);
+void					ft_export_env_vol2(t_gen *gen, char *env, int env_len);
 void					ft_export_env(t_gen *gen, char *env);
 void					ft_copy_envp(t_gen *gen, char **envp);
 void					ft_unset_env(t_gen *gen, char *env);

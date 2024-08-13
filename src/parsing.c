@@ -44,66 +44,66 @@ size_t	ft_strspn(const char *str, const char *delim)
 
 char	*handle_quotes(char *str, char **saveptr, bool *in_quotes)
 {
-    char quote;
-    char *start;
-    char *end;
+	char	quote;
+	char	*start;
+	char	*end;
 
-    quote = str[0];
-    start = str + 1;
-    end = ft_strchr(start, quote);
-    if (quote == '\'')
-    	*in_quotes = true;
+	quote = str[0];
+	start = str + 1;
+	end = ft_strchr(start, quote);
+	if (quote == '\'')
+		*in_quotes = true;
 	else
-        *in_quotes = false;
-    if (end)
+		*in_quotes = false;
+	if (end)
 	{
-        *end = '\0';
-        *saveptr = end + 1;
-    }
+		*end = '\0';
+		*saveptr = end + 1;
+	}
 	else
-        *saveptr = str + strlen(str);
-    return (start);
+		*saveptr = str + strlen(str);
+	return (start);
 }
 
-
-char *parse_first_quoted_argument(char *str, char **saveptr, t_arg *arg_struct)
+char	*parse_first_quoted_argument(char *str, char **saveptr,
+		t_arg *arg_struct)
 {
-    char quote;
-    char *start;
-    char *end;
+	char	quote;
+	char	*start;
+	char	*end;
 
-    quote = str[0];
-    start = str + 1;
-    end = ft_strchr(start, quote);
+	quote = str[0];
+	start = str + 1;
+	end = ft_strchr(start, quote);
 	if (str[0] == '\'')
-    	arg_struct->in_quotes = true;
-    if (end)
-    {
-        *end = '\0';
-        *saveptr = end + 1;
-    }
-    else
-    {
-        *saveptr = str + strlen(str);
-    }
-    arg_struct->arg = start;
-    return str;
+		arg_struct->in_quotes = true;
+	if (end)
+	{
+		*end = '\0';
+		*saveptr = end + 1;
+	}
+	else
+	{
+		*saveptr = str + strlen(str);
+	}
+	arg_struct->arg = start;
+	return (str);
 }
 
 char	*add_space_at_start(char *input)
 {
-    char	*result;
+	char	*result;
 
 	result = malloc(ft_strlen(input) + 2);
-    if (!result)
-        return NULL;
-    result[0] = ' ';
-    ft_strcpy(result + 1, input);
-    return (result);
+	if (!result)
+		return (NULL);
+	result[0] = ' ';
+	ft_strcpy(result + 1, input);
+	return (result);
 }
 
-
-char	*ft_strtok_r(char *str, const char *delim, char **saveptr, t_arg *arg_struct)
+char	*ft_strtok_r(char *str, const char *delim, char **saveptr,
+		t_arg *arg_struct)
 {
 	char	*start;
 	bool	inside_quotes;
@@ -123,24 +123,23 @@ char	*ft_strtok_r(char *str, const char *delim, char **saveptr, t_arg *arg_struc
 	if (*str == '"' || *str == '\'')
 	{
 		arg_struct->arg = handle_quotes(str, saveptr, &arg_struct->in_quotes);
-        return (arg_struct->arg);
+		return (arg_struct->arg);
 	}
 	start = str;
-    while (*str)
-    {
-        if ((*str == '"' || *str == '\'') && !inside_quotes)
-        {
-            inside_quotes = true;
-        }
-        else if ((*str == '"' || *str == '\'') && inside_quotes)
-        {
-            inside_quotes = false;
-        }
-        else if (ft_strchr(delim, *str) && !inside_quotes)
-            break;
-
-        str++;
-    }
+	while (*str)
+	{
+		if ((*str == '"' || *str == '\'') && !inside_quotes)
+		{
+			inside_quotes = true;
+		}
+		else if ((*str == '"' || *str == '\'') && inside_quotes)
+		{
+			inside_quotes = false;
+		}
+		else if (ft_strchr(delim, *str) && !inside_quotes)
+			break ;
+		str++;
+	}
 	if (*str)
 	{
 		*str = '\0';
@@ -154,24 +153,24 @@ char	*ft_strtok_r(char *str, const char *delim, char **saveptr, t_arg *arg_struc
 
 t_command	*parse_command(char *input)
 {
-	t_command	*head;
-	t_command	*current;
-	t_command	*new_cmd;
-	t_arg		arg_struct;
-	char		*token;
-	char		*saveptr1;
+	t_command *head;
+	t_command *current;
+	t_command *new_cmd;
+	t_arg arg_struct;
+	char *token;
+	char *saveptr1;
 
 	head = NULL;
 	current = NULL;
 	token = ft_strtok_r(input, "|", &saveptr1, &arg_struct);
-	//if (token)
+	// if (token)
 	//	wypisanko(token, "pierwszy: ");
 	while (token != NULL)
 	{
 		new_cmd = create_new_command(token);
 		if (!new_cmd)
 			return (NULL);
-		//if (token)
+		// if (token)
 		//	wypisanko(token, "command: ");
 		parse_arguments(new_cmd, token);
 		add_command_to_list(&head, &current, new_cmd);

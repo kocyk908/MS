@@ -64,7 +64,6 @@ void	parse_arguments(t_command *new_cmd, char *token)
 	i = 0;
 	arg_struct.is_first = true;
 	arg = ft_strtok_r(token, " ", &saveptr2, &arg_struct);
-	//wypisanko(arg, "arguments: ");
 	while (arg != NULL)
 	{
 		handle_redirections(new_cmd, arg, &saveptr2);
@@ -72,7 +71,8 @@ void	parse_arguments(t_command *new_cmd, char *token)
 			&& ft_strcmp(arg, ">") != 0 && ft_strcmp(arg, ">>") != 0)
 		{
 			new_cmd->args[i] = arg_struct;
-			new_cmd->args[i].ignore_pipe = arg_struct.in_quotes && ft_strchr(arg, '|');
+			new_cmd->args[i].ignore_pipe = arg_struct.in_quotes
+				&& ft_strchr(arg, '|');
 			i++;
 		}
 		arg = ft_strtok_r(NULL, " ", &saveptr2, &arg_struct);

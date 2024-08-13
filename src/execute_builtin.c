@@ -56,14 +56,11 @@ void	builtin_exit(t_arg *args)
 	}
 	else if (i > 2)
 	{
-		ft_putstr_fd("hej ", 1);
 		printf("bash: exit: too many arguments\n");
 		return ;
 	}
 	else
-	{
 		exit(0);
-	}
 }
 
 void	execute_builtin(t_command *command, t_gen *gen)
@@ -81,9 +78,13 @@ void	execute_builtin(t_command *command, t_gen *gen)
 	else if (ft_strcmp(command->args[0].arg, "history") == 0)
 		ft_display_history_list(gen);
 	else if (ft_strcmp(command->args[0].arg, "export") == 0)
-	{
-		if (!command->args[1].arg)
-			command->args[1].arg = NULL;
 		ft_export_env(gen, command->args[1].arg);
-	}
+}
+
+int	is_builtin(char *cmd)
+{
+	return ((ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "cd") == 0
+			|| ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "exit") == 0)
+		|| (ft_strcmp(cmd, "history") == 0) || (ft_strcmp(cmd, "export") == 0)
+		|| (ft_strcmp(cmd, "unset") == 0));
 }

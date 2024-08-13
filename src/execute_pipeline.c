@@ -1,6 +1,6 @@
 #include "minishell.h"
-#include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/types.h>
 
 void	ft_read_fd(t_command *command, t_gen *gen, int i)
 {
@@ -40,82 +40,36 @@ void	ft_write_fd(t_command *command, t_gen *gen, int i)
 	}
 }
 
-void check_stdout_pipe(void)
+void	check_stdout_pipe(void)
 {
-    struct stat st;
-    if (fstat(STDOUT_FILENO, &st) == -1) {
-        perror("fstat");
-        return;
-    }
+	struct stat	st;
 
-    if (S_ISFIFO(st.st_mode))
-        fprintf(stderr, "stdout is connected to a pipe or FIFO\n");
-    else
-        fprintf(stderr, "stdout is not connected to a pipe\n");
+	if (fstat(STDOUT_FILENO, &st) == -1)
+	{
+		perror("fstat");
+		return ;
+	}
+	if (S_ISFIFO(st.st_mode))
+		fprintf(stderr, "stdout is connected to a pipe or FIFO\n");
+	else
+		fprintf(stderr, "stdout is not connected to a pipe\n");
 }
 
-char    **convert_args(t_arg *args)
+void	ft_child_process(t_command *command, t_gen *gen, int i)
 {
-    int i;
-    int count;
-    char    **argv;
+	char	**argv;
 
-    i = 0;
-    count = 0;
-    while (args[count].arg)
-        count++;
-    argv = malloc((count + 1) * sizeof(char *));
-    if (!argv)
-        exit(EXIT_FAILURE);
-    while (i < count)
-    {
-        argv[i] = args[i].arg;
-        i++;
-    }
-    argv[i] = NULL;
-    return (argv);
+	argv = convert_args(command->args);
+	ft_read_fd(command, gen, i);
+	ft_write_fd(command, gen, i);
+	if (execve(command->path, argv, gen->envs) == -1)
+	{
+		write(2, command->args[0].arg, ft_strlen(command->args[0].arg));
+		write(2, ": command not found\n", 20);
+		exit(127);
+	}
+	free(argv);
 }
-
-
-void ft_child_process(t_command *command, t_gen *gen, int i)
-{
-    char **argv;
-
-    argv = convert_args(command->args);
-    ft_read_fd(command, gen, i);
-    ft_write_fd(command, gen, i);
-    if (execve(command->path, argv, gen->envs) == -1)
-    {
-        printf("%s: command not found\n", command->args[0].arg);
-        exit(127);
-    }
-   free(argv);
-}
-
-
-// void ft_child_process(t_command *command, t_gen *gen, int i)
-// {
-//     char **argv;
-
-//     argv = convert_args(command->args);
-//     ft_read_fd(command, gen, i);
-//     ft_write_fd(command, gen, i);
-//     if (is_builtin(command->args[0].arg))
-//     {
-//         execute_builtin(command, gen);
-//         close_pipes(gen);
-//         exit(gen->exit_status);
-//     }
-//     else
-//     {
-//         if (execve(command->path, argv, gen->envs) == -1)
-//         {
-//             printf("%s: command not found\n", command->args[0].arg);
-//             exit(127);
-//         }
-//     }
-//     free(argv);
-// }
 
 int	execute_pipeline(t_command *command, t_gen *gen)
 {
@@ -136,6 +90,6 @@ int	execute_pipeline(t_command *command, t_gen *gen)
 		gen->exit_status = WEXITSTATUS(status);
 		i++;
 	}
-    gen->is_blocking = 0;
+	gen->is_blocking = 0;
 	return (0);
 }

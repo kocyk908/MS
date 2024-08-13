@@ -1,5 +1,27 @@
 #include "minishell.h"
 
+char	**convert_args(t_arg *args)
+{
+	int		i;
+	int		count;
+	char	**argv;
+
+	i = 0;
+	count = 0;
+	while (args[count].arg)
+		count++;
+	argv = malloc((count + 1) * sizeof(char *));
+	if (!argv)
+		exit(EXIT_FAILURE);
+	while (i < count)
+	{
+		argv[i] = args[i].arg;
+		i++;
+	}
+	argv[i] = NULL;
+	return (argv);
+}
+
 void	init_pipes(t_gen *gen)
 {
 	int	i;
@@ -45,3 +67,5 @@ void	create_child_processes(t_command *command, t_gen *gen)
 		i++;
 	}
 }
+
+
