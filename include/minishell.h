@@ -13,18 +13,13 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-// typedef struct s_input
-// {
-// 	bool	is_empty;
-// }	t_input;
-
 typedef struct s_arg
 {
-    char *arg;
-    bool in_quotes;
-	bool ignore_pipe;
-	bool is_first;
-} t_arg;
+	char				*arg;
+	bool				in_quotes;
+	bool				ignore_pipe;
+	bool				is_first;
+}						t_arg;
 
 typedef struct s_redirs
 {
@@ -64,7 +59,8 @@ typedef struct s_gen
 // main
 
 void					process_input(t_gen *gen, char *input);
-void					init_structs(t_gen **gen, t_redirs **redirs, char **av, int ac);
+void					init_structs(t_gen **gen, t_redirs **redirs,
+							char **av, int ac);
 t_command				*create_new_command(char *token);
 void					print_parsed_arguments(t_command *cmd_list);
 int						check_unclosed_quotes(t_gen *gen, char *input);
@@ -81,8 +77,9 @@ size_t					ft_strspn(const char *str, const char *delim);
 t_command				*parse_command(char *input);
 void					parse_arguments(t_command *new_cmd, char *token);
 char					*add_space_at_start(char *input);
-char	*parse_first_quoted_argument(char *str, char **saveptr, t_arg *arg_struct);
-
+char					*find_token_end(char *str, const char *delim,
+							bool *inside_quotes);
+char					*skip_delimiters(char *str, const char *delim);
 
 // pipex
 
@@ -146,7 +143,8 @@ void					builtin_exit(t_arg *args);
 
 void					ft_env_val(t_gen *gen, char *str, int fd);
 void					ft_env_val_vol3(char *env, char *trimmed_env, int fd);
-void					ft_env_val_vol2(t_gen *gen, char *trimmed_env, int fd, int i);
+void					ft_env_val_vol2(t_gen *gen, char *trimmed_env,
+							int fd, int i);
 void					ft_export_env_vol2(t_gen *gen, char *env, int env_len);
 void					ft_export_env(t_gen *gen, char *env);
 void					ft_copy_envp(t_gen *gen, char **envp);
@@ -159,8 +157,8 @@ bool					ft_env_cmp(t_gen *gen, char *env);
 void					signal_d(void);
 void					signal_c(int sig);
 void					signal_c_duo(int sig);
-void					init_signals();
-void					init_signals_duo();
+void					init_signals(void);
+void					init_signals_duo(void);
 void					signal_quit(int sig);
 void					signal_quit_duo(int sig);
 
