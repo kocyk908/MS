@@ -67,5 +67,3 @@ void	create_child_processes(t_command *command, t_gen *gen)
 		i++;
 	}
 }
-
-

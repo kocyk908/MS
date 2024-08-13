@@ -151,29 +151,33 @@ char	*ft_strtok_r(char *str, const char *delim, char **saveptr,
 	return (start);
 }
 
+int	process_command_token(char *token, t_command **head, t_command **current)
+{
+	t_command	*new_cmd;
+
+	new_cmd = create_new_command(token);
+	if (!new_cmd)
+		return (0);
+	parse_arguments(new_cmd, token);
+	add_command_to_list(head, current, new_cmd);
+	return (1);
+}
+
 t_command	*parse_command(char *input)
 {
-	t_command *head;
-	t_command *current;
-	t_command *new_cmd;
-	t_arg arg_struct;
-	char *token;
-	char *saveptr1;
+	t_command	*head;
+	t_command	*current;
+	t_arg		arg_struct;
+	char		*token;
+	char		*saveptr1;
 
 	head = NULL;
 	current = NULL;
 	token = ft_strtok_r(input, "|", &saveptr1, &arg_struct);
-	// if (token)
-	//	wypisanko(token, "pierwszy: ");
 	while (token != NULL)
 	{
-		new_cmd = create_new_command(token);
-		if (!new_cmd)
+		if (!process_command_token(token, &head, &current))
 			return (NULL);
-		// if (token)
-		//	wypisanko(token, "command: ");
-		parse_arguments(new_cmd, token);
-		add_command_to_list(&head, &current, new_cmd);
 		token = ft_strtok_r(NULL, "|", &saveptr1, &arg_struct);
 	}
 	return (head);

@@ -40,21 +40,6 @@ void	ft_write_fd(t_command *command, t_gen *gen, int i)
 	}
 }
 
-void	check_stdout_pipe(void)
-{
-	struct stat	st;
-
-	if (fstat(STDOUT_FILENO, &st) == -1)
-	{
-		perror("fstat");
-		return ;
-	}
-	if (S_ISFIFO(st.st_mode))
-		fprintf(stderr, "stdout is connected to a pipe or FIFO\n");
-	else
-		fprintf(stderr, "stdout is not connected to a pipe\n");
-}
-
 void	ft_child_process(t_command *command, t_gen *gen, int i)
 {
 	char	**argv;

@@ -155,10 +155,10 @@ bool					ft_env_cmp(t_gen *gen, char *env);
 
 void					signal_d(void);
 void					signal_c(int sig);
+void					signal_c_duo(int sig);
 void					init_signals();
 void					init_signals_duo();
-
-
-void wypisanko(char *token, char *input);
+void					signal_quit(int sig);
+void					signal_quit_duo(int sig);
 
 #endif

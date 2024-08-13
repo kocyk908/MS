@@ -12,6 +12,7 @@ void	handle_input_redir(t_redirs *redirs, char **saveptr2)
 	if (redirs->input_redir == -1)
 		perror("open input redir");
 }
+
 void	handle_output_redir(t_redirs *redirs, char **saveptr2)
 {
 	char	*arg;
