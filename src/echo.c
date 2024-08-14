@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by lkoc              #+#    #+#             */
-/*   Updated: 2024/08/13 23:25:00 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/15 00:13:19 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_buildin_echo_vol3(t_gen *gen, t_arg *args, int fd, int i)
 {
 	while (args[i].arg)
 	{
-		if (args[i].arg[0] == '$' && !(args[i].in_quotes))
+		if (args[i].arg[0] == '$' && args[i].in_quotes != '\'')
 			ft_env_val(gen, args[i].arg, fd);
 		else
 			ft_putstr_fd(args[i].arg, fd);

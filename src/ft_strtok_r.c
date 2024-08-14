@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*handle_quotes(char *str, char **saveptr, bool *in_quotes)
+char	*handle_quotes(char *str, char **saveptr, char *in_quotes)
 {
 	char	quote;
 	char	*start;
@@ -21,10 +21,7 @@ char	*handle_quotes(char *str, char **saveptr, bool *in_quotes)
 	quote = str[0];
 	start = str + 1;
 	end = ft_strchr(start, quote);
-	if (quote == '\'')
-		*in_quotes = true;
-	else
-		*in_quotes = false;
+	*in_quotes = quote;
 	if (end)
 	{
 		*end = '\0';
@@ -60,7 +57,6 @@ char	*find_next_token(char *str, const char *delim,
 	}
 	else
 		*saveptr = str;
-	arg_struct->in_quotes = inside_quotes;
 	arg_struct->arg = start;
 	return (arg_struct->arg);
 }
