@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by lkoc              #+#    #+#             */
-/*   Updated: 2024/08/13 23:26:08 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/15 00:42:36 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	handle_heredoc(t_redirs *redirs, char **saveptr2)
 	t_arg	token;
 
 	temp = NULL;
-	token.in_quotes = false;
+	token.which_quotes = false;
 	arg = ft_strtok_r(NULL, " ", saveptr2, &token);
 	redirs->is_heredoc = 1;
 	redirs->input_redir = open("heredoc.txt", O_WRONLY | O_CREAT, 0644);

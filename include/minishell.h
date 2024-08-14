@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/08/15 00:11:53 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/15 00:41:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 typedef struct s_arg
 {
 	char				*arg;
-	char				in_quotes;
+	char				which_quotes;
 	bool				ignore_pipe;
 	bool				is_first;
 }						t_arg;

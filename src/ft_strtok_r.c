@@ -77,7 +77,7 @@ char	*ft_strtok_r(char *str, const char *delim, char **saveptr,
 	}
 	if (*str == '"' || *str == '\'')
 	{
-		arg_struct->arg = handle_quotes(str, saveptr, &arg_struct->in_quotes);
+		arg_struct->arg = handle_quotes(str, saveptr, &arg_struct->which_quotes);
 		return (arg_struct->arg);
 	}
 	return (find_next_token(str, delim, saveptr, arg_struct));
