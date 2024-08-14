@@ -35,44 +35,24 @@ char	*handle_quotes(char *str, char **saveptr, bool *in_quotes)
 	return (start);
 }
 
-char	*skip_delimiters(char *str, const char *delim)
+char	*find_next_token(char *str, const char *delim,
+				char **saveptr, t_arg *arg_struct)
 {
-	while (*str && ft_strchr(delim, *str))
-		str++;
-	return (str);
-}
+	char	*start;
+	bool	inside_quotes;
 
-char	*find_token_end(char *str, const char *delim, bool *inside_quotes)
-{
+	start = str;
+	inside_quotes = false;
 	while (*str)
 	{
-		if ((*str == '"' || *str == '\''))
-			*inside_quotes = !*inside_quotes;
-		else if (ft_strchr(delim, *str) && !*inside_quotes)
+		if ((*str == '"' || *str == '\'') && !inside_quotes)
+			inside_quotes = true;
+		else if ((*str == '"' || *str == '\'') && inside_quotes)
+			inside_quotes = false;
+		else if (ft_strchr(delim, *str) && !inside_quotes)
 			break ;
 		str++;
 	}
-	return (str);
-}
-
-char	*ft_strtok_r(char *str, const char *delim, char **saveptr, t_arg *arg)
-{
-	char	*start;
-
-	if (!str)
-		str = *saveptr;
-	if (arg->is_first && (str[0] == '\'' || str[0] == '"'))
-		str = add_space_at_start(str);
-	str = skip_delimiters(str, delim);
-	if (*str == '\0')
-	{
-		*saveptr = str;
-		return (NULL);
-	}
-	if (*str == '"' || *str == '\'')
-		return (arg->arg = handle_quotes(str, saveptr, &arg->in_quotes));
-	start = str;
-	str = find_token_end(str, delim, &arg->in_quotes);
 	if (*str)
 	{
 		*str = '\0';
@@ -80,6 +60,29 @@ char	*ft_strtok_r(char *str, const char *delim, char **saveptr, t_arg *arg)
 	}
 	else
 		*saveptr = str;
-	arg->arg = start;
-	return (start);
+	arg_struct->in_quotes = inside_quotes;
+	arg_struct->arg = start;
+	return (arg_struct->arg);
+}
+
+char	*ft_strtok_r(char *str, const char *delim, char **saveptr,
+		t_arg *arg_struct)
+{
+	if (!str)
+		str = *saveptr;
+	if (arg_struct->is_first && (str[0] == '\'' || str[0] == '"'))
+		str = add_space_at_start(str);
+	while (*str && ft_strchr(delim, *str))
+		str++;
+	if (*str == '\0')
+	{
+		*saveptr = str;
+		return (NULL);
+	}
+	if (*str == '"' || *str == '\'')
+	{
+		arg_struct->arg = handle_quotes(str, saveptr, &arg_struct->in_quotes);
+		return (arg_struct->arg);
+	}
+	return (find_next_token(str, delim, saveptr, arg_struct));
 }
