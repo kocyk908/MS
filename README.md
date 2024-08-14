@@ -1,3 +1,9 @@
+- Ctrl-\ in Empty Prompt**: No action ✔ (czasem wyskakuje ^\ na moment, nie wiem czy sie z tym bawic)
+- to samo z not emptry prompt**
+  
+- Set `$PATH` with Multiple Directories and Check Order: (chyba działa, lepiej żebyś sam ocenił) ✔
+------------------
+
 # Minishell Evaluation Checklist
 
 ## Compile
@@ -7,14 +13,14 @@
 
 ## Simple Command & Global Variables 
 - **Execute `/bin/ls`**: ✔
-![image](https://github.com/user-attachments/assets/08e42f86-75c7-483a-82e6-90c8ec1c0257)
 - **No Global Variables**: Ensure no global variables are used ✔✔
 - **Empty Command Line**: Handle empty command lines correctly ✔
-![image](https://github.com/user-attachments/assets/e9ab146f-d62d-436d-ab44-93f56c0fbd12)
 - **Spaces or Tabs Only**: Handle lines with only spaces or tabs ✔✔
 
 ## Arguments
-- **Execute `/bin/ls` with Arguments**: (nie jestem pewny czy rozumiem) ?
+- **Execute`/bin/ls` with Arguments**: ✔
+  przykład:	/bin/ls -l
+  		/bin/ls -a
 
 ## Echo
 - **Echo with and without Arguments**: ✔
@@ -25,29 +31,31 @@
 - **Exit with Various Arguments**: ✔
 
 ## Return Value of a Process
-- **Execute `/bin/ls` and Check `echo $?`**: ✔
+- **Execute sth with absolute path like `/bin/ls` and Check `echo $?`**: ✔
+- **Check the printed value. You can do the same in bash in order to compare the results.** ✔
+  **Try some wrong commands like '/bin/ls filethatdoesntexist'**
+- **Try anything like expr $? + $?** ✔
 
 ## Signals
 - **Ctrl-C in Empty Prompt**: Display a new line with a new prompt ✔
-- **Ctrl-\ in Empty Prompt**: No action ❌
+- **Ctrl-\ in Empty Prompt**: No action ✔ (czasem wyskakuje ^\ na moment, nie wiem czy sie z tym bawic)
 - **Ctrl-D in Empty Prompt**: Quit minishell and relaunch ✔
 - **Ctrl-C in Non-Empty Prompt**: Display a new line with a new prompt, buffer should be clean ✔
 - **Ctrl-D in Non-Empty Prompt**: No action ✔
-- **Ctrl-\ in Non-Empty Prompt**: No action ❌
-- **Ctrl-C after Blocking Command**: Proper handling with a new prompt ✔❌
-- **Ctrl-\ after Blocking Command**: ❌
+- **Ctrl-\ in Non-Empty Prompt**: No action ✔
+- **Ctrl-C after Blocking Command**: Proper handling with a new prompt ✔
+- **Ctrl-\ after Blocking Command**: ✔
 - **Ctrl-D after Blocking Command**: Properly exits ✔
 
 ## Double Quotes
 - **Simple Command with Arguments and Double Quotes**: ✔
-- **Command like `echo "cat lol.c | cat > lol.c"`**: ❌
+- **Command like `echo "cat lol.c | cat > lol.c"`**: ✔
 - **Anything except `$`**: nie działa jeszce $
 
 ## Single Quotes
 - **Commands with Single Quotes as Arguments**: ✔
 - **Empty Arguments**: ✔
-![image](https://github.com/user-attachments/assets/71209fe3-2800-4820-8b81-610856c29759)
-- **Environment Variables, Whitespaces, Pipes, Redirection in Single Quotes**: ❌??
+- **Environment Variables, Whitespaces, Pipes, Redirection in Single Quotes**: ❌?? redirsy w quotes
 - **`echo '$USER'` must print "$USER"**: ✔
 - **Nothing Should be Interpreted**:
 
@@ -56,8 +64,6 @@
 
 ## Export
 - **Export Environment Variables, Create New Ones, Replace Old Ones**: ✔
-  nadpisanie nie działa, robią się nowe env o tej samej nazwie
-![image](https://github.com/user-attachments/assets/ddf8b45f-bae4-46b8-93de-1fb53bf269be)
 - **Check Result with `env`**: ✔
 
 ## Unset
@@ -79,9 +85,9 @@
 - **Complex Relative Paths with `..`**: ✔
 
 ## Environment Path
-- **Execute Commands without Path (`ls`, `wc`, `awk`, etc.)**: (Not checked)
-- **Unset `$PATH` and Ensure Commands Don't Work**: (Not checked)
-- **Set `$PATH` with Multiple Directories and Check Order**: (Not checked)
+- **Execute Commands without Path (`ls`, `wc`, `awk`, etc.)**: ✔
+- **Unset `$PATH` and Ensure Commands Don't Work**:
+- **Set `$PATH` with Multiple Directories and Check Order**: (chyba działa, lepiej żebyś sam ocenił) ✔
 
 ## Redirection
 - **Execute Commands with `<` and `>`**: ✔
@@ -104,8 +110,8 @@
 - **Long Commands with Many Arguments**: (Not checked)
 
 ## Environment Variables Handling
-- **Echo with Environment Variables (`$variable`)**: ✔ `$` handling not implemented
-- **Check `$` as Environment Variable**: ❌??
+- **Echo with Environment Variables (`$variable`)**: ✔ 
+- **Check `$` as Environment Variable**: ✔
 - **Double Quotes Should Interpolate `$`**: ✔ 
 - **Check if `USER` Exists**: (Set if not)
 - **`echo "$USER"` Should Print User Variable**: ✔ 
