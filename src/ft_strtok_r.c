@@ -62,11 +62,11 @@ char	*find_next_token(char *str, const char *delim,
 }
 
 char	*ft_strtok_r(char *str, const char *delim, char **saveptr,
-		t_arg *arg_struct)
+		t_arg *arg_str)
 {
 	if (!str)
 		str = *saveptr;
-	if (arg_struct->is_first && (str[0] == '\'' || str[0] == '"'))
+	if (arg_str->is_first && (str[0] == '\'' || str[0] == '"'))
 		str = add_space_at_start(str);
 	while (*str && ft_strchr(delim, *str))
 		str++;
@@ -77,8 +77,8 @@ char	*ft_strtok_r(char *str, const char *delim, char **saveptr,
 	}
 	if (*str == '"' || *str == '\'')
 	{
-		arg_struct->arg = handle_quotes(str, saveptr, &arg_struct->which_quotes);
-		return (arg_struct->arg);
+		arg_str->arg = handle_quotes(str, saveptr, &arg_str->which_quotes);
+		return (arg_str->arg);
 	}
-	return (find_next_token(str, delim, saveptr, arg_struct));
+	return (find_next_token(str, delim, saveptr, arg_str));
 }

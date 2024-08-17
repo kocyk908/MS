@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by lkoc              #+#    #+#             */
-/*   Updated: 2024/08/13 23:25:35 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/18 01:07:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,14 @@
 void	builtin_cd(t_arg *args)
 {
 	char	*home_dir;
+	int		i;
 
+	i = 0;
+	while (args[i].arg)
+		i++;
+	cd_too_many(i);
+	if (i > 2)
+		return ;
 	if (!args[1].arg)
 	{
 		home_dir = getenv("HOME");
@@ -30,7 +37,7 @@ void	builtin_cd(t_arg *args)
 	else
 	{
 		if (chdir(args[1].arg) != 0)
-			perror("cd failed");
+			printf("cd: %s: No such file or directory\n", args[1].arg);
 	}
 }
 

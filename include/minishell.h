@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/08/15 00:41:27 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/18 01:09:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ void					builtin_echo(t_arg *args, t_redirs *redirs, t_gen *gen);
 void					builtin_cd(t_arg *args);
 void					builtin_pwd(void);
 void					builtin_exit(t_arg *args);
+void					cd_too_many(int i);
 
 // envp
 
