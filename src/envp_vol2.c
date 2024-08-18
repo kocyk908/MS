@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/08/13 23:25:06 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/18 23:02:34 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	ft_env_val_vol2(t_gen *gen, char *trimmed_env, int fd, int i)
 	}
 }
 
-void	ft_env_val(t_gen *gen, char *str, int fd)
+void	ft_env_val(t_gen *gen, char *str, int fd, char quotes)
 {
 	char	*trimmed_env;
 	int		i;
@@ -72,6 +72,8 @@ void	ft_env_val(t_gen *gen, char *str, int fd)
 	i = 0;
 	while (str[i + 1])
 	{
+		if (str[i + 1] == ' ' && quotes == '"')
+			break ;
 		trimmed_env[i] = str[i + 1];
 		i++;
 	}

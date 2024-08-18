@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/08/18 01:09:05 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/18 23:02:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ void					cd_too_many(int i);
 
 // envp
 
-void					ft_env_val(t_gen *gen, char *str, int fd);
+void					ft_env_val(t_gen *gen, char *str, int fd, char quote);
 void					ft_env_val_vol3(char *env, char *trimmed_env, int fd);
 void					ft_env_val_vol2(t_gen *gen, char *trimmed_env,
 							int fd, int i);

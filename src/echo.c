@@ -6,24 +6,47 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by lkoc              #+#    #+#             */
-/*   Updated: 2024/08/18 21:32:41 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/18 23:09:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	ft_process_dollar(t_gen *gen, t_arg *arg, int fd, int j)
+{
+	if (arg->arg[j + 1] == '\0' || arg->arg[j + 1] == ' ')
+	{
+		ft_putchar_fd('$', fd);
+		j++;
+	}
+	else
+	{
+		ft_env_val(gen, arg->arg + j, fd, arg->which_quotes);
+		while (arg->arg[j] && arg->arg[j] != ' ')
+			j++;
+	}
+	return (j);
+}
+
 void	ft_buildin_echo_vol3(t_gen *gen, t_arg *args, int fd, int i)
 {
+	int		j;
+
 	while (args[i].arg)
 	{
-		if (ft_strcmp(args[i].arg, "$") == 0 && args[i].which_quotes != '\'')
+		j = 0;
+		while (args[i].arg[j])
 		{
-			ft_putstr_fd(args[i].arg, 1);
+			if (args[i].arg[j] == '$' && args[i].which_quotes != '\'')
+			{
+				j = ft_process_dollar(gen, &args[i], fd, j);
+			}
+			else
+			{
+				ft_putchar_fd(args[i].arg[j], fd);
+				j++;
+			}
 		}
-		if (args[i].arg[0] == '$' && args[i].which_quotes != '\'')
-			ft_env_val(gen, args[i].arg, fd);
-		else
-			ft_putstr_fd(args[i].arg, fd);
 		if (args[i + 1].arg)
 			ft_putstr_fd(" ", fd);
 		i++;
