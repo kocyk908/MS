@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by lkoc              #+#    #+#             */
-/*   Updated: 2024/08/18 10:56:54 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/18 11:40:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,35 @@ void	add_command_to_list(t_command **head, t_command **current,
 	}
 }
 
+void	process_argument(t_command *new_cmd, t_arg *arg_struct,
+			char **saveptr2, int *i)
+{
+	char	*arg;
+
+	arg = arg_struct->arg;
+	if ((arg_struct->which_quotes == '\'' || arg_struct->which_quotes == '"')
+		&& (ft_strcmp(arg, "<") == 0 || ft_strcmp(arg, "<<") == 0
+			|| ft_strcmp(arg, ">") == 0 || ft_strcmp(arg, ">>") == 0
+			|| ft_strcmp(arg, "|") == 0))
+	{
+		new_cmd->args[*i] = *arg_struct;
+		(*i)++;
+	}
+	else
+	{
+		if (ft_strcmp(arg, "<") == 0 || ft_strcmp(arg, "<<") == 0
+			|| ft_strcmp(arg, ">") == 0 || ft_strcmp(arg, ">>") == 0)
+			handle_redirections(new_cmd, arg, saveptr2);
+		else
+		{
+			new_cmd->args[*i] = *arg_struct;
+			new_cmd->args[*i].ignore_pipe = arg_struct->which_quotes != '\0'
+				&& ft_strchr(arg, '|');
+			(*i)++;
+		}
+	}
+}
+
 void	parse_arguments(t_command *new_cmd, char *token)
 {
 	t_arg	arg_struct;
@@ -78,18 +107,7 @@ void	parse_arguments(t_command *new_cmd, char *token)
 	arg = ft_strtok_r(token, " ", &saveptr2, &arg_struct);
 	while (arg != NULL)
 	{
-		if (arg_struct.which_quotes != '\0'
-			&& (ft_strcmp(arg, "<") == 0 || ft_strcmp(arg, "<<") == 0
-				|| ft_strcmp(arg, ">") == 0 || ft_strcmp(arg, ">>") == 0
-				|| ft_strcmp(arg, "|") == 0))
-			handle_redirections(new_cmd, arg, &saveptr2);
-		else
-		{
-			new_cmd->args[i] = arg_struct;
-			new_cmd->args[i].ignore_pipe = arg_struct.which_quotes != '\0'
-				&& ft_strchr(arg, '|');
-			i++;
-		}
+		process_argument(new_cmd, &arg_struct, &saveptr2, &i);
 		arg = ft_strtok_r(NULL, " ", &saveptr2, &arg_struct);
 	}
 	new_cmd->args[i].arg = NULL;
