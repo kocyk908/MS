@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by lkoc              #+#    #+#             */
-/*   Updated: 2024/08/15 11:06:59 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/18 10:56:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	parse_arguments(t_command *new_cmd, char *token)
 	arg = ft_strtok_r(token, " ", &saveptr2, &arg_struct);
 	while (arg != NULL)
 	{
-		if (arg_struct.which_quotes == '\0'
+		if (arg_struct.which_quotes != '\0'
 			&& (ft_strcmp(arg, "<") == 0 || ft_strcmp(arg, "<<") == 0
 				|| ft_strcmp(arg, ">") == 0 || ft_strcmp(arg, ">>") == 0
 				|| ft_strcmp(arg, "|") == 0))

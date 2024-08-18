@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by lkoc              #+#    #+#             */
-/*   Updated: 2024/08/18 01:07:35 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/18 10:42:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	builtin_cd(t_arg *args)
 {
 	char	*home_dir;
 	int		i;
-
 	i = 0;
 	while (args[i].arg)
 		i++;
