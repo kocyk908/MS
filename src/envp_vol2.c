@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/08/19 00:23:23 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/20 00:15:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,13 @@ void	ft_env_val(t_gen *gen, char *str, int fd, char quotes)
 		i++;
 	}
 	trimmed_env[i] = '\0';
-	if (!ft_strcmp(trimmed_env, "?"))
+	if (trimmed_env[0] == '?')
+	{
 		ft_putnbr_fd(gen->exit_status, fd);
+		if (!(trimmed_env[1] >= 9 && trimmed_env[1] <= 13)
+			&& trimmed_env[1] != ' ' && trimmed_env[1] != '\0')
+			ft_putstr_fd(trimmed_env + 1, 1);
+	}
 	i = 0;
 	ft_env_val_vol2(gen, trimmed_env, fd, i);
 	free(trimmed_env);
