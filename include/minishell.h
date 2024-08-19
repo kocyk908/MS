@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/08/18 23:02:52 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/20 01:04:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ int						if_whitespace(char *str);
 int						digits_only(char *str);
 void					ft_copy_arr(char **dest, char **src, int arr_len);
 int						ft_strlen_env(char *str, char c);
+void					remove_enclosing_quotes(char *str);
 
 // free
 
@@ -151,6 +152,7 @@ void					builtin_cd(t_arg *args);
 void					builtin_pwd(void);
 void					builtin_exit(t_arg *args);
 void					cd_too_many(int i);
+int						quote_inside(char *str);
 
 // envp
 

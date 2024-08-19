@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by lkoc              #+#    #+#             */
-/*   Updated: 2024/08/13 23:27:56 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/20 01:03:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,11 @@ int	digits_only(char *str)
 	i = 0;
 	if (!str)
 		return (0);
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	remove_enclosing_quotes(str + i);
 	while (str[i])
 	{
-		if (i != 0 && str[i] == '-')
-			return (0);
 		if (ft_isdigit(str[i]) == 0)
 			return (0);
 		i++;
