@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by lkoc              #+#    #+#             */
-/*   Updated: 2024/08/18 23:09:15 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/19 23:56:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,32 @@ static int	ft_process_dollar(t_gen *gen, t_arg *arg, int fd, int j)
 	return (j);
 }
 
+static int	quote_inside(char *str)
+{
+	int		i;
+	char	quote;
+	int		open_quotes;
+
+	i = 0;
+	open_quotes = 0;
+	quote = '\0';
+	while (str[i])
+	{
+		if (quote == '\0' && (str[i] == '\'' || str[i] == '"'))
+		{
+			quote = str[i];
+			open_quotes++;
+		}
+		else if (str[i] == quote)
+		{
+			quote = '\0';
+			open_quotes++;
+		}
+		i++;
+	}
+	return (open_quotes % 2 == 0);
+}
+
 void	ft_buildin_echo_vol3(t_gen *gen, t_arg *args, int fd, int i)
 {
 	int		j;
@@ -38,12 +64,16 @@ void	ft_buildin_echo_vol3(t_gen *gen, t_arg *args, int fd, int i)
 		while (args[i].arg[j])
 		{
 			if (args[i].arg[j] == '$' && args[i].which_quotes != '\'')
-			{
 				j = ft_process_dollar(gen, &args[i], fd, j);
-			}
 			else
 			{
-				ft_putchar_fd(args[i].arg[j], fd);
+				if (quote_inside(args[i].arg))
+				{
+					if (args[i].arg[j] != '\'' && args[i].arg[j] != '"')
+						ft_putchar_fd(args[i].arg[j], fd);
+				}
+				else
+					ft_putchar_fd(args[i].arg[j], fd);
 				j++;
 			}
 		}
