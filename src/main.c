@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by lkoc              #+#    #+#             */
-/*   Updated: 2024/08/16 18:15:26 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/21 00:58:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,25 +53,6 @@ int	check_unclosed_quotes(t_gen *gen, char *input)
 		return (1);
 	}
 	return (0);
-}
-
-void	print_parsed_arguments(t_command *cmd_list)
-{
-	t_command	*cmd;
-	int			i;
-
-	cmd = cmd_list;
-	while (cmd)
-	{
-		printf("Command:\n");
-		i = 0;
-		while (cmd->args[i].arg)
-		{
-			printf("  Arg[%d]: %s\n", i, cmd->args[i].arg);
-			i++;
-		}
-		cmd = cmd->next;
-	}
 }
 
 void	process_input(t_gen *gen, char *input)
@@ -127,3 +108,22 @@ int	main(int ac, char **av, char **envp)
 	ft_free_history(gen->history);
 	return (0);
 }
+
+// void	print_parsed_arguments(t_command *cmd_list)
+// {
+// 	t_command	*cmd;
+// 	int			i;
+
+// 	cmd = cmd_list;
+// 	while (cmd)
+// 	{
+// 		printf("Command:\n");
+// 		i = 0;
+// 		while (cmd->args[i].arg)
+// 		{
+// 			printf("  Arg[%d]: %s\n", i, cmd->args[i].arg);
+// 			i++;
+// 		}
+// 		cmd = cmd->next;
+// 	}
+// }

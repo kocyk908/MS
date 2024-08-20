@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by lkoc              #+#    #+#             */
-/*   Updated: 2024/08/18 21:36:28 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/21 00:54:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	process_argument(t_command *new_cmd, t_arg *arg_struct,
 			(*i)++;
 		}
 	}
+	arg_struct->which_quotes = '\0';
 }
 
 void	parse_arguments(t_command *new_cmd, char *token)

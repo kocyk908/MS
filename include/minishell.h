@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/08/20 01:04:44 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/20 23:44:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <errno.h>
 
 typedef struct s_arg
 {
