@@ -64,6 +64,8 @@ void	ft_unset_env(t_gen *gen, char *env)
 	env_len = 0;
 	while (gen->envs[env_len] != NULL)
 		env_len++;
+	if (!env)
+		return ;
 	if (!ft_env_cmp(gen, env))
 		return ;
 	temp = ft_unset_env_vol2(gen, env, env_len);
