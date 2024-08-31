@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: piotr <piotr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by lkoc              #+#    #+#             */
-/*   Updated: 2024/08/13 23:25:16 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/31 12:16:56 by piotr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,15 @@ bool	ft_env_cmp(t_gen *gen, char *env)
 char	**ft_unset_env_vol2(t_gen *gen, char *env, int env_len)
 {
 	char	**temp;
-	char	*env_to_del;
 	int		i;
 	int		j;
-
 	temp = malloc(sizeof(char *) * (env_len + 1));
 	i = 0;
 	j = 0;
 	while (gen->envs[i])
 	{
-		env_to_del = ft_strnstr(gen->envs[i], env, ft_strlen_env(env, '='));
-		if (!env_to_del)
+		if (ft_strncmp(gen->envs[i], env, ft_strlen_env(gen->envs[i],
+					'=')) != 0)
 		{
 			temp[j] = ft_strdup(gen->envs[i]);
 			free(gen->envs[i]);
@@ -113,6 +111,7 @@ void	ft_export_env(t_gen *gen, char *env)
 		return ;
 	if (ft_env_cmp(gen, env))
 	{
+		printf("found match\n");
 		ft_unset_env(gen, env);
 		env_len--;
 	}
