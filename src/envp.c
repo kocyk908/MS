@@ -6,7 +6,7 @@
 /*   By: piotr <piotr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by lkoc              #+#    #+#             */
-/*   Updated: 2024/08/31 12:16:56 by piotr            ###   ########.fr       */
+/*   Updated: 2024/08/31 13:05:42 by piotr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,10 @@ void	ft_export_env(t_gen *gen, char *env)
 	env_len = 0;
 	while (gen->envs[env_len] != NULL)
 		env_len++;
-	if (!ft_strchr(env, '='))
+	if (!ft_check_format_export(env))
 		return ;
 	if (ft_env_cmp(gen, env))
 	{
-		printf("found match\n");
 		ft_unset_env(gen, env);
 		env_len--;
 	}

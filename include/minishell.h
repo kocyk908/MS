@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: piotr <piotr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/08/20 23:44:54 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/31 13:05:39 by piotr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,8 @@ void					ft_copy_envp(t_gen *gen, char **envp);
 void					ft_unset_env(t_gen *gen, char *env);
 char					**ft_unset_env_vol2(t_gen *gen, char *env, int env_len);
 bool					ft_env_cmp(t_gen *gen, char *env);
+bool 					ft_check_format_export(char *env);
+
 
 // signal
 

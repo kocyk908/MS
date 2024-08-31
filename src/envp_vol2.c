@@ -3,14 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   envp_vol2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: piotr <piotr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/08/20 00:15:31 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/31 13:08:19 by piotr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool ft_check_format_export(char *env)
+{
+	int i;
+	if(!(ft_isalpha(env[0]) || (env[0] == '_')))
+	{
+		printf("bash: export: '%s': not a valid identifier\n", env);
+		return false;
+	}
+	if (!ft_strchr(env, '='))
+		return false;	
+	i = 0;
+	while(env[i] && env[i] != '=')
+	{
+		if(!(ft_isalnum(env[i]) || (env[i] == '_')))
+		{
+			printf("bash: export: '%s': not a valid identifier\n", env);
+			return false;
+		}
+		i++;
+	}
+	return true;
+}
 
 void	ft_copy_envp(t_gen *gen, char **envp)
 {
