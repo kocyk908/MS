@@ -1,7 +1,14 @@
 Update 31.08.24
 1. Naprawiłem problem z dublem przy export.
 2. Stowrzyłem poprawne (chyba) formatowanie funkcja ft_check_format_export
-3. Aby rozwiązać problem $ w różnych okolicznościach (ls, cd, echo, ?) możemy sprawdzić czy dany arg 
+3. Aby rozwiązać problem $ w różnych okolicznościach (ls, cd, echo, ?) możemy sprawdzić czy dany command->args[i].arg rozpoczyna się $.
+Jeżeli tak to można podmienić np: $PWD na konkretną ścieżkę.
+command->args[i].arg = $PWD na command->args[i].arg = /home/piotr
+Rozpocząłem to umieszczając funkcję ft_dollar_check(head); w parsing.c 56 linijka. Jednak już wiem że może być problem z "". 
+
+Update 02.09.24
+1. Odpiąłem "echo" od funkcji is_builtin, echo wystarczy wrzucić do pipexa i ten już zrobi swoje. Zrobiłem to aby uprościć trochę sprawę z $.
+W pliku parsing.c dodałem funkcję ft_dollar_check która podmienia 
 
 - Ctrl-\ in Empty Prompt**: No action ✔ (czasem wyskakuje ^\ na moment, nie wiem czy sie z tym bawic)
 - to samo z not emptry prompt**
