@@ -6,7 +6,7 @@
 /*   By: piotr <piotr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by lkoc              #+#    #+#             */
-/*   Updated: 2024/08/31 18:43:03 by piotr            ###   ########.fr       */
+/*   Updated: 2024/09/02 15:11:24 by piotr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	process_input(t_gen *gen, char *input)
 	if (check_unclosed_quotes(gen, input))
 		return ;
 	ft_history_list(gen, input);
-	cmd_list = parse_command(input);
+	cmd_list = parse_command(gen, input);
 	if (!cmd_list->args[0].arg)
 		return ;
 	gen->num_of_cmds = ft_count_cmds(cmd_list);

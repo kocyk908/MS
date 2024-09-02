@@ -6,7 +6,7 @@
 /*   By: piotr <piotr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/08/31 19:11:47 by piotr            ###   ########.fr       */
+/*   Updated: 2024/09/02 20:38:11 by piotr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,65 @@ int	process_command_token(char *token, t_command **head, t_command **current)
 	return (1);
 }
 
-void ft_dollar_check(t_command *head)
+//----------------------------------------------------
+
+// bool ft_is_numeric(char *str)
+// {
+//     if (str == NULL || *str == '\0') 
+//         return false;
+//     if (*str == '-' || *str == '+') 
+//         str++;
+// 	while(*str)
+// 	{
+// 		if(!ft_isdigit(*str))
+// 			return false;
+// 		str++;
+// 	}
+// 	return true;
+// }
+
+char *ft_dollar_check_vol2(t_gen *gen, char *token)
 {
 	int i;
+	int env_len;
+	char *temp;
 
 	i = 0;
-	while(head->args[i].arg)
-	{
-		if(head->args[i].arg[0] == '$')
-			printf("arg: %c\n", head->args[i].arg[0]);
+	while(gen->envs[i])
+	{	
+		env_len = 0;
+		while(gen->envs[i][env_len] != '=')
+			env_len++;
+		if(ft_strncmp(gen->envs[i], token, env_len) == 0)
+			return (gen->envs[i] + env_len + 1);
 		i++;
 	}
 }
 
-t_command	*parse_command(char *input)
+void ft_dollar_check(t_gen *gen, t_command *head)
+{
+	int i;
+	int *env_int;
+	char *env;
+	char *temp;
+
+	i = 0;
+	while(head->args[i].arg)
+	{
+		temp = head->args[i].arg;
+		if(temp[0] == '$')
+		{
+			env = ft_dollar_check_vol2(gen, head->args[i].arg + 1);
+			head->args[i].arg = env;
+		}
+		i++;
+	}
+}
+
+//----------------------------------------------------
+
+
+t_command	*parse_command(t_gen *gen, char *input)
 {
 	t_command	*head;
 	t_command	*current;
@@ -53,6 +98,6 @@ t_command	*parse_command(char *input)
 			return (NULL);
 		token = ft_strtok_r(NULL, "|", &saveptr1, &arg_struct);
 	}
-	ft_dollar_check(head);
+	ft_dollar_check(gen, head);
 	return (head);
 }

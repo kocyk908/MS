@@ -6,7 +6,7 @@
 /*   By: piotr <piotr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/08/31 13:05:39 by piotr            ###   ########.fr       */
+/*   Updated: 2024/09/02 20:10:52 by piotr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void					add_command_to_list(t_command **head,
 							t_command **current, t_command *new_cmd);
 size_t					ft_strcspn(const char *str, const char *delim);
 size_t					ft_strspn(const char *str, const char *delim);
-t_command				*parse_command(char *input);
+t_command				*parse_command(t_gen *gen,  char *input);
 void					parse_arguments(t_command *new_cmd, char *token);
 char					*add_space_at_start(char *input);
 char					*find_token_end(char *str, const char *delim,
