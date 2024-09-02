@@ -1,3 +1,8 @@
+Update 31.08.24
+1. Naprawiłem problem z dublem przy export.
+2. Stowrzyłem poprawne (chyba) formatowanie funkcja ft_check_format_export
+3. Aby rozwiązać problem $ w różnych okolicznościach (ls, cd, echo, ?) możemy sprawdzić czy dany arg 
+
 - Ctrl-\ in Empty Prompt**: No action ✔ (czasem wyskakuje ^\ na moment, nie wiem czy sie z tym bawic)
 - to samo z not emptry prompt**
   
