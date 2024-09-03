@@ -6,7 +6,7 @@
 /*   By: piotr <piotr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/09/02 20:38:11 by piotr            ###   ########.fr       */
+/*   Updated: 2024/09/03 17:31:40 by piotr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,16 @@ char *ft_dollar_check_vol2(t_gen *gen, char *token)
 void ft_dollar_check(t_gen *gen, t_command *head)
 {
 	int i;
-	int *env_int;
 	char *env;
-	char *temp;
 
 	i = 0;
 	while(head->args[i].arg)
 	{
-		temp = head->args[i].arg;
-		if(temp[0] == '$')
-		{
+		if(head->args[i].arg[0] == '$')
+		{	
 			env = ft_dollar_check_vol2(gen, head->args[i].arg + 1);
+			if(head->args[i].arg[1] == '?')
+				env = ft_itoa(gen->exit_status);
 			head->args[i].arg = env;
 		}
 		i++;

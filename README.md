@@ -8,7 +8,13 @@ Rozpocząłem to umieszczając funkcję ft_dollar_check(head); w parsing.c 56 li
 
 Update 02.09.24
 1. Odpiąłem "echo" od funkcji is_builtin, echo wystarczy wrzucić do pipexa i ten już zrobi swoje. Zrobiłem to aby uprościć trochę sprawę z $.
-W pliku parsing.c dodałem funkcję ft_dollar_check która podmienia 
+W pliku parsing.c dodałem funkcję ft_dollar_check która podmienia command->args[i].arg na wartość jaką posiada env. 
+
+Update 03.09.24
+1. Zrobiłem działające expr z z argumentami $? z wykorzystaniem ft_itoa.
+Jest tylko jeden problem, itoa generuje leaki bo robi malloca. A ja nie wiem gdzie zrobić free do tego. Jak próbuję robić free do tego: command->args[i].arg to mam jakieś invalid free. Nie czaję za bardzo czy to było allocowanr czy nie.
+
+--------------------------------------------------------------
 
 - Ctrl-\ in Empty Prompt**: No action ✔ (czasem wyskakuje ^\ na moment, nie wiem czy sie z tym bawic)
 - to samo z not emptry prompt**
