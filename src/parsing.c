@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/09/04 23:09:23 by marvin           ###   ########.fr       */
+/*   Updated: 2024/09/04 23:26:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,13 @@ void ft_dollar_check(t_gen *gen, t_command *head)
 	i = 0;
 	while(head->args[i].arg)
 	{
-		if (ft_strcmp(head->args[i].arg, "echo") == 0)
+		// ft_putstr_fd("tu -> ", 1);
+		// ft_putstr_fd(head->args[i].arg, 1);
+		// ft_putstr_fd("\n", 1);
+		// ft_putstr_fd("z jakim quotem -> ", 1);
+		// ft_putchar_fd(head->args[i].which_quotes, 1);
+		// ft_putstr_fd("\n", 1); 
+		if (ft_strcmp(head->args[i].arg, "echo") == 0 || head->args[i].which_quotes == '\'')
 		{
 			i = i + 2;
 			continue;
