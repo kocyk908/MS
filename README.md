@@ -1,3 +1,12 @@
+
+Update 04.09.24
+
+1. Zrobiłem żeby gdy jest echo to żeby wykonywał sie poprostu nasz builtin i wtedy pomija w "ft_dollar_check" jego argument.
+2. Obsługa envów gdy jest pojedynczy quote ''
+
+3. Nadal nic z tym leakiem z $? nie zrobiłem niestety
+
+--------------------------------------------------------------
 Update 31.08.24
 1. Naprawiłem problem z dublem przy export.
 2. Stowrzyłem poprawne (chyba) formatowanie funkcja ft_check_format_export
