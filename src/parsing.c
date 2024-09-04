@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: piotr <piotr@student.42.fr>                +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/09/03 17:31:40 by piotr            ###   ########.fr       */
+/*   Updated: 2024/09/04 23:09:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,11 @@ void ft_dollar_check(t_gen *gen, t_command *head)
 	i = 0;
 	while(head->args[i].arg)
 	{
+		if (ft_strcmp(head->args[i].arg, "echo") == 0)
+		{
+			i = i + 2;
+			continue;
+		}
 		if(head->args[i].arg[0] == '$')
 		{	
 			env = ft_dollar_check_vol2(gen, head->args[i].arg + 1);
@@ -97,6 +102,8 @@ t_command	*parse_command(t_gen *gen, char *input)
 			return (NULL);
 		token = ft_strtok_r(NULL, "|", &saveptr1, &arg_struct);
 	}
-	ft_dollar_check(gen, head);
+	//ft_putstr_fd(head->args[0].arg, 1);
+	//if(ft_strcmp(head->args[0].arg, "echo") != 0)
+		ft_dollar_check(gen, head);
 	return (head);
 }
