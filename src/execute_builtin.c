@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lkoc <lkoc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by lkoc              #+#    #+#             */
-/*   Updated: 2024/09/04 22:25:01 by marvin           ###   ########.fr       */
+/*   Updated: 2024/09/05 18:12:27 by lkoc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	execute_builtin(t_command *command, t_gen *gen)
 	if (ft_strcmp(command->args[0].arg, "cd") == 0)
 		builtin_cd(command->args);
 	else if (ft_strcmp(command->args[0].arg, "echo") == 0)
-	 	builtin_echo(command->args, &command->redirs, gen);
+		builtin_echo(command->args, &command->redirs, gen);
 	else if (ft_strcmp(command->args[0].arg, "pwd") == 0)
 		builtin_pwd();
 	else if (ft_strcmp(command->args[0].arg, "exit") == 0)
@@ -104,6 +104,6 @@ int	is_builtin(char *cmd) // deleted ft_strcmp(cmd, "echo") == 0
 {
 	return ((ft_strcmp(cmd, "cd") == 0
 			|| ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "exit") == 0)
-		|| (ft_strcmp(cmd, "history") == 0) || (ft_strcmp(cmd, "export") == 0) || (ft_strcmp(cmd, "echo") == 0)
-		|| (ft_strcmp(cmd, "unset") == 0));
+		|| (ft_strcmp(cmd, "history") == 0) || (ft_strcmp(cmd, "export") == 0)
+		|| (ft_strcmp(cmd, "echo") == 0) || (ft_strcmp(cmd, "unset") == 0));
 }

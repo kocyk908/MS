@@ -3,36 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   envp_vol2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lkoc <lkoc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/09/04 22:46:46 by marvin           ###   ########.fr       */
+/*   Updated: 2024/09/05 18:13:53 by lkoc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool ft_check_format_export(char *env)
+bool	ft_check_format_export(char *env)
 {
-	int i;
-	if(!(ft_isalpha(env[0]) || (env[0] == '_')))
+	int	i;
+
+	i = 0;
+	if (!(ft_isalpha(env[0]) || (env[0] == '_')))
 	{
 		printf("bash: export: '%s': not a valid identifier\n", env);
-		return false;
+		return (false);
 	}
 	if (!ft_strchr(env, '='))
-		return false;	
-	i = 0;
-	while(env[i] && env[i] != '=')
+		return (false);
+	while (env[i] && env[i] != '=')
 	{
-		if(!(ft_isalnum(env[i]) || (env[i] == '_')))
+		if (!(ft_isalnum(env[i]) || (env[i] == '_')))
 		{
 			printf("bash: export: '%s': not a valid identifier\n", env);
-			return false;
+			return (false);
 		}
 		i++;
 	}
-	return true;
+	return (true);
 }
 
 void	ft_copy_envp(t_gen *gen, char **envp)

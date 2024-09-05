@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lkoc <lkoc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/09/04 23:26:52 by marvin           ###   ########.fr       */
+/*   Updated: 2024/09/05 18:11:11 by lkoc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	process_command_token(char *token, t_command **head, t_command **current)
 {
 	t_command	*new_cmd;
+
 	new_cmd = create_new_command(token);
 	if (!new_cmd)
 		return (0);
@@ -22,8 +23,6 @@ int	process_command_token(char *token, t_command **head, t_command **current)
 	add_command_to_list(head, current, new_cmd);
 	return (1);
 }
-
-//----------------------------------------------------
 
 // bool ft_is_numeric(char *str)
 // {
@@ -40,56 +39,48 @@ int	process_command_token(char *token, t_command **head, t_command **current)
 // 	return true;
 // }
 
-char *ft_dollar_check_vol2(t_gen *gen, char *token)
+char	*ft_dollar_check_vol2(t_gen *gen, char *token)
 {
-	int i;
-	int env_len;
-	char *temp;
+	int		i;
+	int		env_len;
+	char	*temp;
 
 	i = 0;
-	while(gen->envs[i])
-	{	
+	while (gen->envs[i])
+	{
 		env_len = 0;
-		while(gen->envs[i][env_len] != '=')
+		while (gen->envs[i][env_len] != '=')
 			env_len++;
-		if(ft_strncmp(gen->envs[i], token, env_len) == 0)
+		if (ft_strncmp(gen->envs[i], token, env_len) == 0)
 			return (gen->envs[i] + env_len + 1);
 		i++;
 	}
 }
 
-void ft_dollar_check(t_gen *gen, t_command *head)
+void	ft_dollar_check(t_gen *gen, t_command *head)
 {
-	int i;
-	char *env;
+	int		i;
+	char	*env;
 
 	i = 0;
-	while(head->args[i].arg)
+	while (head->args[i].arg)
 	{
-		// ft_putstr_fd("tu -> ", 1);
-		// ft_putstr_fd(head->args[i].arg, 1);
-		// ft_putstr_fd("\n", 1);
-		// ft_putstr_fd("z jakim quotem -> ", 1);
-		// ft_putchar_fd(head->args[i].which_quotes, 1);
-		// ft_putstr_fd("\n", 1); 
-		if (ft_strcmp(head->args[i].arg, "echo") == 0 || head->args[i].which_quotes == '\'')
+		if (ft_strcmp(head->args[i].arg, "echo") == 0
+			|| head->args[i].which_quotes == '\'')
 		{
 			i = i + 2;
-			continue;
+			continue ;
 		}
-		if(head->args[i].arg[0] == '$')
-		{	
+		if (head->args[i].arg[0] == '$')
+		{
 			env = ft_dollar_check_vol2(gen, head->args[i].arg + 1);
-			if(head->args[i].arg[1] == '?')
+			if (head->args[i].arg[1] == '?')
 				env = ft_itoa(gen->exit_status);
 			head->args[i].arg = env;
 		}
 		i++;
 	}
 }
-
-//----------------------------------------------------
-
 
 t_command	*parse_command(t_gen *gen, char *input)
 {
@@ -108,8 +99,6 @@ t_command	*parse_command(t_gen *gen, char *input)
 			return (NULL);
 		token = ft_strtok_r(NULL, "|", &saveptr1, &arg_struct);
 	}
-	//ft_putstr_fd(head->args[0].arg, 1);
-	//if(ft_strcmp(head->args[0].arg, "echo") != 0)
-		ft_dollar_check(gen, head);
+	ft_dollar_check(gen, head);
 	return (head);
 }
