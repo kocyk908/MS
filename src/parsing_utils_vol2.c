@@ -65,3 +65,50 @@ char	*add_space_at_start(char *input)
 	ft_strcpy(result + 1, input);
 	return (result);
 }
+
+int	size_checker(int exit_code)
+{
+	int	size;
+	int	temp;
+
+	temp = exit_code;
+	size = 0;
+	if (temp < 0)
+	{
+		size++;
+		temp = -temp;
+	}
+	if (temp == 0)
+		return (1);
+	while (temp > 0)
+	{
+		temp /= 10;
+		size++;
+	}
+	return (size);
+}
+
+char	*semi_itoa(int exit_code)
+{
+	static char	str[12];
+	int			size;
+	int			is_negative;
+
+	is_negative = 0;
+	size = size_checker(exit_code);
+	str[size] = '\0';
+	if (exit_code < 0)
+	{
+		is_negative = 1;
+		exit_code = -exit_code;
+	}
+	while (size > 0)
+	{
+		str[--size] = (exit_code % 10) + '0';
+		exit_code /= 10;
+	}
+	if (is_negative)
+		str[0] = '-';
+	return (str);
+}
+// Zakładamy maksymalnie 10 cyfr + 1 dla '-' + 1 dla '\0' temu str[12]

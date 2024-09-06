@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp_vol2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkoc <lkoc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/09/06 18:41:29 by lkoc             ###   ########.fr       */
+/*   Updated: 2024/09/07 00:39:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	ft_copy_envp(t_gen *gen, char **envp)
 		env_len++;
 	gen->envs = malloc(sizeof(char *) * (env_len + 1));
 	if (!gen->envs)
-    	return ;
+		return ;
 	env_len = 0;
 	while (envp[env_len])
 	{

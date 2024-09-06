@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: piotr <piotr@student.42.fr>                +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/09/03 17:31:56 by piotr            ###   ########.fr       */
+/*   Updated: 2024/09/07 00:47:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void					add_command_to_list(t_command **head,
 							t_command **current, t_command *new_cmd);
 size_t					ft_strcspn(const char *str, const char *delim);
 size_t					ft_strspn(const char *str, const char *delim);
-t_command				*parse_command(t_gen *gen,  char *input);
+t_command				*parse_command(t_gen *gen, char *input);
 void					parse_arguments(t_command *new_cmd, char *token);
 char					*add_space_at_start(char *input);
 char					*find_token_end(char *str, const char *delim,
@@ -131,6 +131,8 @@ int						digits_only(char *str);
 void					ft_copy_arr(char **dest, char **src, int arr_len);
 int						ft_strlen_env(char *str, char c);
 void					remove_enclosing_quotes(char *str);
+int						size_checker(int exit_code);
+char					*semi_itoa(int exit_code);
 
 // free
 
@@ -167,8 +169,7 @@ void					ft_copy_envp(t_gen *gen, char **envp);
 void					ft_unset_env(t_gen *gen, char *env);
 char					**ft_unset_env_vol2(t_gen *gen, char *env, int env_len);
 bool					ft_env_cmp(t_gen *gen, char *env);
-bool 					ft_check_format_export(char *env);
-
+bool					ft_check_format_export(char *env);
 
 // signal
 
