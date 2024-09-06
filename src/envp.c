@@ -6,7 +6,7 @@
 /*   By: lkoc <lkoc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by lkoc              #+#    #+#             */
-/*   Updated: 2024/09/05 18:14:14 by lkoc             ###   ########.fr       */
+/*   Updated: 2024/09/06 18:43:00 by lkoc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ char	**ft_unset_env_vol2(t_gen *gen, char *env, int env_len)
 	int		j;
 
 	temp = malloc(sizeof(char *) * (env_len + 1));
+	if (!temp)
+    	return (NULL);
 	i = 0;
 	j = 0;
 	while (gen->envs[i])

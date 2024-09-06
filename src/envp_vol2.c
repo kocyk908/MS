@@ -6,7 +6,7 @@
 /*   By: lkoc <lkoc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/09/05 18:13:53 by lkoc             ###   ########.fr       */
+/*   Updated: 2024/09/06 18:41:29 by lkoc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	ft_copy_envp(t_gen *gen, char **envp)
 	while (envp[env_len])
 		env_len++;
 	gen->envs = malloc(sizeof(char *) * (env_len + 1));
+	if (!gen->envs)
+    	return ;
 	env_len = 0;
 	while (envp[env_len])
 	{
