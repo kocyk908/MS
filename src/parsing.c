@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkoc <lkoc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/09/05 18:11:11 by lkoc             ###   ########.fr       */
+/*   Updated: 2024/09/07 00:05:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,12 @@ void	ft_dollar_check(t_gen *gen, t_command *head)
 		}
 		if (head->args[i].arg[0] == '$')
 		{
-			env = ft_dollar_check_vol2(gen, head->args[i].arg + 1);
 			if (head->args[i].arg[1] == '?')
 				env = ft_itoa(gen->exit_status);
+			else if (ft_strcmp(head->args[i].arg, "$PWD") == 0)
+				env = ft_strdup(getenv("PWD"));
+			else
+				env = ft_dollar_check_vol2(gen, head->args[i].arg + 1);
 			head->args[i].arg = env;
 		}
 		i++;
