@@ -17,6 +17,7 @@ char	*handle_quotes(char *str, char **saveptr, char *in_quotes)
 	char	quote;
 	char	*start;
 	char	*end;
+	char	*combined;
 
 	quote = str[0];
 	start = str + 1;
@@ -26,38 +27,41 @@ char	*handle_quotes(char *str, char **saveptr, char *in_quotes)
 	{
 		*end = '\0';
 		*saveptr = end + 1;
+		if (**saveptr && !ft_strchr(" \t\n", **saveptr))
+		{
+			combined = ft_strjoin(start, *saveptr);
+			*saveptr += strlen(*saveptr);
+			return (combined);
+		}
+		return (start);
 	}
-	else
-		*saveptr = str + strlen(str);
+	*saveptr = str + strlen(str);
 	return (start);
 }
 
 char	*find_next_token(char *str, const char *delim,
-				char **saveptr, t_arg *arg_struct)
+			char **saveptr, t_arg *arg_struct)
 {
 	char	*start;
 	bool	inside_quotes;
 
 	start = str;
 	inside_quotes = false;
-	while (*str)
+	while (*str && (!ft_strchr(delim, *str) || inside_quotes))
 	{
-		if ((*str == '"' || *str == '\'') && !inside_quotes)
-			inside_quotes = true;
-		else if ((*str == '"' || *str == '\'') && inside_quotes)
-			inside_quotes = false;
-		else if (ft_strchr(delim, *str) && !inside_quotes)
-			break ;
+		if ((*str == '"' || *str == '\''))
+			inside_quotes = !inside_quotes;
 		str++;
 	}
-	if (*str)
-	{
-		*str = '\0';
-		*saveptr = str + 1;
-	}
+	if (!inside_quotes && *str && !ft_strchr(delim, *str) && *saveptr)
+		arg_struct->arg = ft_strjoin(start, *saveptr);
 	else
+	{
+		if (*str)
+			*str++ = '\0';
 		*saveptr = str;
-	arg_struct->arg = start;
+		arg_struct->arg = start;
+	}
 	return (arg_struct->arg);
 }
 

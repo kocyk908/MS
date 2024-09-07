@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/09/07 12:57:32 by marvin           ###   ########.fr       */
+/*   Updated: 2024/09/08 01:47:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_command
 {
 	char				*path;
 	t_arg				*args;
+	bool				is_first;
 	t_redirs			redirs;
 	struct s_command	*next;
 }						t_command;
@@ -170,6 +171,8 @@ void					ft_unset_env(t_gen *gen, char *env);
 char					**ft_unset_env_vol2(t_gen *gen, char *env, int env_len);
 bool					ft_env_cmp(t_gen *gen, char *env);
 bool					ft_check_format_export(char *env);
+char					*ft_remove_outer_quotes(char *str);
+void					ft_dollar_check(t_gen *gen, t_command *head);
 
 // signal
 
@@ -180,5 +183,7 @@ void					init_signals(void);
 void					init_signals_duo(void);
 void					signal_quit(int sig);
 void					signal_quit_duo(int sig);
+
+void					wypis(char *str, char *info);
 
 #endif

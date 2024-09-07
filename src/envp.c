@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkoc <lkoc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by lkoc              #+#    #+#             */
-/*   Updated: 2024/09/07 18:47:08 by lkoc             ###   ########.fr       */
+/*   Updated: 2024/09/08 01:44:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,41 +92,6 @@ void	ft_export_env_vol2(t_gen *gen, char *env, int env_len)
 	ft_free_arr(temp);
 }
 
-static char	*ft_remove_outer_quotes(char *str)
-{
-	int		i;
-	int		j;
-	int		inside_quotes;
-	char	*new_str;
-
-	//ft_putstr_fd(str, 1);
-	new_str = malloc(ft_strlen(str) + 1);
-	if (!new_str)
-		return (NULL);
-	i = 0;
-	j = 0;
-	inside_quotes = 0;
-	while (str[i])
-	{
-		// Jeśli napotkamy cudzysłów, zmieniamy stan wewnątrz cudzysłowów
-		if (str[i] == '"' || str[i] == '\'')
-		{
-			if (inside_quotes == 0)
-				inside_quotes = 1;
-			else
-				inside_quotes = 0;
-		}
-		else
-		{
-			new_str[j] = str[i];
-			j++;
-		}
-		i++;
-	}
-	new_str[j] = '\0';
-	return (new_str);
-}
-
 void	ft_export_env(t_gen *gen, char *env)
 {
 	int		env_len;
@@ -141,7 +106,6 @@ void	ft_export_env(t_gen *gen, char *env)
 		return ;
 	}
 	clean_env = ft_remove_outer_quotes(env);
-	//ft_putstr_fd(clean_env, 1);
 	env_len = 0;
 	while (gen->envs[env_len] != NULL)
 		env_len++;
