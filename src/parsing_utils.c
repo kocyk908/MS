@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lkoc <lkoc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:02:12 by lkoc              #+#    #+#             */
-/*   Updated: 2024/09/07 14:00:42 by marvin           ###   ########.fr       */
+/*   Updated: 2024/09/07 18:42:41 by lkoc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void	parse_arguments(t_command *new_cmd, char *token)
 	i = 0;
 	arg_struct.is_first = true;
 	arg = ft_strtok_r(token, " ", &saveptr2, &arg_struct);
+	arg_struct.is_first = false;
 	while (arg != NULL)
 	{
 		process_argument(new_cmd, &arg_struct, &saveptr2, &i);
