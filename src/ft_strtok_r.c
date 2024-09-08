@@ -12,17 +12,36 @@
 
 #include "minishell.h"
 
+static char	*copy_string(const char *src)
+{
+	static char	temp[COPY_BUFFER];
+	size_t		i;
+
+	i = 0;
+	while (src[i] != '\0' && i <= COPY_BUFFER)
+	{
+		temp[i] = src[i];
+		i++;
+	}
+	temp[i] = '\0';
+	return (temp);
+}
+
+static void	init_vars_hanquo(char *str, char **start, char **end, char *quote)
+{
+	*quote = str[0];
+	*start = str + 1;
+	*end = ft_strchr(*start, *quote);
+}
+
 char	*handle_quotes(char *str, char **saveptr, char *in_quotes)
 {
-	char	quote;
 	char	*start;
 	char	*end;
 	char	*combined;
+	char	*temp;
 
-	quote = str[0];
-	start = str + 1;
-	end = ft_strchr(start, quote);
-	*in_quotes = quote;
+	init_vars_hanquo(str, &start, &end, in_quotes);
 	if (end)
 	{
 		*end = '\0';
@@ -31,7 +50,9 @@ char	*handle_quotes(char *str, char **saveptr, char *in_quotes)
 		{
 			combined = ft_strjoin(start, *saveptr);
 			*saveptr += strlen(*saveptr);
-			return (combined);
+			temp = copy_string(combined);
+			free(combined);
+			return (temp);
 		}
 		return (start);
 	}
@@ -44,6 +65,7 @@ char	*find_next_token(char *str, const char *delim,
 {
 	char	*start;
 	bool	inside_quotes;
+	char	*temp;
 
 	start = str;
 	inside_quotes = false;
@@ -68,6 +90,8 @@ char	*find_next_token(char *str, const char *delim,
 char	*ft_strtok_r(char *str, const char *delim, char **saveptr,
 		t_arg *arg_str)
 {
+	char	*temp;
+
 	if (!str)
 		str = *saveptr;
 	if (arg_str->is_first && (str[0] == '\'' || str[0] == '"'))
