@@ -16,7 +16,6 @@ char	*ft_dollar_check_vol2(t_gen *gen, char *token)
 {
 	int		i;
 	int		env_len;
-	char	*temp;
 
 	i = 0;
 	while (gen->envs[i])
@@ -35,6 +34,7 @@ static void	ft_shift_arguments_left(char *env, t_arg *args, int start_index)
 {
 	int	j;
 
+	(void)env;
 	j = start_index;
 	while (args[j].arg)
 	{
@@ -62,7 +62,6 @@ static void	handle_dollar_case(t_gen *gen, t_command *head, int *i)
 void	ft_dollar_check(t_gen *gen, t_command *head)
 {
 	int		i;
-	char	*env;
 
 	i = 0;
 	while (head->args[i].arg)

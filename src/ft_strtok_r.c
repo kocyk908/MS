@@ -65,7 +65,6 @@ char	*find_next_token(char *str, const char *delim,
 {
 	char	*start;
 	bool	inside_quotes;
-	char	*temp;
 
 	start = str;
 	inside_quotes = false;
@@ -90,8 +89,6 @@ char	*find_next_token(char *str, const char *delim,
 char	*ft_strtok_r(char *str, const char *delim, char **saveptr,
 		t_arg *arg_str)
 {
-	char	*temp;
-
 	if (!str)
 		str = *saveptr;
 	if (arg_str->is_first && (str[0] == '\'' || str[0] == '"'))
